@@ -1,0 +1,44 @@
+<% include ../partials/header %>
+
+    <div class="container">
+        <div class="row">
+            <div class="col-md-3">
+                    <p class="lead"> Location</p>
+                    <div class="list-group">
+                        <li class="list-group-item active">Info 1</li>
+                        <li class="list-group-item">Info 2</li>
+                        <li class="list-group-item active">Info 3</li>
+                    </div>
+            </div>
+            
+            <div class="col-md-9">
+                    <div class="thumbnail">
+                        <img class="img-responsive" src="<%= skatespot.image %>">
+                        <div class="caption-full">
+                            <!--<h4 class="pull-right">$/night</h4>-->
+                            <h4><a><%= skatespot.name %></a></h4>
+                            <p><%= skatespot.description %></p>
+                        </div>
+                    </div>
+                    <div class="well">
+                        <div class="text-right">
+                          <a class="btn btn-success" href="/skateSpots/<%= skatespot._id %>/comments/new">Add a Review</a>  
+                        </div>
+                        <hr>
+                        <% skatespot.comments.forEach(function(comment){ %>
+                            <div class="row">
+                                <div class="col-md-12">
+                                        <p>
+                                            <strong><%= comment.author %></strong> - <%= comment.text %>
+                                        </p>
+                                </div>
+                            </div>
+                        <% }); %>
+                    </div>
+                </div>
+        </div>
+    </div>
+        
+        <a href="/skateSpots">Go Back</a>
+        
+        <% include ../partials/footer %>
