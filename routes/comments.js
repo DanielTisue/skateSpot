@@ -1,7 +1,7 @@
-var express = require("express");
-var router = express.Router({mergeParams: true});
-var Skatespot = require("../models/skatespot");
-var Comment = require("../models/comment");
+const express = require("express");
+const router = express.Router({mergeParams: true});
+const Skatespot = require("../models/skatespot");
+const Comment = require("../models/comment");
 //var middleware = require("../middleware");
 
 //Comments New
