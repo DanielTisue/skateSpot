@@ -5,7 +5,7 @@ const mongoose = require("mongoose");
 const Skatespot = require("./models/skatespot");
 const Comment = require("./models/comment");
 //const User = require("./models/user");
-//const methodOverride = require("method-override");
+const methodOverride = require("method-override");
 const seedDB = require("./seeds");
 const commentRoutes = require("./routes/comments");
 const skatespotRoutes = require("./routes/skatespots");
@@ -16,7 +16,7 @@ app.use(bodyParser.urlencoded({extended:true}));
 app.set("view engine", "ejs");
 
 app.use(express.static(__dirname + "/public"));
-//app.use(methodOverride("_method"));
+app.use(methodOverride("_method"));
 seedDB();
 
 // app.use("/", authRoutes);

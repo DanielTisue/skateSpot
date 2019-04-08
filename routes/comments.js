@@ -46,46 +46,46 @@ router.post("/", function(req, res){
 });
 
 //EDIT route--skateSpots/:id/comments:comment_id/edit
-// router.get("/:comment_id/edit", function(req, res){
-//     Skatespot.findById(req.params.id, function(err, foundSkatespot){
-//             if(err || !foundSkatespot){
-//                 //req.flash("error", "Skatespot not found!");
-//                 return res.redirect("back");
-//             }
-//             Comment.findById(req.params.comment_id, function(err, foundComment){
-//             if(err){
-//                 res.redirect("back");
-//             } else {
-//                 res.render("comments/edit", {skatespot_id: req.params.id, comment: foundComment});
-//             }
-//         });
-//     });
-// });
+router.get("/:comment_id/edit", function(req, res){
+    Skatespot.findById(req.params.id, function(err, foundSkatespot){
+            if(err || !foundSkatespot){
+                //req.flash("error", "Skatespot not found!");
+                return res.redirect("back");
+            }
+            Comment.findById(req.params.comment_id, function(err, foundComment){
+            if(err){
+                res.redirect("back");
+            } else {
+                res.render("comments/edit", {skatespot_id: req.params.id, comment: foundComment});
+            }
+        });
+    });
+});
 
 //UPDATE route
-// router.put("/:comment_id", function(req, res){
-//   //find and update
-//     Comment.findByIdAndUpdate(req.params.comment_id, req.body.comment, function(err, updatedComment){
-//         if(err){
-//             res.redirect("back");
-//         } else {
-//             //redirect
-//             res.redirect("/skateSpots/" + req.params.id);
-//         }
-//     });
-// }); 
+router.put("/:comment_id", function(req, res){
+  //find and update
+    Comment.findByIdAndUpdate(req.params.comment_id, req.body.comment, function(err, updatedComment){
+        if(err){
+            res.redirect("back");
+        } else {
+            //redirect
+            res.redirect("/skateSpots/" + req.params.id);
+        }
+    });
+}); 
 
 //DELETE (DESTROY) route
-// router.delete("/:comment_id",function(req, res){
-//     Comment.findByIdAndRemove(req.params.comment_id, function(err){
-//       if(err){ 
-//           res.redirect("back");
-//       } else {
-//           //req.flash("success", "Comment Deleted!");
-//           res.redirect("/skateSpots/" + req.params.id);
-//       }
-//     });
-// });
+router.delete("/:comment_id",function(req, res){
+    Comment.findByIdAndRemove(req.params.comment_id, function(err){
+      if(err){ 
+          res.redirect("back");
+      } else {
+          //req.flash("success", "Comment Deleted!");
+          res.redirect("/skateSpots/" + req.params.id);
+      }
+    });
+});
 
 
 
