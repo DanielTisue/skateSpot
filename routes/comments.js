@@ -3,7 +3,7 @@ const router = express.Router({mergeParams: true});
 const Skatespot = require("../models/skatespot");
 const Comment = require("../models/comment");
 //var middleware = require("../middleware");
-
+//ad changes
 //Comments New
 router.get("/new", function(req, res){
     Skatespot.findById(req.params.id, function(err, skatespot){
