@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router({mergeParams: true});
 const Skatespot = require("../models/skatespot");
-const Comment = require("../models/comment");
+//      Comment = require("../models/comment");
 
 //INDEX
 router.get('/', (req,res) => {

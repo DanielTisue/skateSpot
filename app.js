@@ -1,5 +1,5 @@
 const express = require("express");
-const app = express();
+let app = express();
 const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
 const passport = require("passport");
@@ -8,7 +8,7 @@ const methodOverride = require("method-override");
 const Skatespot = require("./models/skatespot");
 const Comment = require("./models/comment");
 const User = require("./models/user");
-const seedDB = require("./seeds");
+//const seedDB = require("./seeds");
 
 //require routes
 const commentRoutes = require("./routes/comments");
