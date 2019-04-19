@@ -1,5 +1,5 @@
 const mongoose = require("mongoose");
-//hopefully this add changes
+
 const skatespotSchema = new mongoose.Schema({
   name: String,
   image: String,

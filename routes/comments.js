@@ -2,8 +2,8 @@ const express = require("express");
 const router = express.Router({mergeParams: true});
 const Skatespot = require("../models/skatespot");
 const Comment = require("../models/comment");
-//var middleware = require("../middleware");
-//ad changes
+//const middleware = require("../middleware");
+
 //Comments New
 router.get("/new", function(req, res){
     Skatespot.findById(req.params.id, function(err, skatespot){
@@ -47,11 +47,6 @@ router.post("/", function(req, res){
 
 //EDIT route--skateSpots/:id/comments:comment_id/edit
 router.get("/:comment_id/edit", function(req, res){
-    Skatespot.findById(req.params.id, function(err, foundSkatespot){
-            if(err || !foundSkatespot){
-                //req.flash("error", "Skatespot not found!");
-                return res.redirect("back");
-            }
             Comment.findById(req.params.comment_id, function(err, foundComment){
             if(err){
                 res.redirect("back");
@@ -60,7 +55,6 @@ router.get("/:comment_id/edit", function(req, res){
             }
         });
     });
-});
 
 //UPDATE route
 router.put("/:comment_id", function(req, res){

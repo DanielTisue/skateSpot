@@ -8,7 +8,7 @@ const User = require("../models/user");
 // AUTH ROUTES
 //  ===========
 
-// show register form
+// RESGISTER: show register form
 router.get("/register", function(req, res){
    res.render("register"); 
 });
@@ -28,11 +28,13 @@ router.post("/register", function(req, res){
     });
 });
 
-// // show login form
+//  ===========
+
+// LOGIN: show login form
 router.get("/login", function(req, res){
   res.render("login"); 
 });
-// // handling login logic
+// LOGIN: handling login logic
 router.post("/login", passport.authenticate("local", 
     {
         successRedirect: "/skateSpots",
@@ -40,17 +42,13 @@ router.post("/login", passport.authenticate("local",
     }), function(req, res){
 });
 
-// // logic route
+//  ===========
+
+// LOGOUT logic route
 router.get("/logout", function(req, res){
   req.logout();
   res.redirect("/skateSpots");
 });
 
-// function isLoggedIn(req, res, next){
-//     if(req.isAuthenticated()){
-//         return next();
-//     }
-//     res.redirect("/login");
-// }
 
 module.exports = router;

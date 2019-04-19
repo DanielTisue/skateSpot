@@ -1,15 +1,15 @@
 const express = require("express");
 const router = express.Router({mergeParams: true});
 const Skatespot = require("../models/skatespot");
-//      Comment = require("../models/comment");
-//add changes
+//const middleware = require("../middleware");
+
 //INDEX
 router.get('/', (req,res) => {
     Skatespot.find({}, (err, allSkatespots) => {
     if(err){
         console.log(err);
     } else {
-        res.render('skatespots/index', {skatespots: allSkatespots});
+        res.render('skatespots/index', {skatespots: allSkatespots, currentUser: req.user});
     }
   });
 });

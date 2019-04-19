@@ -1,0 +1,27 @@
+.thumbnail img {
+    width: 100%;
+}
+
+.thumbnail {
+    padding: 0;
+}
+
+#indexImg {
+    max-width: 300px;
+    max-height: 200px;
+}
+
+#one {
+    width: 33%;
+}
+
+#two {
+    text-align: center;
+    justify-content: center;
+    width: 33%;
+}
+
+#three{
+    width: 33%;
+}
+

@@ -1,5 +1,6 @@
 <% include ../partials/header %>
 <div class="container">
+    
         <header class="jumbotron">
             <div class="container">
                 <div class="row">
@@ -13,21 +14,25 @@
                 </div>
             </div>
         </header>
-        <div class="row text-center" style="display:flex; flex-wrap: wrap;">
+        <hr>
+        
         <% skatespots.forEach(function(skatespot){ %>
-            <div class="col-md-3 col-sm-6">
-                <div class="thumbnail">    
-                    <img src="<%= skatespot.image %>">
-                    <div class="caption">
+            <div class="row text-center"> <!--style="display:flex; flex-wrap: wrap;"- this is styling for thumbnails-->
+                <div class="col-lg-3 col-md-3 col-sm-3" id= "one"> <!--col-md-3 col-sm-6 "-" -->
+                        <img src="<%= skatespot.image %>" class= "thumbnail"  id="indexImg">
+                </div>
+                <div class="col-lg-3 col-md-3 col-sm-3" id= "two">
                         <h4><%= skatespot.name %></h4>
-                    </div>
-                    <p>
-                        <a class="btn btn-primary" href="/skateSpots/<%= skatespot._id %>">More Info</a>
-                    </p>
+                        <p>LA, California</p> <!--needs to be added to skatespotSchema-->
+                </div>
+                <div class="col-lg-3 col-md-3 col-sm-3" id= "three">
+                        <p class="text-right">
+                            <a class="btn btn-primary" href="/skateSpots/<%= skatespot._id %>">More Info</a>
+                        </p>
                 </div>
             </div>
+            <hr>
         <% }); %>
-    </div>
 </div>
 
 <% include ../partials/footer %>
