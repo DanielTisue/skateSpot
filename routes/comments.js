@@ -4,8 +4,8 @@ const express =     require("express"),
       Comment =     require("../models/comment");
 //const middleware = require("../middleware");
 
-//Comments New
-router.get("/new", (req, res) => {
+// Comments New
+router.get("/new", isLoggedIn, (req, res) => {
     Skatespot.findById(req.params.id, function(err, skatespot){
         if(err){
             console.log(err);
@@ -15,8 +15,8 @@ router.get("/new", (req, res) => {
     });
 });
 
-//Comments Create
-router.post("/", function(req, res){
+// Comments Create
+router.post("/", isLoggedIn, (req, res) => {
     //look up skatespot using id
    Skatespot.findById(req.params.id, (err, skatespot) => {
         if(err){
@@ -45,7 +45,7 @@ router.post("/", function(req, res){
     });
 });
 
-//EDIT route--skateSpots/:id/comments:comment_id/edit
+// EDIT route--skateSpots/:id/comments:comment_id/edit
 router.get("/:comment_id/edit", (req, res) => {
             Comment.findById(req.params.comment_id, function(err, foundComment){
             if(err){
@@ -56,7 +56,7 @@ router.get("/:comment_id/edit", (req, res) => {
         });
     });
 
-//UPDATE route
+// UPDATE route
 router.put("/:comment_id", (req, res) => {
   //find and update
     Comment.findByIdAndUpdate(req.params.comment_id, req.body.comment, function(err, updatedComment){
@@ -69,7 +69,7 @@ router.put("/:comment_id", (req, res) => {
     });
 }); 
 
-//DELETE (DESTROY) route
+// DELETE (DESTROY) route
 router.delete("/:comment_id", (req, res) => {
     Comment.findByIdAndRemove(req.params.comment_id, function(err){
       if(err){ 
@@ -81,7 +81,7 @@ router.delete("/:comment_id", (req, res) => {
     });
 });
 
-//middleware
+// Middleware
 function isLoggedIn(req, res, next) {
     if (req.isAuthenticated()) {
         return next();
