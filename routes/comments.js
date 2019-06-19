@@ -1,11 +1,11 @@
-const express = require("express");
-const router = express.Router({mergeParams: true});
-const Skatespot = require("../models/skatespot");
-const Comment = require("../models/comment");
+const express =     require("express"),
+      router =      express.Router({mergeParams: true}),
+      Skatespot =   require("../models/skatespot"),
+      Comment =     require("../models/comment");
 //const middleware = require("../middleware");
 
 //Comments New
-router.get("/new", function(req, res){
+router.get("/new", (req, res) => {
     Skatespot.findById(req.params.id, function(err, skatespot){
         if(err){
             console.log(err);
@@ -18,12 +18,12 @@ router.get("/new", function(req, res){
 //Comments Create
 router.post("/", function(req, res){
     //look up skatespot using id
-   Skatespot.findById(req.params.id, function(err, skatespot){
+   Skatespot.findById(req.params.id, (err, skatespot) => {
         if(err){
             console.log(err);
             res.redirect("/skateSpots");
         } else {
-            Comment.create( req.body.comment, function(err, comment){
+            Comment.create( req.body.comment, (err, comment) => {
                 if(err){
                     //req.flash("error", "Something went wrong");
                     console.log(err);
@@ -46,7 +46,7 @@ router.post("/", function(req, res){
 });
 
 //EDIT route--skateSpots/:id/comments:comment_id/edit
-router.get("/:comment_id/edit", function(req, res){
+router.get("/:comment_id/edit", (req, res) => {
             Comment.findById(req.params.comment_id, function(err, foundComment){
             if(err){
                 res.redirect("back");
@@ -57,7 +57,7 @@ router.get("/:comment_id/edit", function(req, res){
     });
 
 //UPDATE route
-router.put("/:comment_id", function(req, res){
+router.put("/:comment_id", (req, res) => {
   //find and update
     Comment.findByIdAndUpdate(req.params.comment_id, req.body.comment, function(err, updatedComment){
         if(err){
@@ -70,7 +70,7 @@ router.put("/:comment_id", function(req, res){
 }); 
 
 //DELETE (DESTROY) route
-router.delete("/:comment_id",function(req, res){
+router.delete("/:comment_id", (req, res) => {
     Comment.findByIdAndRemove(req.params.comment_id, function(err){
       if(err){ 
           res.redirect("back");
@@ -81,6 +81,13 @@ router.delete("/:comment_id",function(req, res){
     });
 });
 
+//middleware
+function isLoggedIn(req, res, next) {
+    if (req.isAuthenticated()) {
+        return next();
+    }
+    res.redirect("/login");
+}
 
 
 module.exports = router;

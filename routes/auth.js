@@ -1,19 +1,15 @@
-const express = require("express");
-let router  = express.Router();
-const passport = require("passport");
-const User = require("../models/user");
+const express =   require("express"),
+      router  =   express.Router(),
+      passport =  require("passport"),
+      User =      require("../models/user");
 
-
-//  ===========
-// AUTH ROUTES
-//  ===========
 
 // RESGISTER: show register form
-router.get("/register", function(req, res){
+router.get("/register", (req, res) => {
    res.render("register"); 
 });
-//handle sign up logic
-router.post("/register", function(req, res){
+//Handle sign up logic:
+router.post("/register", (req, res) => {
     // req.body.username;
     //req.body.password;
     var newUser = new User({username: req.body.username});
@@ -31,10 +27,10 @@ router.post("/register", function(req, res){
 //  ===========
 
 // LOGIN: show login form
-router.get("/login", function(req, res){
+router.get("/login", (req, res) => {
   res.render("login"); 
 });
-// LOGIN: handling login logic
+// LOGIN: Handling login logic:
 router.post("/login", passport.authenticate("local", 
     {
         successRedirect: "/skateSpots",
@@ -44,8 +40,8 @@ router.post("/login", passport.authenticate("local",
 
 //  ===========
 
-// LOGOUT logic route
-router.get("/logout", function(req, res){
+// LOGOUT logic + route
+router.get("/logout", (req, res) => {
   req.logout();
   res.redirect("/skateSpots");
 });

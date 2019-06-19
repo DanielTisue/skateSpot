@@ -1,5 +1,5 @@
 header {
-    box-shadow: 7px 10px 12px -5px rgba(0, 0, 0, 0.56);
+    box-shadow: 7px 10px 12px -5px rgba(0, 0, 0, 0.3);
 }
 
 .thumbnail {
@@ -22,4 +22,8 @@ header {
     border-radius: 5px;
     box-shadow: 7px 10px 12px -5px rgba(159, 159, 159, 0.3); 
     padding: 20px;
+}
+
+nav {
+    box-shadow: 7px 10px 12px -5px rgba(159, 159, 159, 0.3);
 }

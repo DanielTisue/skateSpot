@@ -1,19 +1,19 @@
-const express = require("express");
-let app = express();
-const bodyParser = require("body-parser");
-const mongoose = require("mongoose");
-const passport = require("passport");
-const LocalStrategy = require("passport-local");
-const methodOverride = require("method-override");
-const Skatespot = require("./models/skatespot");
-const Comment = require("./models/comment");
-const User = require("./models/user");
-const seedDB = require("./seeds");
+const express =         require("express"),
+      app =             express(),
+      bodyParser =      require("body-parser"),
+      mongoose =        require("mongoose"),
+      passport =        require("passport"),
+      LocalStrategy =   require("passport-local"),
+      methodOverride =  require("method-override"),
+      Skatespot =       require("./models/skatespot"),
+      Comment =         require("./models/comment"),
+      User =            require("./models/user"),
+      seedDB =          require("./seeds");
 
 //require routes
-const commentRoutes = require("./routes/comments");
-const skatespotRoutes = require("./routes/skatespots");
-const authRoutes      = require("./routes/auth");
+const commentRoutes =   require("./routes/comments"),
+      skatespotRoutes = require("./routes/skatespots"),
+      authRoutes      = require("./routes/auth");
 
 mongoose.connect("mongodb://localhost/slam_spot", {useNewUrlParser: true});
 mongoose.connection.once('open', function(){
@@ -58,3 +58,11 @@ app.get('/', (req, res) => {
 app.listen(3000, () => {
     console.log("Server Started!");
 });
+
+//middleware
+// function isLoggedIn(req, res, next) {
+//     if (req.isAuthenticated()) {
+//         return next();
+//     }
+//     res.redirect("/login");
+// }
