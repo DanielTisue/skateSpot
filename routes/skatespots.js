@@ -9,7 +9,7 @@ router.get('/', (req,res) => {
     if(err){
         console.log(err);
     } else {
-        res.render('skatespots/index', {skatespots: allSkatespots, currentUser: req.user}); 
+        res.render('skatespots/index', {skatespots: allSkatespots, page: 'skatespots', currentUser: req.user}); 
     }
   });
 });
@@ -65,5 +65,36 @@ router.get("/:id", (req, res) => {
     });
 });
 
+// EDIT: SkateSpots
+router.get("/:id/edit", (req, res) => {
+    Skatespot.findById(req.params.id, (err, foundSkatespot) => {
+        if(err) {
+            res.redirect("/skatespots");
+        } else {
+            res.render("skatespots/edit", { skatespot: foundSkatespot });
+        }
+    });  
+});
 
+router.put("/:id", (req, res) => {
+   // find and update skatespot
+   Skatespot.findByIdAndUpdate(req.params.id, req.body.skatespot, (err, updatedSkatespot) => {
+       if(err){
+           res.redirect("/skatespots");
+       } else {
+           res.redirect("/skatespots/" + req.params.id);
+       }
+   });
+});
+
+// DESTROY skatespot
+router.delete("/:id", (req, res) => {
+    Skatespot.findByIdAndDelete(req.params.id, (err) => {
+        if(err) {
+            res.redirect("/skatespots");
+        } else {
+            res.redirect("/skatespots");
+        }
+    });
+});
 module.exports = router;

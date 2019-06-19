@@ -6,7 +6,7 @@ const express =   require("express"),
 
 // RESGISTER: show register form
 router.get("/register", (req, res) => {
-   res.render("register"); 
+   res.render("register", {page: 'register'}); 
 });
 //Handle sign up logic:
 router.post("/register", (req, res) => {
@@ -28,7 +28,7 @@ router.post("/register", (req, res) => {
 
 // LOGIN: show login form
 router.get("/login", (req, res) => {
-  res.render("login"); 
+  res.render("login", {page: 'login'}); 
 });
 // LOGIN: Handling login logic:
 router.post("/login", passport.authenticate("local", 
