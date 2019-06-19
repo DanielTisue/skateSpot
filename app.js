@@ -8,20 +8,26 @@ const methodOverride = require("method-override");
 const Skatespot = require("./models/skatespot");
 const Comment = require("./models/comment");
 const User = require("./models/user");
-//const seedDB = require("./seeds");
+const seedDB = require("./seeds");
 
 //require routes
 const commentRoutes = require("./routes/comments");
 const skatespotRoutes = require("./routes/skatespots");
 const authRoutes      = require("./routes/auth");
 
-mongoose.connect("mongodb://localhost:27017/slam_spot", {useNewUrlParser: true});
+mongoose.connect("mongodb://localhost/slam_spot", {useNewUrlParser: true});
+mongoose.connection.once('open', function(){
+    console.log("Connection to DB made");
+}).on('error', function(error){
+    console.log("Connection error:", error)
+});
+
 
 app.use(bodyParser.urlencoded({extended:true}));
 app.set("view engine", "ejs");
 app.use(express.static(__dirname + "/public"));
 app.use(methodOverride("_method"));
-//seedDB();
+seedDB();
 
 //Passport Config
 app.use(require("express-session")({
@@ -49,6 +55,6 @@ app.get('/', (req, res) => {
 });
 
 
-app.listen(process.env.PORT, process.env.IP, function(){
+app.listen(3000, () => {
     console.log("Server Started!");
 });

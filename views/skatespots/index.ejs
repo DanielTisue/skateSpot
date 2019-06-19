@@ -7,7 +7,7 @@
                     <div class="col-sm-12">
                         <h1>Skate Spots</h1>
                         <h3>Search for Spots closest to you below!</h3>
-                        <p>
+                        <p id="addNewSpot">
                             <a class="btn btn-primary btn-large" href="/skateSpots/new">Add New SkateSpot</a>
                         </p>
                     </div>
@@ -16,23 +16,32 @@
         </header>
         <hr>
         
-        <% skatespots.forEach(function(skatespot){ %>
-            <div class="row text-center"> <!--style="display:flex; flex-wrap: wrap;"- this is styling for thumbnails-->
-                <div class="col-lg-3 col-md-3 col-sm-3" id= "one"> <!--col-md-3 col-sm-6 "-" -->
-                        <img src="<%= skatespot.image %>" class= "thumbnail"  id="indexImg">
-                </div>
-                <div class="col-lg-3 col-md-3 col-sm-3" id= "two">
-                        <h4><%= skatespot.name %></h4>
-                        <p>LA, California</p> <!--needs to be added to skatespotSchema-->
-                </div>
-                <div class="col-lg-3 col-md-3 col-sm-3" id= "three">
-                        <p class="text-right">
-                            <a class="btn btn-primary" href="/skateSpots/<%= skatespot._id %>">More Info</a>
+                <% skatespots.forEach(function(skatespot){ %>
+        <div class="row">
+            <div class="col-sm-12 sectionSkate">
+                <div class="row text-center"> <!--style="display:flex; flex-wrap: wrap;"- this is styling for thumbnails-->
+                    <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4" id= "one"> <!--col-md-3 col-sm-6 "-" -->
+                        <p class="text-left">
+                            <img src="<%= skatespot.image %>" class="thumbnail" id="indexImg">
                         </p>
+                    </div>
+                    <div class="col-lg-4 col-md-4 col-sm-4  text-right" id= "two">
+                            <h4><%= skatespot.name %></h4>
+                            <p>LA, California</p> <!--needs to be added to skatespotSchema-->
+                    </div>
+                    <div class="col-lg-4 col-md-4 col-sm-4  text-right">
+                            <p>
+                                <a class="btn btn-primary" href="/skateSpots/<%= skatespot._id %>">More Info</a>
+                            </p>
+                    </div>
                 </div>
             </div>
-            <hr>
-        <% }); %>
+        </div>
+                <% }); %>  
+           
+        
+        
+        
 </div>
 
 <% include ../partials/footer %>

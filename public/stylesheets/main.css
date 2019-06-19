@@ -1,27 +1,25 @@
-.thumbnail img {
-    width: 100%;
+header {
+    box-shadow: 7px 10px 12px -5px rgba(0, 0, 0, 0.56);
 }
 
 .thumbnail {
+    border: none;
+    margin: 0;
     padding: 0;
 }
 
-#indexImg {
-    max-width: 300px;
-    max-height: 200px;
-}
-
-#one {
-    width: 33%;
+#indexImg{
+    max-width: 325px;
+    max-height: 250px; 
+   
 }
 
 #two {
-    text-align: center;
-    justify-content: center;
-    width: 33%;
+    padding-left: 100px;
 }
 
-#three{
-    width: 33%;
+.sectionSkate {
+    border-radius: 5px;
+    box-shadow: 7px 10px 12px -5px rgba(159, 159, 159, 0.3); 
+    padding: 20px;
 }
-
