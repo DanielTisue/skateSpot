@@ -25,7 +25,7 @@ router.post("/", middlewareObj.isLoggedIn, (req, res) => {
         } else {
             Comment.create( req.body.comment, (err, comment) => {
                 if(err){
-                    //req.flash("error", "Something went wrong");
+                    req.flash("error", "Something went wrong! Try again.");
                     console.log(err);
                 }  else {
                     //add username and id to comment
@@ -37,7 +37,7 @@ router.post("/", middlewareObj.isLoggedIn, (req, res) => {
                     skatespot.comments.push(comment);
                     skatespot.save();
                     console.log(comment);
-                    //req.flash("success", "Successfully Added Comment!");
+                    req.flash("success", "Successfully Added Comment!");
                     res.redirect('/skateSpots/' + skatespot._id);
                 }
             });
@@ -46,9 +46,10 @@ router.post("/", middlewareObj.isLoggedIn, (req, res) => {
 });
 
 // EDIT route--skateSpots/:id/comments:comment_id/edit
-router.get("/:comment_id/edit", middlewareObj.checkCommentOwnership, (req, res) => {
+router.get("/:comment_id/edit", (req, res) => {
             Comment.findById(req.params.comment_id, function(err, foundComment){
             if(err){
+                console.log(err);
                 res.redirect("back");
             } else {
                 res.render("comments/edit", {skatespot_id: req.params.id, comment: foundComment});
@@ -57,7 +58,7 @@ router.get("/:comment_id/edit", middlewareObj.checkCommentOwnership, (req, res) 
     });
 
 // UPDATE route
-router.put("/:comment_id", middlewareObj.checkCommentOwnership, (req, res) => {
+router.put("/:comment_id", (req, res) => {
   //find and update
     Comment.findByIdAndUpdate(req.params.comment_id, req.body.comment, function(err, updatedComment){
         if(err){
@@ -70,12 +71,12 @@ router.put("/:comment_id", middlewareObj.checkCommentOwnership, (req, res) => {
 }); 
 
 // DELETE (DESTROY) route
-router.delete("/:comment_id", middlewareObj.checkCommentOwnership, (req, res) => {
+router.delete("/:comment_id", middlewareObj.isLoggedIn, (req, res) => {
     Comment.findByIdAndRemove(req.params.comment_id, function(err){
       if(err){ 
           res.redirect("back");
       } else {
-          //req.flash("success", "Comment Deleted!");
+          req.flash("success", "Comment Deleted!");
           res.redirect("/skateSpots/" + req.params.id);
       }
     });

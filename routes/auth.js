@@ -10,15 +10,13 @@ router.get("/register", (req, res) => {
 });
 //Handle sign up logic:
 router.post("/register", (req, res) => {
-    // req.body.username;
-    //req.body.password;
-    var newUser = new User({username: req.body.username});
+    const newUser = new User({username: req.body.username});
     User.register(newUser, req.body.password, function(err, user){
         if(err){
-            console.log(err);
-            return res.render("register");
+            return res.render("register", {error: error.message});
         }
         passport.authenticate("local")(req, res, function(){
+          req.flash("success", `You're successfully signed up! Welcome to Skate Spots ${newUser.username}!`);
           res.redirect("/skateSpots"); 
         });
     });
@@ -43,6 +41,7 @@ router.post("/login", passport.authenticate("local",
 // LOGOUT logic + route
 router.get("/logout", (req, res) => {
   req.logout();
+  req.flash("success", "LOGGED OUT - Successfully");
   res.redirect("/skateSpots");
 });
 

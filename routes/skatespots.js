@@ -48,18 +48,24 @@ router.get("/new", middlewareObj.isLoggedIn, (req, res) => {
 router.get("/:id", (req, res) => {
     Skatespot.findById(req.params.id).populate("comments").exec((err, foundSkatespot) => {
         if(err){
-            console.log(err);
+            // console.log(err);
+            req.flash("error", "Skate Spot doesn't exist!")
+            res.redirect("back");
         } else {
-            console.log(foundSkatespot);
-            //render show template with that skatespot
+            // if (!foundSkatespot) {
+            //     return res.status(400).send("Item not found.")
+            // }
             res.render("skatespots/show", {skatespot: foundSkatespot});
         }
     });
 });
 
 // EDIT: SkateSpots
-router.get("/:id/edit", middlewareObj.checkSkatespotOwnership, (req, res) => {
+router.get("/:id/edit", middlewareObj.isLoggedIn, middlewareObj.checkSkatespotOwnership, (req, res) => {
     Skatespot.findById(req.params.id, (err, foundSkatespot) => {
+        // if (!foundSkatespot) {
+        //     return res.status(400).send("Item not found.")
+        // }
         if(err) {
             res.redirect("/skatespots");
         } else {
@@ -68,7 +74,7 @@ router.get("/:id/edit", middlewareObj.checkSkatespotOwnership, (req, res) => {
     });  
 });
 
-router.put("/:id", middlewareObj.checkSkatespotOwnership, (req, res) => {
+router.put("/:id", middlewareObj.isLoggedIn, middlewareObj.checkSkatespotOwnership, (req, res) => {
    // find and update skatespot
    Skatespot.findByIdAndUpdate(req.params.id, req.body.skatespot, (err, updatedSkatespot) => {
        if(err){
@@ -80,7 +86,7 @@ router.put("/:id", middlewareObj.checkSkatespotOwnership, (req, res) => {
 });
 
 // DESTROY skatespot
-router.delete("/:id", middlewareObj.checkSkatespotOwnership, (req, res) => {
+router.delete("/:id", middlewareObj.isLoggedIn, middlewareObj.checkSkatespotOwnership, (req, res) => {
     Skatespot.findByIdAndDelete(req.params.id, (err) => {
         if(err) {
             res.redirect("/skatespots");

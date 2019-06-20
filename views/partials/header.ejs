@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <hmtl>
     <head>
-        <!-- Make site responsive on mobile/tablet -->
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
         <title> Skate Spots </title>
@@ -36,7 +35,7 @@
                     <li class="<%= typeof page !== 'undefined' && page === 'register' ? 'active' : '' %>"><a
                             href="/register">SIGN UP</a></li>
                     <% } else { %>
-                    <li><a href="#">Signed in as ... <strong><%= currentUser.username %></strong></a></li>
+                    <li><a href="#">SIGNED IN as ... <strong><%= currentUser.username %></strong></a></li>
                     <li><a href="/logout">LOGOUT</a></li>
                     <% } %>
                 </ul>
@@ -44,5 +43,18 @@
         </div>
     </nav>
     
+    <div class="container">
+       <% if(error && error.length > 0) { %>
+        <div class="alert alert-danger" role="alert">
+            <%= error %>
+        </div>
+        <% } %> 
+        <% if (success && success.length >0) {%>
+        <div class="alert alert-success" role="alert">
+            <%= success %>
+        </div>
+        <% } %>
+    </div>
+
     <div class="container">
          

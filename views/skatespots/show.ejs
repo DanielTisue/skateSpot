@@ -15,7 +15,6 @@
                     <div class="thumbnail" id="showThumbnail">
                         <img class="img-responsive" id="showImage" src="<%= skatespot.image %>">
                         <div class="caption">
-                            <!--<h4 class="pull-right">$/night</h4>-->
                             <h4><a><%= skatespot.name %></a></h4>
                             <h5><%= skatespot.location %></h5>
                             <h5><%= skatespot.description %></h5>
@@ -37,13 +36,10 @@
                         </div>
                         <hr>
                         <% skatespot.comments.forEach(function(comment){ %>
-                            <div class="row">
+                            <div class="row comments-row">
                                 <div class="col-md-12">
-                                        <strong><%= comment.author.username %></strong>
-                                        <p>
-                                         - <%= comment.text %>
-                                        </p>
-                                        <% if(currentUser && skatespot.author.id.equals(currentUser._id)) { %>
+                                       <p><strong><%= comment.author.username %></strong> - <%= comment.text %></p> 
+                                        <% if(currentUser && comment.author.id.equals(currentUser._id)) { %>
                                         <a class="btn btn-xs btn-info" href="/skateSpots/<%= skatespot._id %>/comments/<%= comment._id %>/edit">Edit</a>
                                         <form class="delete-form" action="/skateSpots/<%= skatespot._id %>/comments/<%=comment._id %>?_method=DELETE" method="POST">
                                             <input type="submit" class="btn btn-xs btn-danger" value="Delete">
@@ -55,10 +51,6 @@
                     </div>
                 </div>
         </div>
-    
-       <div class="goBack">
-        <a class="btn btn-primary" href="/skateSpots">Go Back</a>
-       </div> 
         
         
         <% include ../partials/footer %>
