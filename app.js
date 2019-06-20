@@ -27,7 +27,7 @@ app.use(bodyParser.urlencoded({extended:true}));
 app.set("view engine", "ejs");
 app.use(express.static(__dirname + "/public"));
 app.use(methodOverride("_method"));
-// seedDB();
+//seedDB();
 
 //Passport Config
 app.use(require("express-session")({
@@ -59,10 +59,3 @@ app.listen(3000, () => {
     console.log("Server Started!");
 });
 
-//middleware
-// function isLoggedIn(req, res, next) {
-//     if (req.isAuthenticated()) {
-//         return next();
-//     }
-//     res.redirect("/login");
-// }

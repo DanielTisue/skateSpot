@@ -6,7 +6,7 @@
                 <div class="row">
                     <div class="col-sm-12">
                         <h1>Skate Spots</h1>
-                        <h3>Search for Spots closest to you below!</h3>
+                        <h3>Search for Spots<br>closest to you below!</h3>
                         <% if(currentUser) { %>
                         <p id="addNewSpot">
                             <a class="btn btn-primary btn-large" href="/skateSpots/new">Add New SkateSpot</a>
@@ -29,7 +29,7 @@
                     </div>
                     <div class="col-lg-4 col-md-4 col-sm-4  text-right" id= "two">
                             <h4><%= skatespot.name %></h4>
-                            <p>LA, California</p> <!--needs to be added to skatespotSchema-->
+                            <p><%= skatespot.location %></p> <!--needs to be added to skatespotSchema-->
                     </div>
                     <div class="col-lg-4 col-md-4 col-sm-4  text-right">
                             <p>

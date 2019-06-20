@@ -17,15 +17,16 @@ router.get('/', (req,res) => {
 //CREATE Skatespot
 router.post("/", middlewareObj.isLoggedIn, (req, res) => {
     // get data from form and add to skatespots array
-    var name = req.body.name;
-    var image = req.body.image;
-    var desc = req.body.description;
-    var author = 
-    {
-        id: req.user._id,
-        username: req.user.username
-    };
-    var newSkatespot = {name: name, image: image, description: desc, author: author};
+    const name = req.body.name,
+          image = req.body.image,
+          desc = req.body.description,
+          location = req.body.location,
+          author = 
+                    {
+                        id: req.user._id,
+                        username: req.user.username
+                    };
+    const newSkatespot = {name: name, image: image, description: desc, location: location, author: author};
     
     // Create a new skatespot and save to DB
     Skatespot.create(newSkatespot, (err, newlyCreated) => {
@@ -45,15 +46,6 @@ router.get("/new", middlewareObj.isLoggedIn, (req, res) => {
 
 //SHOW page
 router.get("/:id", (req, res) => {
-    //find the skatespot with provided ID
-    // Skatespot.findById(req.params.id, function(err, foundSkatespot){
-    //     if(err){
-    //         console.log(err);
-    //     } else {
-    //         res.render("show", {skatespot: foundSkatespot});
-    //     }
-    // });
-    
     Skatespot.findById(req.params.id).populate("comments").exec((err, foundSkatespot) => {
         if(err){
             console.log(err);

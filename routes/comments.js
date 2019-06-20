@@ -5,7 +5,7 @@ const express =     require("express"),
       middlewareObj =  require("../middleware/index");
 
 // Comments New
-router.get("/new", middlewareObj.checkCommentOwnership, (req, res) => {
+router.get("/new", middlewareObj.isLoggedIn, (req, res) => {
     Skatespot.findById(req.params.id, function(err, skatespot){
         if(err){
             console.log(err);
