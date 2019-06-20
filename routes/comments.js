@@ -1,11 +1,11 @@
 const express =     require("express"),
       router =      express.Router({mergeParams: true}),
       Skatespot =   require("../models/skatespot"),
-      Comment =     require("../models/comment");
-//const middleware = require("../middleware");
+      Comment =     require("../models/comment"),
+      middlewareObj =  require("../middleware/index");
 
 // Comments New
-router.get("/new", isLoggedIn, (req, res) => {
+router.get("/new", middlewareObj.checkCommentOwnership, (req, res) => {
     Skatespot.findById(req.params.id, function(err, skatespot){
         if(err){
             console.log(err);
@@ -16,7 +16,7 @@ router.get("/new", isLoggedIn, (req, res) => {
 });
 
 // Comments Create
-router.post("/", isLoggedIn, (req, res) => {
+router.post("/", middlewareObj.isLoggedIn, (req, res) => {
     //look up skatespot using id
    Skatespot.findById(req.params.id, (err, skatespot) => {
         if(err){
@@ -46,7 +46,7 @@ router.post("/", isLoggedIn, (req, res) => {
 });
 
 // EDIT route--skateSpots/:id/comments:comment_id/edit
-router.get("/:comment_id/edit", (req, res) => {
+router.get("/:comment_id/edit", middlewareObj.checkCommentOwnership, (req, res) => {
             Comment.findById(req.params.comment_id, function(err, foundComment){
             if(err){
                 res.redirect("back");
@@ -57,7 +57,7 @@ router.get("/:comment_id/edit", (req, res) => {
     });
 
 // UPDATE route
-router.put("/:comment_id", (req, res) => {
+router.put("/:comment_id", middlewareObj.checkCommentOwnership, (req, res) => {
   //find and update
     Comment.findByIdAndUpdate(req.params.comment_id, req.body.comment, function(err, updatedComment){
         if(err){
@@ -70,7 +70,7 @@ router.put("/:comment_id", (req, res) => {
 }); 
 
 // DELETE (DESTROY) route
-router.delete("/:comment_id", (req, res) => {
+router.delete("/:comment_id", middlewareObj.checkCommentOwnership, (req, res) => {
     Comment.findByIdAndRemove(req.params.comment_id, function(err){
       if(err){ 
           res.redirect("back");
@@ -80,14 +80,6 @@ router.delete("/:comment_id", (req, res) => {
       }
     });
 });
-
-// Middleware
-function isLoggedIn(req, res, next) {
-    if (req.isAuthenticated()) {
-        return next();
-    }
-    res.redirect("/login");
-}
 
 
 module.exports = router;

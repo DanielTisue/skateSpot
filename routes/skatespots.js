@@ -1,7 +1,7 @@
-const express = require("express");
-const router = express.Router({mergeParams: true});
-const Skatespot = require("../models/skatespot");
-//const middleware = require("../middleware");
+const express =         require("express"),
+      router =          express.Router({mergeParams: true}),
+      Skatespot =       require("../models/skatespot"),
+      middlewareObj =      require("../middleware/index");
 
 //INDEX
 router.get('/', (req,res) => {
@@ -15,7 +15,7 @@ router.get('/', (req,res) => {
 });
 
 //CREATE Skatespot
-router.post("/", (req, res) => {
+router.post("/", middlewareObj.isLoggedIn, (req, res) => {
     // get data from form and add to skatespots array
     var name = req.body.name;
     var image = req.body.image;
@@ -28,7 +28,7 @@ router.post("/", (req, res) => {
     var newSkatespot = {name: name, image: image, description: desc, author: author};
     
     // Create a new skatespot and save to DB
-    Skatespot.create(newSkatespot, function(err, newlyCreated){
+    Skatespot.create(newSkatespot, (err, newlyCreated) => {
         if(err){
             console.log(err);
         } else {
@@ -39,7 +39,7 @@ router.post("/", (req, res) => {
 });
 
 //NEW - show form to create new skatespot
-router.get("/new", (req, res) => {
+router.get("/new", middlewareObj.isLoggedIn, (req, res) => {
    res.render("skatespots/new"); 
 });
 
@@ -66,7 +66,7 @@ router.get("/:id", (req, res) => {
 });
 
 // EDIT: SkateSpots
-router.get("/:id/edit", (req, res) => {
+router.get("/:id/edit", middlewareObj.checkSkatespotOwnership, (req, res) => {
     Skatespot.findById(req.params.id, (err, foundSkatespot) => {
         if(err) {
             res.redirect("/skatespots");
@@ -76,7 +76,7 @@ router.get("/:id/edit", (req, res) => {
     });  
 });
 
-router.put("/:id", (req, res) => {
+router.put("/:id", middlewareObj.checkSkatespotOwnership, (req, res) => {
    // find and update skatespot
    Skatespot.findByIdAndUpdate(req.params.id, req.body.skatespot, (err, updatedSkatespot) => {
        if(err){
@@ -88,7 +88,7 @@ router.put("/:id", (req, res) => {
 });
 
 // DESTROY skatespot
-router.delete("/:id", (req, res) => {
+router.delete("/:id", middlewareObj.checkSkatespotOwnership, (req, res) => {
     Skatespot.findByIdAndDelete(req.params.id, (err) => {
         if(err) {
             res.redirect("/skatespots");
@@ -97,4 +97,5 @@ router.delete("/:id", (req, res) => {
         }
     });
 });
+
 module.exports = router;

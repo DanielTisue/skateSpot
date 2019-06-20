@@ -21,11 +21,13 @@
                             <p>
                                 <em>Submitted By <strong><%= skatespot.author.username %></strong></em>
                             </p>
+                            <% if(currentUser && skatespot.author.id.equals(currentUser._id)) { %>
                             <a class="btn btn-info" href="/skateSpots/<%= skatespot._id %>/edit">Edit</a>
                             <form class="delete-form""
                                 action="/skateSpots/<%= skatespot._id %>?_method=DELETE" method="POST">
                                 <input type="submit" class="btn btn-danger" value="Delete">
                             </form>
+                            <% } %>
                         </div>
                     </div>
                     <div class="well">
@@ -40,10 +42,12 @@
                                         <p>
                                          - <%= comment.text %>
                                         </p>
+                                        <% if(currentUser && skatespot.author.id.equals(currentUser._id)) { %>
                                         <a class="btn btn-xs btn-info" href="/skateSpots/<%= skatespot._id %>/comments/<%= comment._id %>/edit">Edit</a>
                                         <form class="delete-form" action="/skateSpots/<%= skatespot._id %>/comments/<%=comment._id %>?_method=DELETE" method="POST">
                                             <input type="submit" class="btn btn-xs btn-danger" value="Delete">
                                         </form>
+                                        <% } %>
                                 </div>
                             </div>
                         <% }); %>

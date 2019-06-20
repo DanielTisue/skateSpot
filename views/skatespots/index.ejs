@@ -7,9 +7,11 @@
                     <div class="col-sm-12">
                         <h1>Skate Spots</h1>
                         <h3>Search for Spots closest to you below!</h3>
+                        <% if(currentUser) { %>
                         <p id="addNewSpot">
                             <a class="btn btn-primary btn-large" href="/skateSpots/new">Add New SkateSpot</a>
                         </p>
+                        <% } %>
                     </div>
                 </div>
             </div>

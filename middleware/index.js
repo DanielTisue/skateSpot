@@ -1,7 +1,7 @@
-const Skatespot = require("../models/skatespot");
-const Comment = require("../models/comment");
+const Skatespot =   require("../models/skatespot"),
+      Comment =     require("../models/comment");
 
-// all the middleare goes here
+// all the middlware goes here
 const middlewareObj = {};
 
 middlewareObj.checkSkatespotOwnership = function(req, res, next) {
@@ -11,7 +11,7 @@ middlewareObj.checkSkatespotOwnership = function(req, res, next) {
                //req.flash("error", "Skate Spot not found");
                res.redirect("back");
            }  else {
-               // does user own the the skatespot?
+               // does user own the the skatespot? 
             if(foundSkatespot.author.id.equals(req.user._id)) {
                 next();
             } else {
