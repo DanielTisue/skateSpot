@@ -13,7 +13,8 @@ router.post("/register", (req, res) => {
     const newUser = new User({username: req.body.username});
     User.register(newUser, req.body.password, function(err, user){
         if(err){
-            return res.render("register", {error: error.message});
+          req.flash("error", "Username already exists!")
+          res.redirect("/register");
         }
         passport.authenticate("local")(req, res, function(){
           req.flash("success", `You're successfully signed up! Welcome to Skate Spots ${newUser.username}!`);
@@ -30,7 +31,7 @@ router.get("/login", (req, res) => {
 });
 // LOGIN: Handling login logic:
 router.post("/login", passport.authenticate("local", 
-    {
+    {     
         successRedirect: "/skateSpots",
         failureRedirect: "/login"
     }), function(req, res){

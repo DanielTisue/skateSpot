@@ -46,7 +46,7 @@ router.post("/", middlewareObj.isLoggedIn, (req, res) => {
 });
 
 // EDIT route--skateSpots/:id/comments:comment_id/edit
-router.get("/:comment_id/edit", (req, res) => {
+router.get("/:comment_id/edit", middlewareObj.checkCommentOwnership, (req, res) => {
             Comment.findById(req.params.comment_id, function(err, foundComment){
             if(err){
                 console.log(err);
@@ -58,7 +58,7 @@ router.get("/:comment_id/edit", (req, res) => {
     });
 
 // UPDATE route
-router.put("/:comment_id", (req, res) => {
+router.put("/:comment_id", middlewareObj.checkCommentOwnership, (req, res) => {
   //find and update
     Comment.findByIdAndUpdate(req.params.comment_id, req.body.comment, function(err, updatedComment){
         if(err){

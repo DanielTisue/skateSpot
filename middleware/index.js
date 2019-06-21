@@ -10,16 +10,19 @@ middlewareObj.checkSkatespotOwnership = function(req, res, next) {
 
             if (err || !foundSkatespot) {
                 console.log(err);
-                req.flash('error', 'Sorry, that skatespot does not exist!');
+                req.flash('error', "Sorry, that skatespot does not exist!");
                 res.redirect('/skateSpots');
             } else if (foundSkatespot.author.id.equals(req.user._id)) {
                 req.skatespot = foundSkatespot;
                 next();
             } else {
-                req.flash('error', 'You don\'t have permission to do that!');
+                req.flash('error', "You don't have permission to do that!");
                 res.redirect('/skateSpots/' + req.params.id);
             }
         });
+  } else {
+     req.flash('error', "You don't have permission to do that! Login First!");
+     return res.redirect('/login');
   }
 }
 //            if(err){
@@ -47,20 +50,23 @@ middlewareObj.checkSkatespotOwnership = function(req, res, next) {
 // };
 
 middlewareObj.checkCommentOwnership = function(req, res, next) {
- if(req.isAuthenticated()){
-     Comment.findById(req.params.commentId, function (err, foundComment) {
-         if (err && !foundComment) {
-             console.log(err);
-             req.flash('error', 'Sorry, that comment does not exist!');
-             res.redirect('/skateSpots');
-         } else if (foundComment.author.id.equals(req.user._id)) {
-             req.comment = foundComment;
-             next();
-         } else {
-             req.flash('error', 'You don\'t have permission to do that!');
-             res.redirect('/skateSpots/' + req.params.id);
-         }
-     });
+    if(req.isAuthenticated()){ //if user is logged in then
+        Comment.findById(req.params.comment_id, function (err, foundComment) {
+            if (err || !foundComment) {
+                console.log(err);
+                req.flash('error', "Sorry, that comment does not exist!");
+                return res.redirect('/skateSpots');
+            } else if (foundComment.author.id.equals(req.user._id)) {
+                res.locals.comment = foundComment;
+                next();
+            } else {
+                req.flash('error', "You don't have permission to do that!");
+                return res.redirect('/skateSpots/' + req.params.id);
+            }
+        });
+    } else {
+        req.flash('error', "You don't have permission to do that! Login First!");
+        return res.redirect('/login');
     }
 }
 //            if(err){
