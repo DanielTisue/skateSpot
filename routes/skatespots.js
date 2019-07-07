@@ -68,12 +68,10 @@ router.post(
       location: location,
       author: author
     };
-    console.log(newSkatespot);
-    console.log(image);
     // Create a new skatespot and save to DB
     Skatespot.create(newSkatespot, (err, newlyCreated) => {
       if (err) {
-        console.log(err.message);
+        console.log(err);
       } else {
         //redirect back to skatespots page
         res.redirect("skatespots");
