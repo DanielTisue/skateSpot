@@ -126,15 +126,30 @@ router.put(
   "/:id",
   middlewareObj.isLoggedIn,
   middlewareObj.checkSkatespotOwnership,
+  upload.single("image"),
   (req, res) => {
     // find and update skatespot
     Skatespot.findByIdAndUpdate(
       req.params.id,
       req.body.skatespot,
-      (err, updatedSkatespot) => {
+      async (err, skatespot) => {
         if (err) {
+          console.log(err);
+          req.flash("error", "UH OH...Something went wrong!");
           res.redirect("/skatespots");
         } else {
+          if (req.file) {
+            try {
+              await cloudinary.v2.uploader.destroy(skatespot.image.public_id);
+              skatespot.image.public_id = req.file.public_id;
+              skatespot.image.url = req.file.secure_url;
+              await skatespot.save();
+              console;
+            } catch (err) {
+              return res.redirect("back");
+            }
+          }
+          req.flash("success", "Skate Spot successfully updated!");
           res.redirect("/skatespots/" + req.params.id);
         }
       }
@@ -148,10 +163,14 @@ router.delete(
   middlewareObj.isLoggedIn,
   middlewareObj.checkSkatespotOwnership,
   (req, res) => {
-    Skatespot.findByIdAndDelete(req.params.id, err => {
+    Skatespot.findById(req.params.id, async (err, skatespot) => {
       if (err) {
+        req.flash("error", "UH OH...Something went wrong!");
         res.redirect("/skatespots");
       } else {
+        await cloudinary.v2.uploader.destroy(skatespot.image.public_id);
+        await skatespot.remove();
+        req.flash("success", "Skate Spot deleted successfully!");
         res.redirect("/skatespots");
       }
     });
