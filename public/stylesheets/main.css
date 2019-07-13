@@ -1,83 +1,97 @@
+body {
+  padding: 0;
+  margin: 0;
+}
+
 header {
-    box-shadow: 7px 10px 12px -5px rgba(0, 0, 0, 0.3);
+  box-shadow: 7px 10px 12px -5px rgba(0, 0, 0, 0.3);
 }
 
 .thumbnail img {
-    width: 100%;  
+  width: 100%;
 }
 
 .thumbnail {
-    border: none;
-    margin: 0;
-    padding: 0;
+  border: none;
+  margin: 0;
+  padding: 0;
 }
 
-#indexImg{
-    max-width: 325px;
-    max-height: 250px; 
-   
+#indexImg {
+  max-width: 325px;
+  max-height: 250px;
+  justify-content: center;
+}
+
+.indexPageImage {
+  justify-content: center
 }
 
 #two {
-    padding-left: 100px;
+  padding-left: 100px;
 }
 
 .sectionSkate {
-    border-radius: 5px;
-    box-shadow: 7px 10px 12px -5px rgba(159, 159, 159, 0.3); 
-    padding: 20px;
+  border-radius: 5px;
+  box-shadow: 7px 10px 12px -5px rgba(159, 159, 159, 0.3);
+  padding: 20px;
 }
 
 nav {
-    box-shadow: 7px 10px 12px -5px rgba(159, 159, 159, 0.3);
+  box-shadow: 7px 10px 12px -5px rgba(159, 159, 159, 0.3);
 }
 
 .lead {
-    box-shadow: 7px 10px 12px -5px rgba(159, 159, 159, 0.1);   
+  box-shadow: 7px 10px 12px -5px rgba(159, 159, 159, 0.1);
 }
 
 .delete-form {
-    display: inline;
-    box-shadow: 7px 10px 12px -5px rgba(159, 159, 159, 0.3);
+  display: inline;
+  box-shadow: 7px 10px 12px -5px rgba(159, 159, 159, 0.3);
 }
 
 #showThumbnail {
-    border-radius: 5px;
-    box-shadow: 7px 10px 12px -5px rgba(159, 159, 159, 0.3);
-    margin-bottom: 25px;
+  border-radius: 5px;
+  box-shadow: 7px 10px 12px -5px rgba(159, 159, 159, 0.3);
+  margin-bottom: 25px;
 }
 
 #showImage {
-    border-top-right-radius: 5px; 
-    border-top-left-radius: 5px; 
+  border-top-right-radius: 5px;
+  border-top-left-radius: 5px;
 }
 
 .btn {
-    box-shadow: 7px 10px 12px -5px rgba(159, 159, 159, 0.4); 
+  box-shadow: 7px 10px 12px -5px rgba(159, 159, 159, 0.4);
 }
 
 .well {
-    background-color: rgba(50,122,183, .2);
-    box-shadow: 7px 10px 12px -5px rgba(159, 159, 159, 0.3);
-    border: none;
+  background-color: rgba(50, 122, 183, 0.2);
+  box-shadow: 7px 10px 12px -5px rgba(159, 159, 159, 0.3);
+  border: none;
 }
 
 .goBack {
-    margin: 10px;
-    padding: 5px;
-
+  margin: 10px;
+  padding: 5px;
 }
 
 .comments-row {
-    background-color:rgba(255, 255, 255, .5);
-    border-radius: 5px;
-    margin-top: 10px;
-    padding: 5px;
-    margin-left: 4px;
-    margin-right: 4px;
+  background-color: rgba(255, 255, 255, 0.5);
+  border-radius: 5px;
+  margin-top: 10px;
+  padding: 5px;
+  margin-left: 4px;
+  margin-right: 4px;
 }
 
 .list-group {
-  box-shadow: 7px 10px 12px -5px rgba(159, 159, 159, 0.3);  
+  box-shadow: 7px 10px 12px -5px rgba(159, 159, 159, 0.3);
 }
 
+#map {
+  height: 400px;
+  width: 100%;
+  margin-bottom: 10px;
+  border-radius: 5px;
+}

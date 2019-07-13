@@ -9,8 +9,8 @@ const express = require("express"),
   methodOverride = require("method-override"),
   Skatespot = require("./models/skatespot"),
   Comment = require("./models/comment"),
-  User = require("./models/user"),
-  seedDB = require("./seeds");
+  User = require("./models/user");
+ // seedDB = require("./seeds");
 
 //require routes
 const commentRoutes = require("./routes/comments"),

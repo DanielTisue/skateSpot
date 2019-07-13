@@ -8,6 +8,8 @@ const skatespotSchema = new mongoose.Schema({
   },
   description: String,
   location: String,
+  lat: Number,
+  lng: Number,
   author: {
     id: {
       type: mongoose.Schema.Types.ObjectId,
