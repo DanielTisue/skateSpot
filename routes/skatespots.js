@@ -57,52 +57,42 @@ router.post(
   "/",
   middlewareObj.isLoggedIn,
   upload.single("image"),
-  (req, res) => {
-    req.body.image = {
-      url: req.file.secure_url,
-      public_id: req.file.public_id
-    };
-    // get data from form and add to skatespots array
-    const name = req.body.name,
-          image = req.body.image,
-          desc = req.body.description,
-          author = {
-                id: req.user._id,
-                username: req.user.username
-          }
-  geocoder.geocode(req.body.location, (err,data) => {
-      if ( err || !data.length) {
-        req.flash('error', 'Invalid Adress');
-        return res.redirect('back');
-      }
-      const lat = data[0].latitude,
-            lng = data[0].longitude,
-            location = data[0].formattedAddress;
-      const newSkatespot = {
-          name: name,
-          image: image,
-          description: desc,
-          author: author,
-          location: location,
-          lat: lat,
-          lng: lng
+  async (req, res) => {
+    try {
+      if ( req.file) {
+        req.body.image = {
+            url: req.file.secure_url,
+            public_id: req.file.public_id
+          };
+        }
+        // get data from form and add to skatespots array
+        const data = await geocoder.geocode(req.body.location);
+        const lat = data[0].latitude,
+              lng = data[0].longitude,
+              location = data[0].formattedAddress;
+        const name = req.body.name,
+              image = req.body.image,
+              description = req.body.description,
+      author = {
+        id: req.user._id,
+        username: req.user.username
       };
+        const newSkatespot = {
+            name,
+            image,
+            description,
+            author,
+            location,
+            lat,
+            lng
+          };
     // Create a new skatespot and save to DB
-    Skatespot.create(newSkatespot, (err, newlyCreated) => {
-      if (err) {
-        console.log(err);
-      } else {
-        console.log(newlyCreated);
-        //redirect back to skatespots page
-        res.redirect("/skateSpots/" + newlyCreated.id);
-      }
-    });
-  });
-});
-
-//NEW - show form to create new skatespot
-router.get("/new", middlewareObj.isLoggedIn, (req, res) => {
-  res.render("skatespots/new");
+    const newlyCreated = await Skatespot.create(newSkatespot);
+    res.redirect("/skateSpots/" + newlyCreated.id);
+  } catch(err) {
+    req.flash("error", err.message);
+    res.redirect("/skateSpots/new");
+  }
 });
 
 //SHOW page
@@ -140,44 +130,38 @@ router.get(
 );
 
 router.put(
-  "/:id", middlewareObj.isLoggedIn, middlewareObj.checkSkatespotOwnership, upload.single("image"), (req, res) => {
-    // find and update skatespot
-    Skatespot.findByIdAndUpdate(req.params.id, req.body.skatespot, async(err, skatespot) => {
-        if (err) {
-          console.log(err);
-          req.flash("error", "UH OH...Something went wrong! This SkateSpot doesn't exist");
-          res.redirect("/skatespots");
-        } else {
-          
-          geocoder.geocode(req.body.location, async(err, data) => {
-            if (err || !data.length) {
-              console.log(err);
-              req.flash('error', 'Invalid Address');
-              return res.redirect('back');
-            }
-            
-            skatespot.lat = req.body.skatespot.location.lat.data[0].latitude;
-            skatespot.lng = req.body.skatespot.location.lng.data[0].longitude;
-            skatespot.location = req.body.skatespot.location.data[0].formattedAddress;
-          if (req.file) {
-            try {
-              await cloudinary.v2.uploader.destroy(skatespot.image.public_id);
-              skatespot.image.public_id = req.file.public_id;
-              skatespot.image.url = req.file.secure_url;
-              //await skatespot.save();
-            } catch (err) {
-              return res.redirect("back");
-            }
-          }
-            skatespot.name = req.body.skatespot.name;
-            skatespot.description = req.body.skatespot.description;
-            skatespot.save();
-        req.flash("success", "Skate Spot successfully updated!");
-        res.redirect("/skatespots/" + req.params.id);
-      });
+  "/:id",
+  middlewareObj.isLoggedIn,
+  middlewareObj.checkSkatespotOwnership,
+  upload.single("image"),
+  async (req, res) => {
+    try {
+      // find and update skatespot
+      let skatespot = await Skatespot.findByIdAndUpdate(
+        req.params.id,
+        req.body.skatespot,
+        { new: true }
+      );
+      if (skatespot.location !== req.body.location) {
+        let newLocation = await geocoder.geocode(req.body.location);
+        skatespot.lat = newLocation[0].latitude;
+        skatespot.lng = newLocation[0].longitude;
+        skatespot.location = newLocation[0].formattedAddress;
+      }
+      if (req.file) {
+        await cloudinary.v2.uploader.destroy(skatespot.image.public_id);
+        skatespot.image.public_id = req.file.public_id;
+        skatespot.image.url = req.file.secure_url;
+      }
+      await skatespot.save();
+      req.flash("success", "Skate Spot successfully updated!");
+      res.redirect("/skatespots/" + req.params.id);
+    } catch (err) {
+      req.flash("error", err.message);
+      res.redirect("back");
     }
-  });
-}); 
+  }
+); 
 
 // DESTROY skatespot
 router.delete(

@@ -17,7 +17,7 @@ const commentRoutes = require("./routes/comments"),
   skatespotRoutes = require("./routes/skatespots"),
   authRoutes = require("./routes/auth");
 
-mongoose.connect("mongodb://localhost/slam_spot", { useNewUrlParser: true });
+mongoose.connect("mongodb://localhost/slam_spot", { useNewUrlParser: true, useFindAndModify: false });
 mongoose.connection
   .once("open", function() {
     console.log("Connection to DB made");
