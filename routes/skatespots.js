@@ -37,28 +37,66 @@ const storage = cloudinaryStorage({
 });
 const upload = multer({ storage });
 
+function escapeRegex(text) {
+    return text.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, "\\$&");
+};
+
 //INDEX
 router.get("/", (req, res) => {
   const perPage = 4,
         pageQuery = parseInt(req.query.page),
-        pageNumber = pageQuery ? pageQuery : 1;
-  Skatespot.find({}).skip((perPage * pageNumber) - perPage).limit(perPage).exec((err, allSkatespots) => {
-    if(err){
-      console.log(err);
-    }
-    Skatespot.count().exec((err, count) => {
-          if (err) {
+        pageNumber = pageQuery ? pageQuery : 1,
+        noMatch = null;
+  
+  if(req.query.search) {
+    const regex = new RegExp(escapeRegex(req.query.search), 'gi');
+    Skatespot.find({name: regex}).skip((perPage * pageNumber) - perPage).limit(perPage).exec((err, allSkatespots) => {
+      if(err) {
+        console.log(err);
+      }
+      Skatespot.count({name: regex}).exec((err, count) => {
+        if(err) {
           console.log(err);
+          res.redirect('back');
         } else {
+          if(allSkatespots.length < 1) {
+           noMatch = "No skate spots match that, please enter another search.";
+          }
           res.render("skatespots/index", {
             skatespots: allSkatespots,
+            page: "skateSpots",
             current: "pageNumber",
-            pages: Math.ceil(count/ perPage),
-            currentUser: req.user
+            pages: Math.ceil(count / perPage),
+            currentUser: req.user,
+            noMatch: noMatch,
+            search: req.query.search
           });
         }
       });
     });
+  } else {
+    Skatespot.find({}).skip(perPage * pageNumber - perPage).limit(perPage).exec((err, allSkatespots) => {
+      if(err) {
+        console.log(err);
+      }
+        Skatespot.count().exec((err, count) => {
+          if (err) {
+            console.log(err);
+            res.redirect("back");
+          } else {
+            res.render("skatespots/index", {
+              skatespots: allSkatespots,
+              page: "skateSpots",
+              current: "pageNumber",
+              pages: Math.ceil(count / perPage),
+              currentUser: req.user,
+              noMatch: noMatch,
+              search: false
+            });
+          }
+        });
+      });
+  }
 });
     
    
