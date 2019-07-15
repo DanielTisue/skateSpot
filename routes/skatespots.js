@@ -39,18 +39,30 @@ const upload = multer({ storage });
 
 //INDEX
 router.get("/", (req, res) => {
-  Skatespot.find({}, (err, allSkatespots) => {
-    if (err) {
+  const perPage = 4,
+        pageQuery = parseInt(req.query.page),
+        pageNumber = pageQuery ? pageQuery : 1;
+  Skatespot.find({}).skip((perPage * pageNumber) - perPage).limit(perPage).exec((err, allSkatespots) => {
+    if(err){
       console.log(err);
-    } else {
-      res.render("skatespots/index", {
-        skatespots: allSkatespots,
-        page: "skatespots",
-        currentUser: req.user
-      });
     }
-  });
+    Skatespot.count().exec((err, count) => {
+          if (err) {
+          console.log(err);
+        } else {
+          res.render("skatespots/index", {
+            skatespots: allSkatespots,
+            current: "pageNumber",
+            pages: Math.ceil(count/ perPage),
+            currentUser: req.user
+          });
+        }
+      });
+    });
 });
+    
+   
+ 
 
 //CREATE Skatespot
 router.post(
@@ -137,11 +149,7 @@ router.put(
   async (req, res) => {
     try {
       // find and update skatespot
-      let skatespot = await Skatespot.findByIdAndUpdate(
-        req.params.id,
-        req.body.skatespot,
-        { new: true }
-      );
+      let skatespot = await Skatespot.findByIdAndUpdate(req.params.id, req.body.skatespot,{ new: true });
       if (skatespot.location !== req.body.location) {
         let newLocation = await geocoder.geocode(req.body.location);
         skatespot.lat = newLocation[0].latitude;
