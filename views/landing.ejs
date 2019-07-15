@@ -1,5 +1,17 @@
 <% include ./partials/header %>
 
     <h1 class="justify-content-center">This is the landing page</h1>
+    <div id="landing-header">
+        <h1>Welcome to Skate Spots!</h1>
+        <p>
+            <form action="/skateSpots" method="GET" class="form-inline">
+                <div class="form-group">
+                    <input type="text" name="search" placeholder="Skate Spot search..." class="form-control">
+                    <input type="submit" value="Search" class="btn btn-default">
+                </div>
+            </form>
+        </p>
+        <a href="/skateSpots" class="btn btn-info">View All Spots</a>
+    </div>
 
 <% include ./partials/footer %>
