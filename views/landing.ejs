@@ -1,17 +1,37 @@
 <% include ./partials/header %>
 
-    <h1 class="justify-content-center">This is the landing page</h1>
+   
     <div id="landing-header">
-        <h1>Welcome to Skate Spots!</h1>
+        <h1 class="text-center">Welcome to Skate Spots!</h1>
         <p>
-            <form action="/skateSpots" method="GET" class="form-inline">
-                <div class="form-group">
-                    <input type="text" name="search" placeholder="Skate Spot search..." class="form-control">
-                    <input type="submit" value="Search" class="btn btn-default">
+            <form id="searchForm" class="text-center" action="/skateSpots" method="GET" class="form-inline">
+                <div class="input-group">
+                    <input type="text" class="form-control" name="search" placeholder="Skate Spot search...">
+                    <span class="input-group-btn">
+                        <input class="btn btn-primary" type="submit" value="Search">
+                    </span>
                 </div>
             </form>
         </p>
-        <a href="/skateSpots" class="btn btn-info">View All Spots</a>
+        <p class="text-center">
+            .. or ..
+        </p>
+        <p class="text-center">
+            <a href="/skateSpots" class="btn btn-info">View All Spots</a>
+        </p> 
     </div>
+</div>
 
-<% include ./partials/footer %>
+
+<!-- jQuery CDN -->
+<script src="https://code.jquery.com/jquery-3.1.1.min.js"
+    integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8=" crossorigin="anonymous"></script>
+
+<!-- Bootstrap JS CDN -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
+    integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
+    crossorigin="anonymous"></script>
+</body>
+
+</html>
+

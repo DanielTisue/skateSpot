@@ -95,3 +95,15 @@ nav {
   margin-bottom: 10px;
   border-radius: 5px;
 }
+
+#searchForm {
+  width: 33%;
+  margin: 25px auto;
+  box-shadow: 7px 10px 12px -5px rgba(159, 159, 159, 0.4);
+}
+
+@media screen and (max-width: 700px) {
+  #searchForm {
+  width: 50%;
+  }
+}
