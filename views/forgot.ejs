@@ -1,0 +1,22 @@
+<% include ./partials/header %>
+
+<div class="row">
+  <div class="col-md-12">
+    <div style="width: 30%; margin: 25px auto;">
+      <form action="/forgot" method="POST">
+        <h3>
+          <legend>Forgot Your Password...</legend>
+        </h3>
+        <h4>Don't worry, you'll get a new one.</h4>
+        <div class="form-group">
+          <label for="email"></label>
+          <input type="email" name="email" autofocus class="form-control" placeholder="enter your email here">
+        </div>
+        <div class="form-group">
+          <input type="submit" class="btn btn-primary" value="Reset Password">
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+<% include ./partials/footer %>
