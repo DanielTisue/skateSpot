@@ -7,8 +7,44 @@ header {
   box-shadow: 7px 10px 12px -5px rgba(0, 0, 0, 0.3);
 }
 
+nav {
+  box-shadow: 7px 10px 12px -5px rgba(159, 159, 159, 0.3);
+}
+
+.btn {
+  box-shadow: 7px 10px 12px -5px rgba(159, 159, 159, 0.4);
+}
+
+.goBack {
+  margin: 10px;
+  padding: 5px;
+}
+
+/* Thumbnail & thumbnail image on index page */
 .thumbnail img {
   width: 100%;
+}
+
+#indexImg {
+  max-height: 240px;
+  border-top-left-radius: 15px; 
+  border-top-right-radius: 15px; 
+}
+@media screen and (max-width: 767px){
+  #indexImg {
+      max-height: 500px !important; /* not sure why I had to !important to get it to respond?*/
+    }
+}
+
+@media screen and (max-width: 1100px) {
+  #indexImg {
+    max-height: 231px;
+  }
+}
+@media screen and (min-width: 1200) {
+  #indexImg {
+    max-height: 241px;
+  }
 }
 
 .thumbnail {
@@ -17,30 +53,14 @@ header {
   padding: 0;
 }
 
-#indexImg {
-  max-width: 325px;
-  max-height: 250px;
-  justify-content: center;
-}
-
-.indexPageImage {
-  justify-content: center
-}
-
-#two {
-  padding-left: 100px;
-}
-
-.sectionSkate {
-  border-radius: 5px;
-  box-shadow: 7px 10px 12px -5px rgba(159, 159, 159, 0.3);
-  padding: 20px;
-}
-
-nav {
+div.col-sm-6 {
+  margin-bottom: 10px;
+  border-bottom-left-radius: 15px;
+  border-bottom-right-radius: 15px;
   box-shadow: 7px 10px 12px -5px rgba(159, 159, 159, 0.3);
 }
 
+/* show page  */
 .lead {
   box-shadow: 7px 10px 12px -5px rgba(159, 159, 159, 0.1);
 }
@@ -61,20 +81,12 @@ nav {
   border-top-left-radius: 5px;
 }
 
-.btn {
-  box-shadow: 7px 10px 12px -5px rgba(159, 159, 159, 0.4);
-}
-
 .well {
   background-color: rgba(50, 122, 183, 0.2);
   box-shadow: 7px 10px 12px -5px rgba(159, 159, 159, 0.3);
   border: none;
 }
 
-.goBack {
-  margin: 10px;
-  padding: 5px;
-}
 
 .comments-row {
   background-color: rgba(255, 255, 255, 0.5);
@@ -96,6 +108,7 @@ nav {
   border-radius: 5px;
 }
 
+/* Search form */
 #searchForm {
   width: 33%;
   margin: 25px auto;
