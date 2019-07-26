@@ -32,7 +32,7 @@ nav {
 }
 @media screen and (max-width: 767px){
   #indexImg {
-      max-height: 500px !important; /* not sure why I had to !important to get it to respond?*/
+      max-height: 500px !important; /* not sure why I had to use !important to get it to respond?*/
     }
 }
 
@@ -53,14 +53,17 @@ nav {
   padding: 0;
 }
 
-div.col-sm-6 {
-  margin-bottom: 10px;
+.skateCard{
   border-bottom-left-radius: 15px;
   border-bottom-right-radius: 15px;
-  box-shadow: 7px 10px 12px -5px rgba(159, 159, 159, 0.3);
+  box-shadow: 0px 10px 12px -5px rgba(159, 159, 159, 0.3);
 }
 
-/* show page  */
+div.col-sm-6 {
+  margin-bottom: 10px;
+}
+
+/* Show page  */
 .lead {
   box-shadow: 7px 10px 12px -5px rgba(159, 159, 159, 0.1);
 }

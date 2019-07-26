@@ -1,0 +1,38 @@
+body {
+  background: #DCF5FF;
+  margin: 0;
+  height: 100vh;
+  display: -ms-grid;
+  display: grid;
+  justify-items: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  font-family: sans-serif;
+}
+
+.container {
+  width: 95%;
+  background: white;
+  border-radius: 10px;
+}
+
+.container .inner {
+  background: #00B6FF;
+  padding: 1em;
+  border-radius: 10px;
+  width: 100%;
+  -webkit-clip-path: circle(50% at 0% 0%);
+          clip-path: circle(50% at 0% 0%);
+}
+
+.container .inner h1 {
+  color: white;
+  margin: 0;
+}
+
+.container .inner p {
+  color: white;
+  font-size: .8rem;
+}
+/*# sourceMappingURL=landingstyle.css.map */
