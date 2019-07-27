@@ -5,32 +5,42 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Skate Spots</title>
-    <link rel="stylesheet" href="stylesheets/landingstyle.css">
+    <link rel="stylesheet" href="stylesheets/landingstyles.css">
 </head>
 <body>
-<div class="container">
-    <div class="inner">
-        <h1>Welcome to Skate Spots!</h1>
-        <p>
-            <form id="searchForm" class="text-center" action="/skateSpots" method="GET" class="form-inline">
-                <div class="input-group">
-                    <input type="text" class="form-control" name="search" placeholder="Skate Spot search...">
-                    <span class="input-group-btn">
-                        <input class="btn btn-primary" type="submit" value="Search">
-                    </span>
-                </div>
-            </form>
-        </p>
-        <p class="text-center">
-            .. or ..
-        </p>
-        <p class="text-center">
-            <a href="/skateSpots" class="btn btn-info">View All Spots</a>
-        </p>
-    </div>
-</div>
+    <div id="bg"></div>
+    <header>
+        <!-- <h3>Skate Spots</h3> -->
+    </header>
+    <main>
+        <section id="card">
+            <svg height="100%" width="100%">
+                <text x="50%" y="50%" text-anchor="middle">SKATE SPOTS</text>
+            </svg>
+        </section>
+        <section id="primary">
 
+            <p>
+                <form id="searchForm" action="/skateSpots" method="GET">
+                        <input type="text" name="search" placeholder="Skate Spot search...">
+                        <input class="btn" type="submit" value="Search">
+                </form>
+            </p>
 
+            <p>
+                .. or ..
+            </p>
+           
+            <a href="/skateSpots" class="btn">View All Spots</a>
+        </section>
+
+        <section id="content">
+            <video src=""></video>
+        </section>
+    </main>
+    <footer>
+
+    </footer>
 
 </body>
 </html>
