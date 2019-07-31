@@ -9,6 +9,7 @@ body {
   background-repeat: no-repeat;
   background-size: cover;
   background-position: center;
+  height: 100vh;
 }
 
 body #bg {
@@ -20,14 +21,6 @@ body #bg {
   z-index: -1;
 }
 
-body header {
-  text-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
-  color: #fff;
-  text-transform: uppercase;
-  padding: 15px;
-  display: block;
-}
-
 main {
   display: -ms-grid;
   display: grid;
@@ -36,22 +29,62 @@ main {
   grid-auto-rows: 200px;
 }
 
-main section#card {
+main div {
   -ms-grid-column: 1;
       grid-column-start: 1;
   grid-column-end: 4;
   -ms-grid-row: 1;
       grid-row-start: 1;
-  grid-row-end: 3;
+  grid-row-end: 1;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: start;
+      -ms-flex-pack: start;
+          justify-content: flex-start;
+  padding: 15px;
 }
 
-main section#card svg {
+main div a.btn {
+  margin: 20px;
+  padding: 10px;
+  text-decoration: none;
+  font-size: 14px;
+  letter-spacing: 2px;
+  font-weight: 600;
+  color: #327ab7;
+  border: 1px solid #327ab7;
+  border-radius: 5px;
+  -webkit-box-shadow: 0 2px 3px rgba(0, 0, 0, 0.2);
+          box-shadow: 0 2px 3px rgba(0, 0, 0, 0.2);
+  background-color: #fff;
+  height: 20px;
+}
+
+main div a.btn i {
+  padding: 5px;
+}
+
+main div a.btn:hover {
+  color: #fff;
+  background-color: #8ab8df;
+}
+
+main section#title {
+  -ms-grid-column: 1;
+      grid-column-start: 1;
+  grid-column-end: 4;
+  -ms-grid-row: 2;
+      grid-row-start: 2;
+  grid-row-end: 2;
+}
+
+main section#title svg {
   font-size: 6.5rem;
   font-weight: bold;
   letter-spacing: 10px;
-  text-shadow: 0 2px 2px rgba(0, 0, 0, 0.8);
-  border-radius: 15px;
-  fill: #eeeeee;
+  text-shadow: 10px 5px 5px rgba(0, 0, 0, 0.8);
+  fill: #fff;
 }
 
 main section#primary {
@@ -87,9 +120,19 @@ main section#primary form input {
 main section#primary form input.btn {
   background-color: #327ab7;
   color: #fff;
+  font-weight: 600;
   -webkit-box-shadow: 0 2px 3px rgba(0, 0, 0, 0.2);
           box-shadow: 0 2px 3px rgba(0, 0, 0, 0.2);
   width: 25%;
+}
+
+main section#primary form input.btn:hover {
+  color: #173753;
+  background-color: #8ab8df;
+}
+
+main section#primary i {
+  padding-right: 10px;
 }
 
 main section#primary a {
@@ -105,8 +148,9 @@ main section#primary a {
           justify-content: center;
   text-decoration: none;
   font-size: 14px;
+  letter-spacing: 2px;
+  font-weight: 600;
   color: #327ab7;
-  text-transform: uppercase;
   border: 1px solid #327ab7;
   border-radius: 5px;
   -webkit-box-shadow: 0 2px 3px rgba(0, 0, 0, 0.2);
@@ -115,6 +159,11 @@ main section#primary a {
   margin: 0 auto;
   width: 150px;
   background-color: #fff;
+}
+
+main section#primary a:hover {
+  color: #fff;
+  background-color: #8ab8df;
 }
 
 @media screen and (max-width: 1000px) {
@@ -130,14 +179,27 @@ main section#primary a {
         grid-row-start: 3;
     grid-row-end: 4;
   }
-  main section#card svg {
+  main section#title svg {
     font-size: 4rem;
   }
 }
 
 @media screen and (max-width: 660px) {
-  main section#card svg {
-    font-size: 2rem;
+  main div {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-pack: center;
+        -ms-flex-pack: center;
+            justify-content: center;
+  }
+  main div a.btn {
+    padding-bottom: 15px;
+    font-size: 12px;
+    height: 14px;
+  }
+  main section#title svg {
+    font-size: 2.7rem;
   }
 }
 /*# sourceMappingURL=landingstyles.css.map */
