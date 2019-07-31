@@ -10,7 +10,16 @@ header {
 nav {
   box-shadow: 7px 10px 12px -5px rgba(159, 159, 159, 0.3);
 }
-
+.navbar-brand img{
+  width: 50%;
+  opacity: .6;
+}
+.navbar-brand img:hover {
+  opacity: 1;
+}
+i {
+  margin-right: 10px;
+}
 .btn {
   box-shadow: 7px 10px 12px -5px rgba(159, 159, 159, 0.4);
 }

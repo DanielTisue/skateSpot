@@ -3,7 +3,7 @@
  <div class="background"></div>   
         <div class="row">
             <div class="col-md-3" id="locationShow">
-                    <h4 class="lead"><strong>Location</strong></h4>
+                    <h4 class="lead"><strong><i class="fas fa-location-arrow fa-sm"></i>Location</strong></h4>
                     <div id="map"></div>
             </div>
             
@@ -28,7 +28,7 @@
                     </div>
                     <div class="well">
                         <div class="text-center">
-                          <a class="btn btn-success" href="/skateSpots/<%= skatespot._id %>/comments/new">Leave a Review</a>  
+                          <a class="btn btn-success" href="/skateSpots/<%= skatespot._id %>/comments/new"><i class="fas fa-comments"></i>Comments</a>  
                         </div>
                         <hr>
                         <% skatespot.comments.forEach(function(comment){ %>
