@@ -14,7 +14,7 @@ router.get("/register", (req, res) => {
 //Handle sign up logic:
 router.post("/register", (req, res) => {
     const newUser = new User({username: req.body.username, email: req.body.email});
-    User.register(newUser, req.body.password, function(err, user){
+    User.register(newUser, req.body.password, function(err, newUser){
         if(err){
           req.flash("error", "Username already exists!")
           res.redirect("/register");
@@ -30,12 +30,12 @@ router.post("/register", (req, res) => {
 
 // LOGIN: show login form
 router.get("/login", (req, res) => {
-  res.render("login", {page: 'login'}); 
+  res.render("login"); 
 });
 // LOGIN: Handling login logic:
 router.post("/login", passport.authenticate("local", 
     {     
-        successRedirect: "/skateSpots",
+        successRedirect: "/skatespots",
         failureRedirect: "/login",
         failureFlash: true,
         successFlash: "You now have access to Skate Spots!"
