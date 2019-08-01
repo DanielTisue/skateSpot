@@ -10,7 +10,7 @@ const express = require("express"),
   Skatespot = require("./models/skatespot"),
   Comment = require("./models/comment"),
   User = require("./models/user");
- // seedDB = require("./seeds");
+
 
 //require routes
 const commentRoutes = require("./routes/comments"),
@@ -32,7 +32,6 @@ app.set("view engine", "ejs");
 app.use(express.static(__dirname + "/public"));
 app.use(methodOverride("_method"));
 app.use(flash());
-//seedDB();
 
 //Passport Config
 app.use(
