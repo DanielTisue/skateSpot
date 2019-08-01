@@ -138,10 +138,10 @@ router.post(
           };
     // Create a new skatespot and save to DB
     const newlyCreated = await Skatespot.create(newSkatespot);
-    res.redirect("/skateSpots/" + newlyCreated.id);
+    res.redirect("/skatespots/" + newlyCreated.id);
   } catch(err) {
     req.flash("error", err.message);
-    res.redirect("/skateSpots/new");
+    res.redirect("/skatespots/new");
   }
 });
 

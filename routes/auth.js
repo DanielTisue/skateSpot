@@ -9,19 +9,24 @@ const express =   require("express"),
 
 // RESGISTER: show register form
 router.get("/register", (req, res) => {
-   res.render("register", {page: 'register'}); 
+   res.render("register"); 
 });
 //Handle sign up logic:
 router.post("/register", (req, res) => {
-    const newUser = new User({username: req.body.username, email: req.body.email});
-    User.register(newUser, req.body.password, function(err, newUser){
+    const newUser = new User(
+      {
+      username: req.body.username, 
+      email: req.body.email
+      }
+    );
+    User.register(newUser, req.body.password, function(err, user){
         if(err){
           req.flash("error", "Username already exists!")
-          res.redirect("/register");
+          return res.redirect("/register");
         }
         passport.authenticate("local")(req, res, function(){
-          req.flash("success", `You're successfully signed up! Welcome to Skate Spots ${newUser.username}!`);
-          res.redirect("/skateSpots"); 
+          req.flash("success", `You're successfully signed up! Welcome to Skate Spots ${user.username}!`);
+          res.redirect("/skatespots"); 
         });
     });
 });
@@ -223,7 +228,7 @@ router.post("/reset/:token", function(req, res) {
         req.flash("error", "Your password could not be changed. Try again.");
         return res.redirect("back");
       }
-      res.redirect("/skateSpots");
+      res.redirect("/skatespots");
     }
   );
 });
@@ -232,7 +237,7 @@ router.post("/reset/:token", function(req, res) {
 router.get("/logout", (req, res) => {
   req.logout();
   req.flash("success", "LOGGED OUT - Successfully");
-  res.redirect("/skateSpots");
+  res.redirect("/skatespots");
 });
 
 

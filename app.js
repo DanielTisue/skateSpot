@@ -55,8 +55,8 @@ app.use(function(req, res, next) {
 });
 
 app.use("/", authRoutes);
-app.use("/skateSpots", skatespotRoutes);
-app.use("/skateSpots/:id/comments", commentRoutes);
+app.use("/skatespots", skatespotRoutes);
+app.use("/skatespots/:id/comments", commentRoutes);
 
 app.get("/", (req, res) => {
   res.render("landing");
