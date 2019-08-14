@@ -1,4 +1,4 @@
-//photo credit * Max Tarkhov * 
+//photo credit * Max Tarkhov * - unsplash
 
 $colors: (
   primary: #327ab7,
@@ -42,10 +42,10 @@ body {
   height: 100vh;
 
    #bg {
-    background-color: color(primary);
+    background-color: color(secondary);
     width: 100%;
     height: 100%;
-    opacity: .5;
+    opacity: .3;
     position: fixed;
     z-index: -1;
     }
@@ -62,7 +62,7 @@ main {
     grid-row-start: 1;
     grid-row-end: 1;
     display: flex;
-    justify-content: flex-start;
+    justify-content: flex-end;
     padding: 15px;
 
     a.btn{
@@ -72,19 +72,103 @@ main {
       font-size: 14px;
       letter-spacing: 2px;
       font-weight: 600;
-      color: color(primary);
-      border: 1px solid color(primary);
+      color: color(secondary);
+      border-bottom: 1px solid color(secondary);
       border-radius: 5px;
-      box-shadow: 0 2px 3px rgba(0,0,0,.2);
-      background-color: color(secondary);
+      text-shadow: 3px 2px 3px rgba(0,0,0,.8);
       height: 20px;
       i {
         padding: $padding-small;
       }
       &:hover{
-        color: color(secondary);
+        color: color(primary);
         background-color: color(lp);
+        text-shadow: none;
       }
+    }
+ }
+
+ div.spot1{
+    grid-column-start: 1;
+    grid-column-end: 2;
+    grid-row-start: 1;
+    grid-row-end: 1;
+    display: flex;
+    justify-content: flex-start;
+    margin: 0;
+    padding-left: 100px;
+    z-index: -1;
+
+   svg {
+      font-size: 6.5rem;
+      font-weight: 400;
+      letter-spacing: 10px;
+      opacity: .5;
+      fill: #000;
+      filter:blur(2px);
+      overflow: visible;
+    }
+ }
+ div.spot2{
+    grid-column-start: 1;
+    grid-column-end: 4;
+    grid-row-start: 2;
+    grid-row-end: 2;
+    display: flex;
+    justify-content: flex-start;
+    margin: 0;
+    z-index: -1;
+
+   svg {
+      font-size: 6.5rem;
+      font-weight: 400;
+      letter-spacing: 10px;
+      opacity: .5;
+      fill: #000;
+      filter:blur(8px);
+      overflow: visible;
+    }
+ }
+ div.spot3{
+    grid-column-start: 1;
+    grid-column-end: 2;
+    grid-row-start: 3;
+    grid-row-end: 3;
+    display: flex;
+    justify-content: flex-start;
+    margin: 0;
+    padding-left: 100px;
+    z-index: -1;
+
+   svg {
+      font-size: 6.5rem;
+      font-weight: 400;
+      letter-spacing: 10px;
+      opacity: .5;
+      fill: #000;
+      filter:blur(2px);
+      overflow: visible;
+    }
+ }
+ div.spot4{
+    grid-column-start: 1;
+    grid-column-end: 2;
+    grid-row-start: 4;
+    grid-row-end: 4;
+    display: flex;
+    justify-content: flex-start;
+    margin: 0;
+    padding-left: 100px;
+    z-index: -1;
+
+   svg {
+      font-size: 6.5rem;
+      font-weight: 400;
+      letter-spacing: 10px;
+      opacity: .5;
+      fill: #000;
+      filter:blur(2px);
+      overflow: visible;
     }
  }
   section#title{
@@ -95,11 +179,11 @@ main {
 
     svg {
       font-size: 6.5rem;
-      font-weight: bold;
+      font-weight: 400;
       letter-spacing: 10px;
-      text-shadow: 10px 5px 5px rgba(0,0,0,.8);
       fill: color(secondary);
     }
+    
   }
 
   section#primary{
@@ -180,7 +264,46 @@ main {
       grid-row-start: 3;
       grid-row-end: 4;
     }
-
+    div.spot1{
+      display: flex;
+      justify-content: flex-start;
+      padding: 0;
+      margin:0;
+      svg{
+        font-size: 4rem;
+        overflow: visible;
+      } 
+    }
+    div.spot2{
+      display: flex;
+      justify-content: flex-start;
+      padding: 0;
+      margin:0;
+     svg{
+        font-size: 4rem;
+        overflow: visible;
+      }  
+    }
+    div.spot3{
+      display: flex;
+      justify-content: flex-start;
+      padding: 0;
+      margin:0;
+     svg{
+        font-size: 4rem;
+        overflow: visible;
+      }  
+    }
+    div.spot4{
+      display: flex;
+      justify-content: flex-start;
+      padding: 0;
+      margin:0;
+      svg{
+        font-size: 4rem;
+        overflow: visible;
+      } 
+    }
     section#title{
       svg {
         font-size: 4rem;
@@ -199,6 +322,43 @@ main {
         font-size: 12px;
         height: 14px;
         }
+    }
+     div.spot1{
+      display: flex;
+      justify-content: flex-start;
+      padding: 0;
+      margin:0;
+       svg{
+        font-size: 2.7rem;
+        overflow: visible;
+       } 
+    }
+    div.spot2{
+     svg{
+       font-size: 2.7rem;
+       overflow: visible;
+     } 
+    }
+    div.spot3{
+      display: flex;
+      justify-content: flex-start;
+      padding:0;
+      margin: 0;
+     svg{
+        
+        font-size: 2.7rem;
+        overflow: visible;
+     } 
+    }
+    div.spot4{
+      display: flex;
+      justify-content: flex-start;
+      padding:0;
+      margin: 0;
+      svg{
+          font-size: 2.7rem;
+          overflow: visible;
+      }
     }
     section#title {
       svg {
