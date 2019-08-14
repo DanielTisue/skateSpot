@@ -54,7 +54,7 @@ body {
 main {
   display: grid;
   // grid-template-columns: repeat(2, 1fr);
-  grid-template-rows: 250px;
+  grid-template-rows: repeat(4, 25vh);
  
   div {
     grid-column-start: 1;
@@ -63,7 +63,8 @@ main {
     grid-row-end: 1;
     display: flex;
     justify-content: flex-end;
-    padding: 15px;
+    align-items: flex-start;
+    padding: 10px;
 
     a.btn{
       margin: 20px;
@@ -123,9 +124,8 @@ main {
       font-size: 6rem;
       font-weight: 400;
       letter-spacing: 10px;
-      opacity: .5;
       fill: #000;
-      filter:blur(7.5px);
+      filter:blur(7px);
       overflow: visible;
     }
  }
@@ -215,6 +215,8 @@ main {
       margin:0;
      svg{
         font-size: 4rem;
+        // filter:blur(2px);
+        opacity: 1;
         overflow: visible;
       }  
     }
@@ -251,6 +253,8 @@ main {
     div{
       display: flex;
       justify-content: center;
+      align-items: flex-start;
+      padding: 0;
         a.btn{
         padding-bottom: 15px;
         font-size: 12px;
@@ -269,6 +273,8 @@ main {
     }
     div.spot2{
      svg{
+      //  filter:blur(2px);
+        opacity: 1;
        font-size: 2.0rem;
        overflow: visible;
      } 
