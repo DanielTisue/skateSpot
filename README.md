@@ -1,4 +1,4 @@
-### SkateSpots
+# SkateSpots
 Skate Spots is a skate spot search site for the skateboard community. Users upload either their own personal favorite spots or known spots. Users also have the ability to comment/ rate other spots.
 
 ## Motivation
@@ -8,7 +8,7 @@ This project was created to fufill a need for new skateboarders. New could be de
 <b>Built with</b>
 - Html, Css, Javascript, Bootstrap 3
 - Node.Js, MongoDb, Express/EJs
-# Other Dependencies Used
+### Other Dependencies Used
   async
   body-parser
   connect-flash
