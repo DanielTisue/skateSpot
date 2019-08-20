@@ -9,18 +9,18 @@ This project was created to fufill a need for new skateboarders. New could be de
 - Html, Css, Javascript, Bootstrap 3
 - Node.Js, MongoDb, Express/EJs
 ### Other Dependencies Used
-  async
-  body-parser
-  connect-flash
-  express-session
-  method-override     
-  multer
-  multer-storage-cloudinary
-  node-geocoder
-  nodemailer
-  passport
-  passport-local
-  passport-local-mongoose
+  * async
+  * body-parser
+  * connect-flash
+  * express-session
+  * method-override     
+  * multer
+  * multer-storage-cloudinary
+  * node-geocoder
+  * nodemailer
+  * passport
+  * passport-local
+  * passport-local-mongoose
 
 ## Features
 This project uses restful routing, nosql data models with MongoDb, pagination, intersite search query ability, nodemailer for password reset, user authentication and middleware security, async, geolocation, and image upload capability. 
@@ -37,14 +37,14 @@ You can visit this site at http://www.theskatespots.com
 
 ## Credits
 All current photos from https://www.unsplash.com :
-Anthony Mapp
-Flo Karr
-Heath Thistle
-Joe Cooke
-Josh Hild
-Kirk Morales
-Mateo Avila
-Max Tarkhov
-Obed Hernandez
-Scott Osborne
-Shawn Henry
+* Anthony Mapp
+* Flo Karr
+* Heath Thistle
+* Joe Cooke
+* Josh Hild
+* Kirk Morales
+* Mateo Avila
+* Max Tarkhov
+* Obed Hernandez
+* Scott Osborne
+* Shawn Henry
