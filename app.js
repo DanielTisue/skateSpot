@@ -19,6 +19,7 @@ const commentRoutes = require("./routes/comments"),
 
 mongoose.connect(process.env.DATABASEURL, { useNewUrlParser: true });
 // mongoose.connect("mongodb://localhost/slam_spot", { useNewUrlParser: true, useFindAndModify: false });
+
 mongoose.connection
   .once("open", function() {
     console.log("Connection to DB made");

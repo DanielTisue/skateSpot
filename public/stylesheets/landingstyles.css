@@ -349,8 +349,8 @@ main section#title svg {
   main div a.btn {
     padding: 5px;
     margin-top: 15px;
-    font-size: 14px;
-    height: 1.2rem;
+    font-size: 12px;
+    letter-spacing: 3px;
   }
   main div a.btn i {
     display: none;
