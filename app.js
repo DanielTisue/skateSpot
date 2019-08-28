@@ -17,8 +17,8 @@ const commentRoutes = require("./routes/comments"),
   skatespotRoutes = require("./routes/skatespots"),
   authRoutes = require("./routes/auth");
 
-mongoose.connect(process.env.DATABASEURL, { useNewUrlParser: true });
-//  mongoose.connect("mongodb://localhost/slam_spot", { useNewUrlParser: true, useFindAndModify: false });
+//mongoose.connect(process.env.DATABASEURL, { useNewUrlParser: true });
+mongoose.connect("mongodb://localhost/slam_spot", { useNewUrlParser: true, useFindAndModify: false });
 mongoose.connection
   .once("open", function() {
     console.log("Connection to DB made");
@@ -62,9 +62,9 @@ app.get("/", (req, res) => {
   res.render("landing");
 });
 
-// app.listen(3000, () => {
+app.listen(3000, () => {
+   console.log("Server Started!");
+ });
+// app.listen(process.env.PORT, process.env.IP, () => {
 //   console.log("Server Started!");
 // });
-app.listen(process.env.PORT, process.env.IP, () => {
-  console.log("Server Started!");
-});
