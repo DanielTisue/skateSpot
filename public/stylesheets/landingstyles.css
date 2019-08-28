@@ -1,3 +1,11 @@
+:root:before {
+  content: url(max-tarkhov-skateDeck.jpg);
+  background-image: url(max-tarkhov-skateDeck.jpg);
+  visibility: hidden;
+  position: absolute;
+  left: -999em;
+}
+
 body, html {
   height: 100%;
 }
