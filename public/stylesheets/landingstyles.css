@@ -346,6 +346,9 @@ main section#title svg {
 }
 
 @media screen and (max-width: 530px) {
+  body {
+    background: #327ab7;
+  }
   main div a.btn {
     padding: 5px;
     margin-top: 15px;
