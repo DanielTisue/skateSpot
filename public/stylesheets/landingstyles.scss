@@ -34,23 +34,6 @@ $borders: (15px);
   } 
 }
 
-// image preload option
-:root:before {
-content: url(max-tarkhov-skateDeck.jpg);
-background-image: url(max-tarkhov-skateDeck.jpg);
-visibility: hidden;
-position: absolute;
-left: -999em;
-#bg {
-    background-color: color(secondary);
-    width: 100%;
-    height: 100%;
-    opacity: .3;
-    position: fixed;
-    z-index: -1;
-    }
-}
-
 body, html {
   height: 100%;
 }
