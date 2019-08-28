@@ -41,6 +41,14 @@ background-image: url(max-tarkhov-skateDeck.jpg);
 visibility: hidden;
 position: absolute;
 left: -999em;
+#bg {
+    background-color: color(secondary);
+    width: 100%;
+    height: 100%;
+    opacity: .3;
+    position: fixed;
+    z-index: -1;
+    }
 }
 
 body, html {
@@ -55,7 +63,7 @@ body {
   background-size: cover;
   background-position: center;
   height: 100vh;
-
+  
    #bg {
     background-color: color(secondary);
     width: 100%;
