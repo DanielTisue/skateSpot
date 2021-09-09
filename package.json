@@ -1,7 +1,7 @@
 {
   "name": "skatespot",
   "version": "1.0.0",
-  "description": "",
+  "description": "Skate Spots is a skate spot search site for the skateboard community. Users upload either their own personal favorite spots or known spots. Users also have the ability to comment/ rate other spots.",
   "main": "app.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
@@ -10,22 +10,30 @@
   "author": "dpt",
   "license": "ISC",
   "dependencies": {
-    "async": "^3.1.0",
-    "body-parser": "^1.18.3",
-    "cloudinary": "^1.14.0",
+    "async": "^3.2.1",
+    "body-parser": "^1.19.0",
+    "cloudinary": "^1.26.3",
     "connect-flash": "^0.1.1",
-    "dotenv": "^8.0.0",
-    "ejs": "^2.6.1",
-    "express": "^4.16.4",
-    "express-session": "^1.15.6",
+    "dotenv": "^10.0.0",
+    "ejs": "^2.7.4",
+    "express": "^4.17.1",
+    "express-session": "^1.17.2",
     "method-override": "^3.0.0",
-    "mongoose": "^5.4.19",
-    "multer": "^1.4.1",
+    "mongoose": "^5.12.0",
+    "multer": "^1.4.3",
     "multer-storage-cloudinary": "^2.2.1",
-    "node-geocoder": "^3.23.0",
-    "nodemailer": "^6.3.0",
-    "passport": "^0.4.0",
+    "node-geocoder": "^3.27.0",
+    "nodemailer": "^6.6.3",
+    "passport": "^0.4.1",
     "passport-local": "^1.0.0",
     "passport-local-mongoose": "^5.0.1"
-  }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/DanielTisue/skateSpot.git"
+  },
+  "bugs": {
+    "url": "https://github.com/DanielTisue/skateSpot/issues"
+  },
+  "homepage": "https://github.com/DanielTisue/skateSpot#readme"
 }
