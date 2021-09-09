@@ -1,4 +1,4 @@
-require("dotenv").config();
+require("dotenv").config({ path: '.env' });
 const express = require("express"),
   app = express(),
   bodyParser = require("body-parser"),
@@ -17,7 +17,7 @@ const commentRoutes = require("./routes/comments"),
   skatespotRoutes = require("./routes/skatespots"),
   authRoutes = require("./routes/auth");
 
-mongoose.connect(process.env.DATABASEURL, { useNewUrlParser: true });
+mongoose.connect(process.env.DATABASEURL, { useNewUrlParser: true, useFindAndModify: false, useUnifiedTopology: true });
 // mongoose.connect("mongodb://localhost/slam_spot", { useNewUrlParser: true, useFindAndModify: false });
 
 mongoose.connection
@@ -28,7 +28,7 @@ mongoose.connection
     console.log("Connection error:", error);
   });
 
-app.use(bodyParser.urlencoded({ extended: true }));
+app.use(express.json({ extended: true }));
 app.set("view engine", "ejs");
 app.use(express.static(__dirname + "/public"));
 app.use(methodOverride("_method"));
@@ -63,9 +63,9 @@ app.get("/", (req, res) => {
   res.render("landing");
 });
 
-// app.listen(3000, () => {
-//    console.log("Server Started!");
-//  });
-app.listen(process.env.PORT, process.env.IP, () => {
-  console.log("Server Started!");
-});
+app.listen(3000, () => {
+   console.log("Server Started!");
+ });
+// app.listen(process.env.PORT, process.env.IP, () => {
+//   console.log("Server Started!");
+// });
