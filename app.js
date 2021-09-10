@@ -17,16 +17,15 @@ const commentRoutes = require("./routes/comments"),
   skatespotRoutes = require("./routes/skatespots"),
   authRoutes = require("./routes/auth");
 
-mongoose.connect(process.env.DATABASEURL, { useNewUrlParser: true, useFindAndModify: false, useUnifiedTopology: true });
+mongoose.connect(process.env.DATABASEURL, { useNewUrlParser: true, useFindAndModify: false, useUnifiedTopology: true, useCreateIndex: true });
 // mongoose.connect("mongodb://localhost/slam_spot", { useNewUrlParser: true, useFindAndModify: false });
+const connection = mongoose.connection;
+connection.once('open', () => {
+  console.log('Database is connected!');
+})
+// mongoose.set('useFindAndModify', false);
+// mongoose.set('useCreateIndex', true);
 
-mongoose.connection
-  .once("open", function() {
-    console.log("Connection to DB made");
-  })
-  .on("error", function(error) {
-    console.log("Connection error:", error);
-  });
 
 app.use(express.json({ extended: true }));
 app.set("view engine", "ejs");
