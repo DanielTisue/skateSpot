@@ -1,7 +1,6 @@
 require("dotenv").config({ path: '.env' });
 const express = require("express"),
   app = express(),
-  bodyParser = require("body-parser"),
   mongoose = require("mongoose"),
   flash = require("connect-flash"),
   passport = require("passport"),
@@ -17,15 +16,12 @@ const commentRoutes = require("./routes/comments"),
   skatespotRoutes = require("./routes/skatespots"),
   authRoutes = require("./routes/auth");
 
+//db config
 mongoose.connect(process.env.DATABASEURL, { useNewUrlParser: true, useFindAndModify: false, useUnifiedTopology: true, useCreateIndex: true });
-// mongoose.connect("mongodb://localhost/slam_spot", { useNewUrlParser: true, useFindAndModify: false });
 const connection = mongoose.connection;
 connection.once('open', () => {
   console.log('Database is connected!');
 })
-// mongoose.set('useFindAndModify', false);
-// mongoose.set('useCreateIndex', true);
-
 
 app.use(express.json({ extended: true }));
 app.set("view engine", "ejs");
@@ -62,9 +58,6 @@ app.get("/", (req, res) => {
   res.render("landing");
 });
 
-app.listen(3000, () => {
+app.listen(process.env.PORT || 3000, () => {
    console.log("Server Started!");
  });
-// app.listen(process.env.PORT, process.env.IP, () => {
-//   console.log("Server Started!");
-// });
