@@ -14,28 +14,25 @@ const options = {
 const geocoder = NodeGeocoder(options);
 
 // Multer setup/ config
-const crypto = require("crypto");
 const multer = require("multer");
-const cloudinary = require("cloudinary");
+const cloudinary = require("cloudinary").v2;
 cloudinary.config({
   cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
   api_key: process.env.CLOUDINARY_API_KEY,
   api_secret: process.env.CLOUDINARY_API_SECRET
 });
-const cloudinaryStorage = require("multer-storage-cloudinary");
-const storage = cloudinaryStorage({
+const { CloudinaryStorage } = require("multer-storage-cloudinary");
+const storage = new CloudinaryStorage({
   cloudinary: cloudinary,
+  params: {
   folder: "skateSpots",
+  public_id: (req, file) => file.filename,
   allowedFormats: ["jpeg", "jpg", "png"],
-  filename: function(req, file, cb) {
-    let buf = crypto.randomBytes(16);
-    buf = buf.toString("hex");
-    let uniqFileName = file.originalname.replace(/\.jpeg|\.jpg|\.png/gi, "");
-    uniqFileName += buf;
-    cb(undefined, uniqFileName);
-  }
+  format: async () => "jpg",
+  transformation: [{ width: 500, crop: 'fit'}]
+}
 });
-const upload = multer({ storage });
+const upload = multer({ storage: storage });
 
 function escapeRegex(text) {
     return text.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, "\\$&");
@@ -112,7 +109,7 @@ router.post(
       if ( req.file) {
         req.body.image = {
             url: req.file.secure_url,
-            public_id: req.file.public_id
+            public_id: req.file.filename
           };
         }
         // get data from form and add to skatespots array
@@ -195,8 +192,8 @@ router.put(
         skatespot.location = newLocation[0].formattedAddress;
       }
       if (req.file) {
-        await cloudinary.v2.uploader.destroy(skatespot.image.public_id);
-        skatespot.image.public_id = req.file.public_id;
+        await cloudinary.uploader.destroy(skatespot.image.public_id);
+        skatespot.image.public_id = req.file.filename;
         skatespot.image.url = req.file.secure_url;
       }
       await skatespot.save();
@@ -220,7 +217,7 @@ router.delete(
         req.flash("error", "UH OH...Something went wrong!");
         res.redirect("/skatespots");
       } else {
-        await cloudinary.v2.uploader.destroy(skatespot.image.public_id);
+        await cloudinary.uploader.destroy(skatespot.image.public_id);
         await skatespot.remove();
         req.flash("success", "Skate Spot deleted successfully!");
         res.redirect("/skatespots");
