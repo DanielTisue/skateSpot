@@ -12,6 +12,7 @@ router.get("/register", (req, res) => {
    res.render("register"); 
 });
 //Handle sign up logic:
+
 router.post("/register", (req, res) => {
     const newUser = new User(
       {
@@ -19,8 +20,10 @@ router.post("/register", (req, res) => {
       email: req.body.email
       }
     );
+    console.log(newUser);
     User.register(newUser, req.body.password, function(err, user){
         if(err){
+          console.log(err);
           req.flash("error", "Username already exists!")
           return res.redirect("/register");
         }
