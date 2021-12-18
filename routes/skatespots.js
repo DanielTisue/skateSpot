@@ -152,9 +152,7 @@ router.get("/:id", (req, res) => {
         req.flash("error", "Skate Spot doesn't exist!");
         res.redirect("back");
       } else {
-        // if (!foundSkatespot) {
-        //     return res.status(400).send("Item not found.")
-        // }
+        
         res.render("skatespots/show", { skatespot: foundSkatespot });
       }
     });
