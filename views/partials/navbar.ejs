@@ -1,0 +1,32 @@
+<nav class="navbar sticky-top navbar-expand-lg navbar-light bg-light">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="/"><img src="https://res.cloudinary.com/danieltisue/image/upload/v1562718012/skateSpots/skateboardIcon.png"></a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+      <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
+        <ul class="navbar-nav align-items-end">
+              <li class="nav-item" >
+                <a class="nav-link" href="/skatespots"><i class="fas fa-globe-americas"></i><span class="navlink-text">Skate Spots</span></a>
+              </li>
+              <% if(!currentUser){ %>
+              <li class="nav-item" >
+                <a class="nav-link" href="/login"><i class="fas fa-user"></i><span class="navlink-text">Login</span></a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="/register"><i class="fas fa-users"></i><span class="navlink-text">Sign Up</span></a>
+              </li>
+              <% } else { %>
+              <li class="nav-item">
+                <a class="nav-link" href="#">
+                <span class="navlink-text">SIGNED IN as ...
+                  <strong><%= currentUser.username %></strong></span>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="/logout"><span class="navlink-text">Logout</span></a></li>
+              <% } %>
+            </ul>
+      </div>
+  </div>
+</nav>

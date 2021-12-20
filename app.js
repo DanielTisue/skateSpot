@@ -1,20 +1,21 @@
 require("dotenv").config({ path: '.env' });
-const express = require("express"),
-      app = express(),
-      mongoose = require("mongoose"),
-      flash = require("connect-flash"),
-      passport = require("passport"),
-      LocalStrategy = require("passport-local"),
-      methodOverride = require("method-override"),
-      Skatespot = require("./models/skatespot"),
-      Comment = require("./models/comment"),
-      User = require("./models/user");
+const express = require('express'), //updated
+      mongoose = require('mongoose'),
+      ejsMate = require('ejs-mate'), //new
+      path = require('path'), //new exprees built in method
+      flash = require('connect-flash'),
+      passport = require('passport'), //updated
+      LocalStrategy = require('passport-local'), //updated
+      methodOverride = require('method-override'),
+      Skatespot = require('./models/skatespot'),
+      Comment = require('./models/comment'),
+      User = require('./models/user');
 
 
 //require routes
-const commentRoutes = require("./routes/comments"),
-  skatespotRoutes = require("./routes/skatespots"),
-  authRoutes = require("./routes/auth");
+const commentRoutes = require('./routes/comments'),
+      skatespotRoutes = require('./routes/skatespots'),
+      authRoutes = require('./routes/auth');
 
 //db config
 mongoose.connect(process.env.DATABASEURL, { useNewUrlParser: true, useUnifiedTopology: true });
@@ -23,14 +24,17 @@ connection.once('open', () => {
    console.log('Database is connected!');
 });
 
+const app = express();
+
 // app.use(express.json({ extended: true }));
-app.set("view engine", "ejs");
-app.use(express.static(__dirname + "/public"));
-app.use(methodOverride("_method"));
-app.use(flash());
+app.engine('ejs', ejsMate);
+app.set('view engine', 'ejs');
+app.use(express.static(__dirname + "/public")); //for loading items in public folder
+app.set('views', path.join(__dirname, 'views'));
 
 app.use(express.urlencoded({ extended: true }));
-
+app.use(methodOverride('_method'));
+app.use(flash());
 //Passport Config
 app.use(
   require("express-session")({
