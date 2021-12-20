@@ -1,26 +1,21 @@
-<% include ./partials/header %>
+<% layout('/layouts/boilerplate') %>
 
 <div class="row">
-  <div class="col-md-12">
-    <div style="width: 30%; margin: 25px auto;">
+   <div class="col-md-6 offset-md-3 col-sm-12 offset-sm-0">
       <h3>
-        <legend>Reset Password</legend>
+        Reset Password
       </h3>
       <form action="/reset/<%= token %>" method="POST">
-        <div class="form-group">
-          <label for="password"></label>
+        <div class="form-group mb-3">
           <input type="password" name="password" value="" placeholder="New password" autofocus="autofocus"
             class="form-control" />
         </div>
-        <div class="form-group">
-          <label for="confirm"></label>
+        <div class="form-group mb-3">
           <input type="password" name="confirm" value="" placeholder="Confirm password" class="form-control" />
         </div>
         <div class="form-group">
-          <button type="submit" class="btn btn-default"><i class="fas fa-sign-in-alt"></i>Update Password</button>
+          <button type="submit" class="btn btn-secondary btn-sm"><i class="fas fa-sign-in-alt"></i>Update Password</button>
         </div>
       </form>
     </div>
-  </div>
 </div>
-<% include ./partials/footer %>

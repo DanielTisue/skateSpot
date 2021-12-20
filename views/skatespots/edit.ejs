@@ -1,4 +1,4 @@
-<% include ../partials/header %>
+<% layout('/layouts/boilerplate') %>
 
 <div class="row">
   <h2 style="text-align: center">
@@ -7,7 +7,7 @@
     <hr />
     <h1 style="text-align: center"><%= skatespot.name %></h1>
   </h2>
-  <div style="width: 30%; margin: 25px auto;">
+  <div class="col-md-6 offset-md-3 col-sm-12 offset-sm-0">
     <form
       action="/skateSpots/<%= skatespot._id %>?_method=PUT"
       method="POST"
@@ -53,4 +53,4 @@
   </div>
 </div>
 
-<% include ../partials/footer %>
+

@@ -1,9 +1,9 @@
-<% include ../partials/header %>
+<% layout('/layouts/boilerplate') %>
 
 
     <div class="row">
-        <h1 style="text-align: center">Edit your comment/ review</h1>
-        <div style="width: 30%; margin: 25px auto;">
+        <h1 class="text-center">Edit your comment/ review</h1>
+        <div class="col-md-6 offset-md-3 col-sm-12 offset-sm-0">
             <form action="/skateSpots/<%= skatespot_id %>/comments/<%= comment._id %>?_method=PUT" method="POST">
                 <div class="form-group">
                     <input class="form-control" type="text" name="comment[text]" value="<%= comment.text %>">
@@ -16,4 +16,3 @@
     </div>
 
 
-<% include ../partials/footer %>
