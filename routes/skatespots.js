@@ -1,8 +1,11 @@
-const express = require("express"),
+const express = require('express'),
   router = express.Router({ mergeParams: true }),
-  Skatespot = require("../models/skatespot"),
-  middlewareObj = require("../middleware/index"),
-  NodeGeocoder = require("node-geocoder");
+  Skatespot = require('../models/skatespot'),
+  middlewareObj = require('../middleware/index'),
+  NodeGeocoder = require('node-geocoder'),
+  catchAsync = require('../utils/catchAsync');
+
+
 // Geocoder config
 const options = {
   provider: 'google',
@@ -14,14 +17,14 @@ const options = {
 const geocoder = NodeGeocoder(options);
 
 // Multer setup/ config
-const multer = require("multer");
-const cloudinary = require("cloudinary").v2;
+const multer = require('multer');
+const cloudinary = require('cloudinary').v2;
 cloudinary.config({
   cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
   api_key: process.env.CLOUDINARY_API_KEY,
   api_secret: process.env.CLOUDINARY_API_SECRET
 });
-const { CloudinaryStorage } = require("multer-storage-cloudinary");
+const { CloudinaryStorage } = require('multer-storage-cloudinary');
 const storage = new CloudinaryStorage({
   cloudinary: cloudinary,
   params: {
@@ -34,9 +37,9 @@ const storage = new CloudinaryStorage({
 });
 const upload = multer({ storage: storage });
 
-function escapeRegex(text) {
-    return text.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, "\\$&");
-};
+// function escapeRegex(text) {
+//     return text.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, "\\$&");
+// };
 
 //INDEX
 router.get("/", (req, res) => {
@@ -48,23 +51,18 @@ router.get("/", (req, res) => {
   if(req.query.search) {
     const regex = new RegExp(escapeRegex(req.query.search), 'gi');
     Skatespot.find({$or:[{name: regex}, {location: regex}]}).skip((perPage * pageNumber) - perPage).limit(perPage).exec((err, allSkatespots) => {
-      Skatespot.count({
-        $or: [{ name: regex }, { location: regex }]
-      }).exec((err, count) => {
+      Skatespot.count({$or: [{ name: regex }, { location: regex }]}).exec((err, count) => {
         if (err) {
           console.log(err);
-          res.redirect("back");
+          res.redirect('back');
         } else {
           if (allSkatespots.length < 1) {
-            noMatch =
-              "No skate spots match that, please enter another search.";
+            noMatch = 'No skate spots match that, please enter another search.';
           }
-          res.render("skatespots/index", {
+          res.render('skatespots/index', {
             skatespots: allSkatespots,
-            // page: "skateSpots",
-            current: "pageNumber",
+            current: 'pageNumber',
             pages: Math.ceil(count / perPage),
-            // currentUser: req.user,
             noMatch: noMatch,
             search: req.query.search
           });
@@ -78,12 +76,10 @@ router.get("/", (req, res) => {
             console.log(err);
             // res.redirect("back");
           } else {
-            res.render("skatespots/index", {
+            res.render('skatespots/index', {
               skatespots: allSkatespots,
-              // page: "skateSpots",
-              current: "pageNumber",
+              current: 'pageNumber',
               pages: Math.ceil(count / perPage),
-              // currentUser: req.user,
               noMatch: noMatch,
               search: false
             });
@@ -94,17 +90,13 @@ router.get("/", (req, res) => {
 });
     
  //NEW - show form to create new skatespot
-router.get("/new", middlewareObj.isLoggedIn, (req, res) => {
-  res.render("skatespots/new");
+router.get('/new', middlewareObj.isLoggedIn, (req, res) => {
+  res.render('skatespots/new');
 });  
  
 
 //CREATE Skatespot
-router.post(
-  "/",
-  middlewareObj.isLoggedIn,
-  upload.single("image"),
-  async (req, res) => {
+router.post("/", middlewareObj.isLoggedIn, upload.single("image"), async (req, res) => {
     try {
       if ( req.file) {
         req.body.image = {
@@ -223,8 +215,5 @@ router.delete(
     });
   });
 
-//   function escapeRegex(text) {
-//     return text.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, "\\$&");
-// };
 
 module.exports = router;
