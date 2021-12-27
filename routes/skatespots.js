@@ -1,20 +1,23 @@
 const express = require('express'),
-  router = express.Router({ mergeParams: true }),
-  Skatespot = require('../models/skatespot'),
-  middlewareObj = require('../middleware/index'),
-  NodeGeocoder = require('node-geocoder'),
-  catchAsync = require('../utils/catchAsync');
+      router = express.Router({ mergeParams: true }),
+      middlewareObj = require('../middleware/index'),
+      catchAsync = require('../utils/catchAsync'),
+      ExpressError = require('../utils/ExpressError'), 
+      Skatespot = require('../models/skatespot');
+      
+  // NodeGeocoder = require('node-geocoder'),
+  
 
 
 // Geocoder config
-const options = {
-  provider: 'google',
-  httpAdapter: 'https',
-  apiKey: process.env.GEOCODER_API_KEY,
-  formatter: null
-}
+// const options = {
+//   provider: 'google',
+//   httpAdapter: 'https',
+//   apiKey: process.env.GEOCODER_API_KEY,
+//   formatter: null
+// }
 
-const geocoder = NodeGeocoder(options);
+// const geocoder = NodeGeocoder(options);
 
 // Multer setup/ config
 const multer = require('multer');
@@ -36,6 +39,18 @@ const storage = new CloudinaryStorage({
 }
 });
 const upload = multer({ storage: storage });
+
+
+// Skate spot validation
+const validateSkatespot = (req, res, next) => {
+    const { error } = middlewareObj.skatespotSchema.validate(req.body);
+    if (error) {
+        const msg = error.details.map(el => el.message).join(',')
+        throw new ExpressError(msg, 500)
+    } else {
+        next();
+    }
+};
 
 // function escapeRegex(text) {
 //     return text.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, "\\$&");
@@ -140,10 +155,11 @@ router.get('/new', middlewareObj.isLoggedIn, (req, res) => {
 //   }
 // });
 
+
 //CREATE Skatespot removed geolocation
-router.post("/", middlewareObj.isLoggedIn, upload.single('image'), catchAsync(async (req, res) => {
-    // try {
-      if ( req.file) {
+router.post('/', middlewareObj.isLoggedIn, upload.single('image'), validateSkatespot, catchAsync(async (req, res) => {
+    
+      if (req.file) {
         req.body.image = {
             url: req.file.secure_url,
             public_id: req.file.filename
@@ -164,16 +180,11 @@ router.post("/", middlewareObj.isLoggedIn, upload.single('image'), catchAsync(as
             description,
             author,
             location,
-            lat,
-            lng
           };
     // Create a new skatespot and save to DB
     const newlyCreated = await Skatespot.create(newSkatespot);
     res.redirect('/skatespots/' + newlyCreated.id);
-  // } catch(err) {
-  //   req.flash("error", err.message);
-  //   res.redirect("/skatespots/new");
-  // }
+  
 }));
 
 //SHOW page
@@ -202,16 +213,17 @@ router.get('/:id/edit',middlewareObj.isLoggedIn,middlewareObj.checkSkatespotOwne
   }
 );
 
-router.put('/:id', middlewareObj.isLoggedIn, middlewareObj.checkSkatespotOwnership, upload.single('image'), async (req, res) => {
-    try {
+router.put('/:id', middlewareObj.isLoggedIn, middlewareObj.checkSkatespotOwnership, validateSkatespot, upload.single('image'), catchAsync(async (req, res) => {
+  // if (!req.body.campground) throw new ExpressError('Invalid Skate Spot Data', 400);
+    // try {
       // find and update skatespot
       let skatespot = await Skatespot.findByIdAndUpdate(req.params.id, req.body.skatespot,{ new: true });
-      if (skatespot.location !== req.body.location) {
-        let newLocation = await geocoder.geocode(req.body.location);
-        skatespot.lat = newLocation[0].latitude;
-        skatespot.lng = newLocation[0].longitude;
-        skatespot.location = newLocation[0].formattedAddress;
-      }
+      // if (skatespot.location !== req.body.location) {
+      //   let newLocation = await geocoder.geocode(req.body.location);
+      //   skatespot.lat = newLocation[0].latitude;
+      //   skatespot.lng = newLocation[0].longitude;
+      //   skatespot.location = newLocation[0].formattedAddress;
+      // }
       if (req.file) {
         await cloudinary.uploader.destroy(skatespot.image.public_id);
         skatespot.image.public_id = req.file.filename;
@@ -220,26 +232,26 @@ router.put('/:id', middlewareObj.isLoggedIn, middlewareObj.checkSkatespotOwnersh
       await skatespot.save();
       req.flash('success', 'Skate Spot successfully updated!');
       res.redirect('/skatespots/' + req.params.id);
-    } catch (err) {
-      req.flash('error', err.message);
-      res.redirect('back');
-    }
+    // } catch (err) {
+    //   req.flash('error', err.message);
+    //   res.redirect('back');
+    // }
   }
-); 
+)); 
 
 // DESTROY skatespot
 router.delete('/:id', middlewareObj.isLoggedIn, middlewareObj.checkSkatespotOwnership, (req, res) => {
-    Skatespot.findById(req.params.id, async (err, skatespot) => {
-      if (err) {
-        req.flash('error', 'UH OH...Something went wrong!');
-        res.redirect('/skatespots');
-      } else {
+    Skatespot.findById(req.params.id, catchAsync(async (err, skatespot) => {
+      // if (err) {
+        // req.flash('error', 'UH OH...Something went wrong!');
+        // res.redirect('/skatespots');
+      // } else {
         await cloudinary.uploader.destroy(skatespot.image.public_id);
         await skatespot.remove();
         req.flash('success', 'Skate Spot deleted successfully!');
         res.redirect('/skatespots');
-      }
-    });
+      // }
+    }));
   });
 
 
