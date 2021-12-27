@@ -2,10 +2,10 @@
 
  <div class="background"></div>   
         <div class="row">
-            <div class="col-md-3" id="locationShow">
+            <!-- <div class="col-md-3" id="locationShow">
                     <h4 class="lead"><strong><i class="fas fa-location-arrow fa-sm"></i>Location</strong></h4>
                     <div id="map"></div>
-            </div>
+            </div> -->
             
             <div class="col-md-9">
                     <div class="thumbnail" id="showThumbnail">
@@ -48,34 +48,7 @@
                 </div>
         </div>
         
-<script>
-    function initMap() {
-        var lat = <%= skatespot.lat %>;
-        var lng = <%= skatespot.lng %>;
-        var center = {lat: lat, lng: lng };
-        var map = new google.maps.Map(document.getElementById('map'), {
-            zoom: 8,
-            center: center,
-            scrollwheel: false
-        });
-        var contentString = `
-        <strong><%= skatespot.name %><br />
-        <%= skatespot.location %></strong>
-        <p><%= skatespot.description %></p>
-        `
-        var infowindow = new google.maps.InfoWindow({
-        content: contentString
-        });
-        var marker = new google.maps.Marker({
-            position: center,
-            map: map
-        });
-        marker.addListener('click', function() {
-        infowindow.open(map, marker);
-        });
-    }
-</script>
-<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCQ30sPVItZEflayITVH-aJFX29bTs9Z_0&callback=initMap"></script>
+
 
 
 
