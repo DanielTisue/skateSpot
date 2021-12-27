@@ -1,6 +1,7 @@
-const mongoose = require("mongoose");
+const mongoose = require('mongoose');
+const Schema = mongoose.Schema;
 
-const skatespotSchema = new mongoose.Schema({
+const skatespotSchema = new Schema({
   name: String,
   image: {
     url: String,
@@ -8,21 +9,22 @@ const skatespotSchema = new mongoose.Schema({
   },
   description: String,
   location: String,
-  lat: Number,
-  lng: Number,
+  price: Number,
+  // lat: Number,
+  // lng: Number,
   author: {
     id: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "User"
+      type: Schema.Types.ObjectId,
+      ref: 'User'
     },
     username: String
   },
   comments: [
     {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "Comment"
+      type: Schema.Types.ObjectId,
+      ref: 'Comment'
     }
   ]
 });
 
-module.exports = mongoose.model("Skatespot", skatespotSchema);
+module.exports = mongoose.model('Skatespot', skatespotSchema);
