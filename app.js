@@ -1,8 +1,8 @@
 require('dotenv').config({ path: '.env' });
 const express = require('express'), //updated
+      path = require('path'), //new exprees built in method
       mongoose = require('mongoose'),
       ejsMate = require('ejs-mate'), //new
-      path = require('path'), //new exprees built in method
       flash = require('connect-flash'),
       ExpressError = require('./utils/ExpressError'),
       passport = require('passport'), //updated
@@ -72,8 +72,9 @@ app.all('*', (req, res, next) => {
 
 app.use((err, req, res, next) => {
   const { statusCode = 500, message = 'Wrong' } = err;
-  res.status(statusCode).send(message);
-  
+  // res.status(statusCode).send(message);
+  if(!err.message) err.message = 'Uh Oh, something went wrong!'
+  res.status(statusCode).render('error', { err });
     // const { statusCode = 500 } = err;
     // if (!err.message) err.message = 'Oh No, Something Went Wrong!'
     // res.status(statusCode).render('error', { err })
