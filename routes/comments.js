@@ -1,31 +1,31 @@
 const express =     require("express"),
       router =      express.Router({mergeParams: true}),
       Skatespot =   require("../models/skatespot"),
-      Comment =     require("../models/comment"),
-      middlewareObj =  require("../middleware/index");
+      Comment =     require("../models/comment");
+    //   middlewareObj =  require("../middleware/index");
 
 // Comments New
-router.get("/new", middlewareObj.isLoggedIn, (req, res) => {
+router.get('/new', (req, res) => {
     Skatespot.findById(req.params.id, function(err, skatespot){
         if(err){
             console.log(err);
         } else {
-           res.render("comments/new", {skatespot: skatespot}); 
+           res.render('comments/new', {skatespot: skatespot}); 
         }
     });
 });
 
 // Comments Create
-router.post("/", middlewareObj.isLoggedIn, (req, res) => {
+router.post('/', (req, res) => {
     //look up skatespot using id
    Skatespot.findById(req.params.id, (err, skatespot) => {
         if(err){
             console.log(err);
-            res.redirect("/skateSpots");
+            res.redirect('/skateSpots');
         } else {
             Comment.create( req.body.comment, (err, comment) => {
                 if(err){
-                    req.flash("error", "Something went wrong! Try again.");
+                    req.flash('error', 'Something went wrong! Try again.' );
                     console.log(err);
                 }  else {
                     //add username and id to comment
@@ -37,7 +37,7 @@ router.post("/", middlewareObj.isLoggedIn, (req, res) => {
                     skatespot.comments.push(comment);
                     skatespot.save();
                     console.log(comment);
-                    req.flash("success", "Successfully Added Comment!");
+                    req.flash('success', 'Successfully Added Comment!');
                     res.redirect('/skateSpots/' + skatespot._id);
                 }
             });
@@ -46,38 +46,38 @@ router.post("/", middlewareObj.isLoggedIn, (req, res) => {
 });
 
 // EDIT route--skateSpots/:id/comments:comment_id/edit
-router.get("/:comment_id/edit", middlewareObj.checkCommentOwnership, (req, res) => {
+router.get('/:comment_id/edit', (req, res) => {
             Comment.findById(req.params.comment_id, function(err, foundComment){
             if(err){
                 console.log(err);
-                res.redirect("back");
+                res.redirect('back');
             } else {
-                res.render("comments/edit", {skatespot_id: req.params.id, comment: foundComment});
+                res.render('comments/edit', {skatespot_id: req.params.id, comment: foundComment});
             }
         });
     });
 
 // UPDATE route
-router.put("/:comment_id", middlewareObj.checkCommentOwnership, (req, res) => {
+router.put('/:comment_id', (req, res) => {
   //find and update
     Comment.findByIdAndUpdate(req.params.comment_id, req.body.comment, function(err, updatedComment){
         if(err){
-            res.redirect("back");
+            res.redirect('back');
         } else {
             //redirect
-            res.redirect("/skateSpots/" + req.params.id);
+            res.redirect('/skateSpots/' + req.params.id);
         }
     });
 }); 
 
 // DELETE (DESTROY) route
-router.delete("/:comment_id", middlewareObj.isLoggedIn, (req, res) => {
+router.delete('/:comment_id', (req, res) => {
     Comment.findByIdAndRemove(req.params.comment_id, function(err){
       if(err){ 
-          res.redirect("back");
+          res.redirect('back');
       } else {
-          req.flash("success", "Comment Deleted!");
-          res.redirect("/skateSpots/" + req.params.id);
+          req.flash('success', 'Comment Deleted!');
+          res.redirect('/skateSpots/' + req.params.id);
       }
     });
 });

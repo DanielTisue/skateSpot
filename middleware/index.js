@@ -1,18 +1,11 @@
 const Skatespot =   require("../models/skatespot"),
-      Comment =     require("../models/comment"),
-    Joi = require('joi');
+      Comment =     require("../models/comment");
+    
 
 // all the middlware goes here
 const middlewareObj = {};
 
-middlewareObj.skatespotSchema = Joi.object({
-    skatespot: Joi.object({
-        title: Joi.string().required(),
-        // image: Joi.string().required(),
-        location: Joi.string().required(),
-        description: Joi.string().required()
-    }).required()
-});
+
 
 middlewareObj.checkSkatespotOwnership = function(req, res, next) {
  if(req.isAuthenticated()){
