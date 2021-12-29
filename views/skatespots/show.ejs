@@ -1,52 +1,28 @@
 <% layout('/layouts/boilerplate') %>
 
- <div class="background"></div>   
-        <div class="row">
-            <!-- <div class="col-md-3" id="locationShow">
-                    <h4 class="lead"><strong><i class="fas fa-location-arrow fa-sm"></i>Location</strong></h4>
-                    <div id="map"></div>
-            </div> -->
-            
-            <div class="col-md-9">
-                    <div class="thumbnail" id="showThumbnail">
-                        <img class="img-responsive" id="showImage" src="<%= skatespot.image.url %>">
-                        <div class="caption">
-                            <h4><a><%= skatespot.name %></a></h4>
-                            <h5><%= skatespot.location %></h5>
-                            <h5><%= skatespot.description %></h5>
-                            <p>
-                                <em>Submitted By <strong><%= skatespot.author.username %></strong></em>
-                            </p>
-                            <% if(currentUser && skatespot.author.id.equals(currentUser._id)) { %>
-                            <a class="btn btn-info" href="/skateSpots/<%= skatespot._id %>/edit">Edit</a>
-                            <form class="delete-form""
-                                action="/skateSpots/<%= skatespot._id %>?_method=DELETE" method="POST">
-                                <input type="submit" class="btn btn-danger" value="Delete">
-                            </form>
-                            <% } %>
-                        </div>
-                    </div>
-                    <div class="well">
-                        <div class="text-center">
-                          <a class="btn btn-success" href="/skateSpots/<%= skatespot._id %>/comments/new"><i class="fas fa-comments"></i>Comments</a>  
-                        </div>
-                        <hr>
-                        <% skatespot.comments.forEach(function(comment){ %>
-                            <div class="row comments-row">
-                                <div class="col-md-12">
-                                       <p><strong><%= comment.author.username %></strong> - <%= comment.text %></p> 
-                                        <% if(currentUser && comment.author.id.equals(currentUser._id)) { %>
-                                        <a class="btn btn-xs btn-info" href="/skateSpots/<%= skatespot._id %>/comments/<%= comment._id %>/edit">Edit</a>
-                                        <form class="delete-form" action="/skateSpots/<%= skatespot._id %>/comments/<%=comment._id %>?_method=DELETE" method="POST">
-                                            <input type="submit" class="btn btn-xs btn-danger" value="Delete">
-                                        </form>
-                                        <% } %>
-                                </div>
-                            </div>
-                        <% }); %>
-                    </div>
+ 
+<div class="row">
+    <div class="col-md-9 offset-md-2 col-sm-12 offset-sm-0">
+            <div class="thumbnail" id="showThumbnail">
+                <img class="img-responsive" id="showImage" src="<%= skatespot.image %>">
+                <div class="caption">
+                    <h4><a><%= skatespot.name %></a></h4>
+                    <h5><%= skatespot.location %></h5>
+                    <h5><%= skatespot.description %></h5>
+                    
+                    
+                    <a class="btn btn-info" href="/skateSpots/<%= skatespot._id %>/edit">Edit</a>
+                    <form class="delete-form""
+                        action="/skateSpots/<%= skatespot._id %>?_method=DELETE" method="POST">
+                        <input type="submit" class="btn btn-danger" value="Delete">
+                    </form>
+                    
                 </div>
+            </div>
+            
         </div>
+</div>
+    
         
 
 

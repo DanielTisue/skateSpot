@@ -4,20 +4,29 @@
 <div class="row">
   <h1 class="text-center">Add a New SkateSpot</h1>
   <div class="col-md-6 offset-md-3 col-sm-12 offset-sm-0">
-    <form action="/skateSpots" method="POST" class="validated-form" novalidate enctype="multipart/form-data">
-      <div class="form-group input-group-sm mb-3">
-        <input
-          class="form-control"
-          type="text"
-          name="name"
-          placeholder="name"
-          required
-        />
+    <form action="/skateSpots" method="POST" class="validated-form" novalidate>
+      <div class="mb-3">
+        <input class="form-control" type="text" name="skatespot[name]" placeholder="name" required>
         <div class="valid-feedback">
           Looks good!
         </div>
       </div>
-      <div class="form-group input-group-sm mb-3">
+       <div class="mb-3">
+         <div class="input-group">
+          <span class="input-group-text" id="price-label">$</span>
+          <input type="text" class="form-control" id="price" placeholder="0.00" aria-label="price" aria-describedby="price-label" name="skatespot[price]" required>
+        </div>
+        <div class="valid-feedback">
+          Looks good!
+        </div>
+      </div>
+      <div class="mb-3">
+        <input class="form-control" type="text" name="skatespot[image]" id="image" placeholder="...choose an image url to upload" required>
+         <div class="valid-feedback">
+          Looks good!
+        </div>
+      </div>
+      <!-- <div class=" input-group-sm mb-3">
         <input
           class="form-control"
           type="file"
@@ -27,27 +36,21 @@
           placeholder="...choose an image to upload"
           required
         />
+      </div> -->
+      
+      <div class="mb-3">
+        <textarea class="form-control" type="text" id="description" name="skatespot[description]" placeholder="Street spot or Park spot" required></textarea>
+        <div class="valid-feedback">
+            Looks good!
+        </div>
       </div>
-      <div class="form-group input-group-sm mb-3">
-        <input
-          class="form-control"
-          type="text"
-          name="description"
-          placeholder="description"
-          required
-        />
+      <div class="mb-3">
+        <input class="form-control" type="text" name="skatespot[location]" placeholder="location" required>
+         <div class="valid-feedback">
+          Looks good!
+        </div>
       </div>
-      <div class="form-group input-group-sm mb-3">
-        <input
-          class="form-control"
-          type="text"
-          name="location"
-          placeholder="location"
-          id="location"
-          required
-        />
-      </div>
-      <div class="form-group">
+      <div class="mb-3">
         <button class="btn btn-primary btn-block"><i class="fas fa-sign-in-alt"></i>Submit!</button>
       </div>
     </form>
