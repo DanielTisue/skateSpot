@@ -1,14 +1,14 @@
 const express = require('express'),
       router = express.Router({ mergeParams: true }),
       // middlewareObj = require('../middleware/index'),
-      { skatespotSchema } = require('./schemas.js'),
+      { skateSpotSchema } = require('../middleware/schemas'),
       catchAsync = require('../utils/catchAsync'),
       ExpressError = require('../utils/ExpressError'), 
       Skatespot = require('../models/skatespot');
 
 // Skate spot validation
 const validateSkatespot = (req, res, next) => {
-    const { error } = skatespotSchema.validate(req.body);
+    const { error } = skateSpotSchema.validate(req.body);
     if (error) {
         const msg = error.details.map(el => el.message).join(',')
         throw new ExpressError(msg, 500)
@@ -18,7 +18,7 @@ const validateSkatespot = (req, res, next) => {
 };
 
 
-//INDEX test route without search and pagination
+//INDEX route without search and pagination
 router.get('/', catchAsync(async (req, res) => {
     const skatespots = await Skatespot.find({});
     res.render('skatespots/index', { skatespots });
@@ -29,47 +29,31 @@ router.get('/new', (req, res) => {
   res.render('skatespots/new');
 });  
  
-
 //CREATE Skatespot removed geolocation, auth middleware, image upload
-router.post('/', validateSkatespot, catchAsync(async (req, res) => {
-    
-        // get data from form and add to skatespots array
-        const location = req.body.location;
-        const name = req.body.name,
-              image = req.body.image,
-              description = req.body.description,
-              price = req.body.price
-      author = {
-        id: req.user._id,
-        username: req.user.username
-      };
-        const newSkatespot = {
-            name,
-            image,
-            description,
-            author,
-            location,
-            price
-          };
+router.post('/', validateSkatespot, catchAsync(async (req, res, next) => {  
+    // Get data from form and add to skatespots 
+    const skatespot = new Skatespot(req.body.skatespot);
     // Create a new skatespot and save to DB
-    const newlyCreated = await Skatespot.create(newSkatespot);
-    res.redirect('/skatespots/' + newlyCreated.id);
-  
+    await skatespot.save();
+    res.redirect(`/skatespots/${skatespot.id}`);
 }));
 
 //SHOW page
-router.get('/:id', (req, res) => {
-  Skatespot.findById(req.params.id).populate('comments').exec((err, foundSkatespot) => {
-      if (err) {
-        // console.log(err);
-        req.flash('error', "Skate Spot doesn't exist!");
-        res.redirect('back');
-      } else {
+router.get('/:id', catchAsync(async(req, res) => {
+  const skatespot = await Skatespot.findById(req.params.id);
+  res.render('skatespots/show', { skatespot });
+
+  // Skatespot.findById(req.params.id).populate('comments').exec((err, foundSkatespot) => {
+  //     if (err) {
+  //       console.log(err);
+  //       req.flash('error', "Skate Spot doesn't exist!");
+  //       res.redirect('back');
+  //     } else {
         
-        res.render('skatespots/show', { skatespot: foundSkatespot });
-      }
-    });
-});
+  //       res.render('skatespots/show', { skatespot: foundSkatespot });
+  //     }
+  //   });
+}));
 
 // EDIT: SkateSpots removed auth middleware
 router.get('/:id/edit', (req, res) => {
