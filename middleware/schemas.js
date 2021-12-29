@@ -1,8 +1,8 @@
 const Joi = require('joi');
 
-module.exports.skatespotSchema = Joi.object({
+module.exports.skateSpotSchema = Joi.object({
     skatespot: Joi.object({
-        title: Joi.string().required(),
+        name: Joi.string().required(),
         price: Joi.number().required().min(0),
         image: Joi.string().required(),
         location: Joi.string().required(),
