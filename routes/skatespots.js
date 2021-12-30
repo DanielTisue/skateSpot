@@ -5,7 +5,7 @@ const express = require('express'),
       catchAsync = require('../utils/catchAsync'),
       ExpressError = require('../utils/ExpressError'), 
       Skatespot = require('../models/skatespot');
-
+     
 // Skate spot validation
 const validateSkatespot = (req, res, next) => {
     const { error } = skateSpotSchema.validate(req.body);
@@ -40,19 +40,8 @@ router.post('/', validateSkatespot, catchAsync(async (req, res, next) => {
 
 //SHOW page
 router.get('/:id', catchAsync(async(req, res) => {
-  const skatespot = await Skatespot.findById(req.params.id);
+  const skatespot = await Skatespot.findById(req.params.id).populate('comments');
   res.render('skatespots/show', { skatespot });
-
-  // Skatespot.findById(req.params.id).populate('comments').exec((err, foundSkatespot) => {
-  //     if (err) {
-  //       console.log(err);
-  //       req.flash('error', "Skate Spot doesn't exist!");
-  //       res.redirect('back');
-  //     } else {
-        
-  //       res.render('skatespots/show', { skatespot: foundSkatespot });
-  //     }
-  //   });
 }));
 
 // EDIT: SkateSpots removed auth middleware
@@ -79,14 +68,12 @@ router.put('/:id', validateSkatespot, catchAsync(async (req, res) => {
 )); 
 
 // DESTROY skatespot
-router.delete('/:id', (req, res) => {
-    Skatespot.findById(req.params.id, catchAsync(async (err, skatespot) => {
-        
-        await skatespot.remove();
-        req.flash('success', 'Skate Spot deleted successfully!');
-        res.redirect('/skatespots');
-    }));
-  });
+router.delete('/:id', catchAsync(async (req, res) => {
+  const { id } = req.params;
+  await  Skatespot.findByIdAndDelete(id);    
+  req.flash('success', 'Skate Spot deleted successfully!');
+  res.redirect('/skatespots');
+  }));
 
 
 module.exports = router;
