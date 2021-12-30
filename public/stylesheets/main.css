@@ -49,111 +49,29 @@ nav {
   box-shadow: 7px 10px 12px -5px rgba(159, 159, 159, 0.4);
 }
 
-.goBack {
-  margin: 10px;
-  padding: 5px;
-}
-
-/* Thumbnail & thumbnail image on index page */
-.thumbnail img {
-  width: 100%;
-}
-
-#indexImg {
-  max-height: 240px;
-  border-top-left-radius: 15px; 
-  border-top-right-radius: 15px; 
-}
-@media screen and (max-width: 767px){
-  #indexImg {
-      max-height: 500px !important; /* not sure why I had to use !important to get it to respond?*/
-    }
-}
-
-@media screen and (max-width: 1100px) {
-  #indexImg {
-    max-height: 231px;
-  }
-}
-@media screen and (min-width: 1200) {
-  #indexImg {
-    max-height: 241px;
-  }
-}
-
-.thumbnail {
-  border: none;
-  margin: 0;
-  padding: 0;
-}
-
-.skateCard{
-  border-bottom-left-radius: 15px;
-  border-bottom-right-radius: 15px;
-  box-shadow: 0px 10px 12px -5px rgba(159, 159, 159, 0.3);
-}
-
-div.col-sm-6 {
-  margin-bottom: 10px;
-}
-
-/* Show page  */
-.lead {
-  box-shadow: 7px 10px 12px -5px rgba(159, 159, 159, 0.1);
-}
-
 .delete-form {
   display: inline;
   box-shadow: 7px 10px 12px -5px rgba(159, 159, 159, 0.3);
 }
 
-#showThumbnail {
-  border-radius: 5px;
-  box-shadow: 7px 10px 12px -5px rgba(159, 159, 159, 0.3);
-  margin-bottom: 25px;
+img {
+  width: 100%;
 }
 
-#showImage {
-  border-top-right-radius: 5px;
-  border-top-left-radius: 5px;
+#index-img {
+  border-radius: 4px 0 0 4px;
 }
 
-.well {
-  background-color: rgba(50, 122, 183, 0.2);
+.card {
   box-shadow: 7px 10px 12px -5px rgba(159, 159, 159, 0.3);
+  border: none;
+  border-radius: 4px;
+}
+
+.card-footer {
   border: none;
 }
 
-
-.comments-row {
-  background-color: rgba(255, 255, 255, 0.5);
-  border-radius: 5px;
-  margin-top: 10px;
-  padding: 5px;
-  margin-left: 4px;
-  margin-right: 4px;
-}
-
 .list-group {
-  box-shadow: 7px 10px 12px -5px rgba(159, 159, 159, 0.3);
-}
-
-#map {
-  height: 400px;
-  width: 100%;
-  margin-bottom: 10px;
-  border-radius: 5px;
-}
-
-/* Search form */
-#searchForm {
-  width: 33%;
-  margin: 25px auto;
-  box-shadow: 7px 10px 12px -5px rgba(159, 159, 159, 0.4);
-}
-
-@media screen and (max-width: 700px) {
-  #searchForm {
-  width: 50%;
-  }
+  border-top: 1px solid rgba(0, 0, 0, .125) !important;
 }
