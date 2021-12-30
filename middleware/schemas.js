@@ -9,3 +9,10 @@ module.exports.skateSpotSchema = Joi.object({
         description: Joi.string().required()
     }).required()
 });
+
+module.exports.commentSchema = Joi.object({
+    comment: Joi.object({
+        text: Joi.string().required(),
+        rating: Joi.number().required().min(1).max(5)
+    }).required()
+});
