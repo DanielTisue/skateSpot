@@ -59,7 +59,7 @@
         <div class="card mb-3">
             <div class="card-body">
                 <h5 class="card-title"><small>Rating: <%= comment.rating %></small></h5>
-                <p class="card-text"><small>Comment: <%= comment.text %></small></p>
+                <p class="card-text"><small>Admin says ... <br><%= comment.text %></small></p>
                 <form action="/skatespots/<%=skatespot._id%>/comments/<%=comment._id%>?_method=DELETE" method="POST">
                     <button class="btn btn-sm btn-danger"><small>Delete</small></button>
                 </form>
