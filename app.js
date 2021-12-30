@@ -72,12 +72,8 @@ app.all('*', (req, res, next) => {
 
 app.use((err, req, res, next) => {
   const { statusCode = 500, message = 'Wrong' } = err;
-  // res.status(statusCode).send(message);
   if(!err.message) err.message = 'Uh Oh, something went wrong!'
   res.status(statusCode).render('error', { err });
-    // const { statusCode = 500 } = err;
-    // if (!err.message) err.message = 'Oh No, Something Went Wrong!'
-    // res.status(statusCode).render('error', { err })
 })
 
 app.listen(process.env.PORT || 4000, () => {
