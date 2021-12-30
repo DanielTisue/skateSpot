@@ -16,4 +16,10 @@ const skatespotSchema = new Schema({
   ]
 });
 
+skatespotSchema.post('findOneAndDelete', async function(doc) {
+  if(doc) {
+    await Comment.deleteMany({ _id: { $in: doc.comments } });
+  }
+});
+
 module.exports = mongoose.model('Skatespot', skatespotSchema);
