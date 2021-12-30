@@ -2,25 +2,71 @@
 
  
 <div class="row">
-    <div class="col-md-9 offset-md-2 col-sm-12 offset-sm-0">
-            <div class="thumbnail" id="showThumbnail">
-                <img class="img-responsive" id="showImage" src="<%= skatespot.image %>">
-                <div class="caption">
-                    <h4><a><%= skatespot.name %></a></h4>
-                    <h5><%= skatespot.location %></h5>
-                    <h5><%= skatespot.description %></h5>
-                    
-                    
-                    <a class="btn btn-info" href="/skateSpots/<%= skatespot._id %>/edit">Edit</a>
-                    <form class="delete-form""
-                        action="/skateSpots/<%= skatespot._id %>?_method=DELETE" method="POST">
-                        <input type="submit" class="btn btn-danger" value="Delete">
-                    </form>
-                    
+    <div class="col-lg-8 offset-lg-2 col-sm-12 offset-sm-0">
+        <div class="card mb-5">
+            <img src="<%= skatespot.image %>" class="card-img-top" alt="...">
+            <div class="card-body">
+                <h5 class="card-title mb-3"><%= skatespot.name %></h5>
+                <p class="card-text"><%= skatespot.description %></p>
+            </div>
+            <ul class="list-group list-group-flush">
+                <li class="list-group-item text-small"><small><span class="text-muted">Where: </span><br><%= skatespot.location %></small></li>
+                <li class="list-group-item"><small><span class="text-muted">Entrance fee: </span><br>$<%= skatespot.price %></small></li>
+            </ul>
+            <div class="card-body">
+                <a class="card-link btn btn-sm btn-info" href="/skatespots/<%=skatespot._id%>/edit">Edit</a>
+                <form class="d-inline" action="/skatespots/<%=skatespot._id%>?_method=DELETE" method="POST">
+                    <button class="btn btn-sm btn-outline-danger">Delete</button>
+                </form>
+            </div>
+            <div class="card-footer text-muted">
+                <small>2 days ago</small>
+            </div>
+        </div>
+        <h5>Leave a Comment and Rate the spot!</h5>
+        <hr class="mb-3" />
+
+        <button class="mb-5 btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">Leave a Comment</button>
+        <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <form action="/skatespots/<%= skatespot._id %>/comments" method="POST" class="mb-3 validated-form" novalidate>
+                            <div class="mb-3">
+                                <label for="rating" class="form-label">Rating</label>
+                                <input type="range" class="form-range" id="rating" min="1" max="5" name="comment[rating]">
+                            </div>
+                            <div class="mb-3">
+                                <label for="comment" class="form-label">Comment</label>
+                                <textarea class="form-control" name="comment[text]" id="text" cols="30" rows="3" required></textarea>
+                            </div>
+                            <button class="btn btn-sm btn-primary">Submit</button>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-sm btn-outline-secondary" data-bs-dismiss="modal">Close</button>
+                    </div>
                 </div>
             </div>
-            
         </div>
+
+        
+        <% for(let comment of skatespot.comments) { %>
+        <div class="card mb-3">
+            <div class="card-body">
+                <h5 class="card-title"><small>Rating: <%= comment.rating %></small></h5>
+                <p class="card-text"><small>Comment: <%= comment.text %></small></p>
+                <form action="/skatespots/<%=skatespot._id%>/comments/<%=comment._id%>?_method=DELETE" method="POST">
+                    <button class="btn btn-sm btn-danger"><small>Delete</small></button>
+                </form>
+            </div>
+        </div>
+        <% } %>
+    </div>
 </div>
     
         

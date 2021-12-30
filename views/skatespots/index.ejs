@@ -19,29 +19,29 @@
 
 
  <!-- Don't forget to add back search.query no match message located in snippets.txt file -->
-<hr/>
+<hr class="mb-5" />
 
-<div class="row">
+
   <% skatespots.forEach(function(skatespot){ %>
-    <div class="card" mb-3>
+  <div class="card" mb-3>
     <div class="row">
-        <div class="col-md-4">
-            <img class="img-fluid" alt="" src="<%= skatespot.image %>">
+        <div class="col-md-6">
+            <img id="index-img" class="img-fluid" alt="" src="<%=skatespot.image%>">
         </div>
-        <div class="col-md-8">
+        <div class="col-md-6">
             <div class="card-body">
-                <h5 class="card-name"><%= skatespot.name %> </h5>
+                <h5 class="card-title"><%= skatespot.name %> </h5>
                 <p class="card-text"><%= skatespot.description %></p>
                 <p class="card-text">
-                    <small class="text-muted"><%= skatespot.location %></small>
+                    <small class="text-muted"><%= skatespot.location%></small>
                 </p>
-                <a class="btn btn-primary" href="/skatespots/<%= skatespot._id %>">Details...</a>
+                <a class="btn btn-sm btn-primary" href="/skatespots/<%= skatespot._id %>">View <%= skatespot.name %></a>
             </div>
         </div>
     </div>
 </div>
   <% }); %>
-</div>
+
 
 
 
