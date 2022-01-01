@@ -1,63 +1,66 @@
-const Skatespot =   require("../models/skatespot"),
-      Comment =     require("../models/comment");
+const { skateSpotSchema, commentSchema } = require('./schemas'),
+      ExpressError = require('../utils/ExpressError'),
+      Skatespot =   require('../models/skatespot'),
+      Comment =     require('../models/comment');
     
 
 // all the middlware goes here
-const middlewareObj = {};
 
-
-
-middlewareObj.checkSkatespotOwnership = function(req, res, next) {
- if(req.isAuthenticated()){
-        Skatespot.findById(req.params.id, function(err, foundSkatespot){
-
-            if (err || !foundSkatespot) {
-                console.log(err);
-                req.flash('error', "Sorry, that skatespot does not exist!");
-                res.redirect('/skateSpots');
-            } else if (foundSkatespot.author.id.equals(req.user._id)) {
-                req.skatespot = foundSkatespot;
-                next();
-            } else {
-                req.flash('error', "You don't have permission to do that!");
-                res.redirect('/skateSpots/' + req.params.id);
-            }
-        });
-  } else {
-     req.flash('error', "You don't have permission to do that! Login First!");
-     return res.redirect('/login');
-  }
-}
-
-
-middlewareObj.checkCommentOwnership = function(req, res, next) {
-    if(req.isAuthenticated()){ //if user is logged in then
-        Comment.findById(req.params.comment_id, function (err, foundComment) {
-            if (err || !foundComment) {
-                console.log(err);
-                req.flash('error', "Sorry, that comment does not exist!");
-                return res.redirect('/skateSpots');
-            } else if (foundComment.author.id.equals(req.user._id)) {
-                res.locals.comment = foundComment;
-                next();
-            } else {
-                req.flash('error', "You don't have permission to do that!");
-                return res.redirect('/skateSpots/' + req.params.id);
-            }
-        });
-    } else {
-        req.flash('error', "You don't have permission to do that! Login First!");
+//Have to be logged in
+const isLoggedIn = function(req, res, next){
+    if(!req.isAuthenticated()){
+        req.session.returnTo = req.originalUrl
+        req.flash('error', 'You need to be logged in to do that!');
         return res.redirect('/login');
     }
+    next();
+};
+
+// Skate Spot validation
+const validateSkatespot = (req, res, next) => {
+    const { error } = skateSpotSchema.validate(req.body);
+    if (error) {
+        const msg = error.details.map(el => el.message).join(',')
+        throw new ExpressError(msg, 500)
+    } else {
+        next();
+    }
+};
+
+//Skate Spot Author validation
+const isAuthor = async (req, res, next) => {
+  const { id } = req.params;
+  const skatespot = await Skatespot.findById(id);
+  if (!skatespot.author.equals(req.user._id)) {
+    req.flash('error', "You don't have the correct permissions: Either you are not the post owner, or you're not logged in.");
+    return res.redirect(`/skatespots/${id}`);
+  } else {
+    next();
+  } 
+}
+
+//Comment validation
+const validateComment = (req, res, next) => {
+    const { error } = commentSchema.validate(req.body);
+    if (error) {
+        const msg = error.details.map(el => el.message).join(',')
+        throw new ExpressError(msg, 400)
+    } else {
+        next();
+    }
+}
+
+const isCommentAuthor = async (req, res, next) => {
+  const { id, commentId } = req.params;
+  const comment = await Comment.findById(commentId);
+  if (!comment.author.equals(req.user._id)) {
+    req.flash('error', "You don't have the correct permissions: Either you are not the post owner, or you're not logged in.");
+    return res.redirect(`/skatespots/${id}`);
+  } else {
+    next();
+  } 
 }
 
 
-middlewareObj.isLoggedIn = function(req, res, next){
-    if(req.isAuthenticated()){
-        return next();
-    }
-    req.flash("error", "You need to be logged in to do that!");
-    res.redirect("/login");
-};
 
-module.exports = middlewareObj;
+module.exports = { isLoggedIn, validateSkatespot, isAuthor, validateComment, isCommentAuthor};
