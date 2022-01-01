@@ -43,7 +43,7 @@ router.get('/login', (req, res) => {
 //LOGIN: Handling login logic:
 router.post('/login', passport.authenticate('local', { failureFlash: true, failureRedirect: '/login' }), function(req, res){
       req.flash('success', 'Welcome back to Skate Spots!');
-      const redirectUrl = req.session.returnTo || '/skatespots';
+      const redirectUrl = req.session.returnTo || '/skatespots'; //Not sure I want to keep this because error occurs when you delete a comment , logout, then log back in...shows page not found error from error handler.
       delete req.session.returnTo;
       res.redirect(redirectUrl)
 });
