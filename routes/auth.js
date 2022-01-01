@@ -1,79 +1,77 @@
-const express =   require("express"),
+const express =   require('express'),
       router  =   express.Router(),
-      passport =  require("passport"),
-      User =      require("../models/user"),
-      async = require('async'),
+      passport =  require('passport'),
+      User =      require('../models/user'),
+      catchAsync = require('../utils/catchAsync'),
       nodemailer = require('nodemailer'),
       crypto = require('crypto');
 
 
+
 // RESGISTER: show register form
-router.get("/register", (req, res) => {
-   res.render("register"); 
-});
-//Handle sign up logic:
-
-router.post("/register", (req, res) => {
-    const newUser = new User(
-      {
-      username: req.body.username, 
-      email: req.body.email
-      }
-    );
-    console.log(newUser);
-    User.register(newUser, req.body.password, function(err, user){
-        if(err){
-          console.log(err);
-          req.flash("error", "Username already exists!")
-          return res.redirect("/register");
-        }
-        passport.authenticate("local")(req, res, function(){
-          req.flash("success", `You're successfully signed up! Welcome to Skate Spots ${user.username}!`);
-          res.redirect("/skatespots"); 
-        });
-    });
+router.get('/register', (req, res) => {
+   res.render('auth/register'); 
 });
 
-//  ===========
+//RESGISTER: Handle sign up logic:
+router.post('/register', catchAsync(async (req, res) => {
+  try {
+      const { email, username, password } = req.body;
+      const user = new User({ email, username });
+      const registeredUser = await User.register(user, password);
 
-// LOGIN: show login form
-router.get("/login", (req, res) => {
-  res.render("login"); 
-});
-// LOGIN: Handling login logic:
-router.post("/login", passport.authenticate("local", 
-    {     
-        successRedirect: "/skatespots",
-        failureRedirect: "/login",
-        failureFlash: true,
-        successFlash: "You now have access to Skate Spots!"
-    }), function(req, res){
+      req.login(registeredUser, err => {
+        if(err) return next(err);
+        req.flash('success', `You're successfully signed up! Welcome to Skate Spots ${user.username}!`);
+        res.redirect('/skatespots');
+      })
+      
+  } catch(e) {
+      console.log(e);
+      req.flash('error', 'Username already exists!')
+      return res.redirect('/register');
+  }
+}));
+
+
+
+//LOGIN: show login form
+router.get('/login', (req, res) => {
+  res.render('auth/login'); 
 });
 
-//  ===========
+//LOGIN: Handling login logic:
+router.post('/login', passport.authenticate('local', { failureFlash: true, failureRedirect: '/login' }), function(req, res){
+      req.flash('success', 'Welcome back to Skate Spots!');
+      const redirectUrl = req.session.returnTo || '/skatespots';
+      delete req.session.returnTo;
+      res.redirect(redirectUrl)
+});
+
+
 //Password reset page
-router.get("/forgot", function(req, res) {
-  res.render("forgot");
+router.get('/forgot', function(req, res) {
+  res.render('auth/forgot');
 });
 //Password reset post route
-router.post("/forgot", function(req, res, next) {
+router.post('/forgot', function(req, res, next) {
   async.waterfall(
     [
       function(done) {
         crypto.randomBytes(20, function(err, buf) {
-          let token = buf.toString("hex");
+          let token = buf.toString('hex');
           done(err, token);
         });
       },
       function(token, done) {
         User.findOne({ email: req.body.email }, function(err, user) {
           if (err) {
-            req.flash("error", err.message);
-            return res.redirect("back");
+            req.flash('error', err.message);
+            return res.redirect('back');
           }
           if (!user) {
-            req.flash("error", "No account with that email address exists.");
-            return res.redirect("/forgot");
+            req.flash('error', 'No account with that email address exists.');
+            return res.redirect('/forgot');
           }
 
           user.resetPasswordToken = token;
@@ -86,46 +84,46 @@ router.post("/forgot", function(req, res, next) {
       },
       function(token, user, done) {
         const smtpTransport = nodemailer.createTransport({
-          service: "Gmail",
+          service: 'Gmail',
           auth: {
-            user: "skatespotsunlimited@gmail.com",
+            user: 'skatespotsunlimited@gmail.com',
             pass: process.env.GMAILPW
           }
         });
         const mailOptions = {
           to: user.email,
-          from: "Skate Spots",
-          subject: "Skate Spots Password Reset",
+          from: 'Skate Spots',
+          subject: 'Skate Spots Password Reset',
           text:
-            "You are receiving this because you (or someone else) have requested the reset of the password for your account.\n\n" +
-            "Please click on the following link, or paste this into your browser to complete the process:\n\n" +
-            "http://" +
+            'You are receiving this because you (or someone else) have requested the reset of the password for your account.\n\n' +
+            'Please click on the following link, or paste this into your browser to complete the process:\n\n' +
+            'http://' +
             req.headers.host +
-            "/reset/" +
+            '/reset/' +
             token +
-            "\n\n" +
-            "If you did not request this, please ignore this email and your password will remain unchanged.\n"
+            '\n\n' +
+            'If you did not request this, please ignore this email and your password will remain unchanged.\n'
         };
         smtpTransport.sendMail(mailOptions, function(err) {
-          console.log("mail sent");
+          console.log('mail sent');
           req.flash(
-            "success",
-            "An e-mail has been sent to " +
+            'success',
+            'An e-mail has been sent to ' +
               user.email +
-              " with further instructions."
+              ' with further instructions.'
           );
-          done(err, "done");
+          done(err, 'done');
         });
       }
     ],
     function(err) {
       if (err) return next(err);
-      res.redirect("/forgot");
+      res.redirect('/forgot');
     }
   );
 });
 
-router.get("/reset/:token", function(req, res) {
+router.get('/reset/:token', function(req, res) {
   User.findOne(
     {
       resetPasswordToken: req.params.token,
@@ -134,21 +132,21 @@ router.get("/reset/:token", function(req, res) {
     function(err, user) {
       if (err) {
         req.flash(
-          "error",
-          "Password reset token is invalid or has expired."
+          'error',
+          'Password reset token is invalid or has expired.'
         );
-        res.redirect("/forgot");
+        res.redirect('/forgot');
       }
       if (!user) {
-        req.flash("error", "Password reset token is invalid or has expired.");
-        return res.redirect("/forgot");
+        req.flash('error', 'Password reset token is invalid or has expired.');
+        return res.redirect('/forgot');
       }
-      res.render("reset", { token: req.params.token });
+      res.render('auth/reset', { token: req.params.token });
     }
   );
 });
 
-router.post("/reset/:token", function(req, res) {
+router.post('/reset/:token', function(req, res) {
   async.waterfall(
     [
       function(done) {
@@ -160,87 +158,87 @@ router.post("/reset/:token", function(req, res) {
           function(err, user) {
             if (err) {
               req.flash(
-                "error",
-                "Password reset token is invalid or has expired. Try again!"
+                'error',
+                'Password reset token is invalid or has expired. Try again!'
               );
-              return res.redirect("back");
+              return res.redirect('back');
             }
             if (!user) {
               req.flash(
-                "error",
-                "Password reset token is invalid or has expired."
+                'error',
+                'Password reset token is invalid or has expired.'
               );
-              return res.redirect("back");
+              return res.redirect('back');
             }
             if (req.body.password === req.body.confirm) {
               user.setPassword(req.body.password, function(err) {
                 if (err) {
-                  req.flash("error", err.message);
-                  return res.redirect("back");
+                  req.flash('error', err.message);
+                  return res.redirect('back');
                 }
                 user.resetPasswordToken = undefined;
                 user.resetPasswordExpires = undefined;
 
                 user.save(function(err) {
                   if (err) {
-                    req.flash("error", err.message);
-                    return res.redirect("back");
+                    req.flash('error', err.message);
+                    return res.redirect('back');
                   }
                   req.logIn(user, function(err) {
                     if (err) {
-                      req.flash("error", err.message);
-                      return res.redirect("back");
+                      req.flash('error', err.message);
+                      return res.redirect('back');
                     }
                     done(err, user);
                   });
                 });
               });
             } else {
-              req.flash("error", "Passwords do not match.");
-              return res.redirect("back");
+              req.flash('error', 'Passwords do not match.');
+              return res.redirect('back');
             }
           }
         );
       },
       function(user, done) {
         let smtpTransport = nodemailer.createTransport({
-          service: "Gmail",
+          service: 'Gmail',
           auth: {
-            user: "skatespotsunlimited@gmail.com",
+            user: 'skatespotsunlimited@gmail.com',
             pass: process.env.GMAILPW
           }
         });
         let mailOptions = {
           to: user.email,
-          from: "skatespotsunlimited@gmail.com",
-          subject: "Your password has been changed",
+          from: 'skatespotsunlimited@gmail.com',
+          subject: 'Your password has been changed',
           text:
-            "Hello,\n\n" +
-            "This is a confirmation that the password for your account " +
+            'Hello,\n\n' +
+            'This is a confirmation that the password for your account ' +
             user.email +
-            " has just been changed.\n"
+            ' has just been changed.\n'
         };
         smtpTransport.sendMail(mailOptions, function(err) {
-          req.flash("success", "Success! Your password has been changed.");
+          req.flash('success', 'Success! Your password has been changed.');
           done(err);
         });
       }
     ],
     function(err) {
       if (err) {
-        req.flash("error", "Your password could not be changed. Try again.");
-        return res.redirect("back");
+        req.flash('error', 'Your password could not be changed. Try again.');
+        return res.redirect('back');
       }
-      res.redirect("/skatespots");
+      res.redirect('/skatespots');
     }
   );
 });
 
 // LOGOUT logic + route
-router.get("/logout", (req, res) => {
+router.get('/logout', (req, res) => {
   req.logout();
-  req.flash("success", "LOGGED OUT - Successfully");
-  res.redirect("/skatespots");
+  req.flash('success', 'You have been logged out successfully');
+  res.redirect('/skatespots');
 });
 
 
