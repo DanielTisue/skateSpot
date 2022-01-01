@@ -22,13 +22,7 @@ MAP:
    <div id="map"></div>
 </div>
 
-AUTHOR:
 
- <p><em>Submitted By <strong><%= skatespot.author.username %></strong></em></p> 
-
-EDIT & DELETE btns conditional rendering
- <% if(currentUser && skatespot.author.id.equals(currentUser._id)) { %>
-  <% } %>
 
 COMMENTS: 
   <div class="well">

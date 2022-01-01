@@ -1,56 +1,66 @@
 <% layout('/layouts/boilerplate') %>
 
 <div class="row">
-  <h2 style="text-align: center">
-    Edit Your<br />
-    SkateSpot:
-    <hr />
-    <h1 style="text-align: center"><%= skatespot.name %></h1>
-  </h2>
+  <h1 class="text-center mb-3"> Edit Your Skate Spot:</h1>
+  <hr class="mb-3">
   <div class="col-md-6 offset-md-3 col-sm-12 offset-sm-0">
-    <form
-      action="/skateSpots/<%= skatespot._id %>?_method=PUT"
-      method="POST"
-      enctype="multipart/form-data"
-    >
-      <div class="form-group">
-        <input
-          class="form-control"
-          type="text"
-          name="skatespot[name]"
-          value="<%= skatespot.name %>"
-        />
+    <form action="/skatespots/<%= skatespot._id %>?_method=PUT" method="POST">
+      <div class="mb-3">
+        <input class="form-control text-muted" type="text" name="skatespot[name]" placeholder="name" value="<%= skatespot.name %>" required>
+        <div class="valid-feedback">
+          Looks good!
+        </div>
       </div>
-      <div class="form-group">
+       <div class="mb-3">
+         <div class="input-group">
+          <span class="input-group-text" id="price-label">$</span>
+          <input type="text" class="form-control text-muted" id="price" placeholder="0.00" aria-label="price" aria-describedby="price-label" name="skatespot[price]" value="<%= skatespot.price %>" required>
+        </div>
+        <div class="valid-feedback">
+          Looks good!
+        </div>
+      </div>
+      <div class="mb-3">
+        <input class="form-control text-muted" type="text" name="skatespot[image]" id="image" placeholder="...choose an image url to upload" value="<%= skatespot.image %>" required>
+         <div class="valid-feedback">
+          Looks good!
+        </div>
+      </div>
+      <div class="mb-3">
+        <p class="text-muted"><small>Your current spot image:</small></p>
+        <img src="<%= skatespot.image %>" class="img-fluid" alt="...">
+      </div>
+      <!-- <div class=" input-group-sm mb-3">
         <input
           class="form-control"
           type="file"
           name="image"
-          value="<%= skatespot.image %>"
+          accept="image/*"
+          id="chooseFile"
+          placeholder="...choose an image to upload"
+          required
         />
+      </div> -->
+      
+      <div class="mb-3">
+        <textarea class="form-control text-muted" type="text" id="description" name="skatespot[description]" placeholder="Street spot or Park spot"><%= skatespot.description %></textarea>
+        <div class="valid-feedback">
+            Looks good!
+        </div>
       </div>
-      <div class="form-group">
-        <input
-          class="form-control"
-          type="text"
-          name="skatespot[description]"
-          value="<%= skatespot.description %>"
-        />
+      <div class="mb-3">
+        <input class="form-control text-muted" type="text" name="skatespot[location]" placeholder="location" value="<%= skatespot.location %>" required>
+         <div class="valid-feedback">
+          Looks good!
+        </div>
       </div>
-      <div class="form-group">
-        <input
-          class="form-control"
-          type="text"
-          name="location"
-          id="location"
-          value="<%= skatespot.location %>"
-        />
-      </div>
-      <div class="form-group">
-        <button class="btn btn-lg btn-primary btn-block"><i class="fas fa-sign-in-alt"></i>Submit!</button>
+      <div class="mb-3">
+        <button class="btn btn-primary btn-block"><i class="fas fa-sign-in-alt"></i>Update spot</button>
       </div>
     </form>
   </div>
 </div>
+
+
 
 

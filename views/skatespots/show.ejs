@@ -13,28 +13,37 @@
                 <li class="list-group-item text-small"><small><span class="text-muted">Where: </span><br><%= skatespot.location %></small></li>
                 <li class="list-group-item"><small><span class="text-muted">Entrance fee: </span><br>$<%= skatespot.price %></small></li>
             </ul>
+            <% if(currentUser && skatespot.author.equals(currentUser._id)) { %>
             <div class="card-body">
+            
                 <a class="card-link btn btn-sm btn-info" href="/skatespots/<%=skatespot._id%>/edit">Edit</a>
                 <form class="d-inline" action="/skatespots/<%=skatespot._id%>?_method=DELETE" method="POST">
                     <button class="btn btn-sm btn-outline-danger">Delete</button>
                 </form>
+           
             </div>
+          <% } %>
             <div class="card-footer text-muted">
-                <small>2 days ago</small>
+                <small><em>Submitted by:</em> <strong><%= skatespot.author.username %></strong></small> -
+                <small><em>2 days ago</em></small>
             </div>
         </div>
         <h5>Leave a Comment and Rate the spot!</h5>
         <hr class="mb-3" />
-
+       
         <button class="mb-5 btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">Leave a Comment</button>
+       
+    
         <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                        <h5 class="modal-title" id="exampleModalLabel">Add a comment..</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
+
+                    <% if(currentUser) { %>
                         <form action="/skatespots/<%= skatespot._id %>/comments" method="POST" class="mb-3 validated-form" novalidate>
                             <div class="mb-3">
                                 <label for="rating" class="form-label">Rating</label>
@@ -46,6 +55,10 @@
                             </div>
                             <button class="btn btn-sm btn-primary">Submit</button>
                         </form>
+                    <% } else { %>
+                        <p class="text-sm text-muted">You have to be looged into create a comment</p>
+                        <a class="btn btn-sm btn-primary" href="/login">Log In</a>
+                    <% } %>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-sm btn-outline-secondary" data-bs-dismiss="modal">Close</button>
@@ -53,16 +66,19 @@
                 </div>
             </div>
         </div>
-
+    
         
         <% for(let comment of skatespot.comments) { %>
-        <div class="card mb-3">
+        <div class="card mb-3 comment-card">
             <div class="card-body">
                 <h5 class="card-title"><small>Rating: <%= comment.rating %></small></h5>
-                <p class="card-text"><small>Admin says ... <br><%= comment.text %></small></p>
+                <h6 class="card-subtitle mb-2 text-muted"><small><strong><%= comment.author.username %></strong> <em>says..</em></small></h6>
+                <p class="card-text"><small><%= comment.text %></small></p>
+                <% if(currentUser && comment.author.equals(currentUser)) { %>
                 <form action="/skatespots/<%=skatespot._id%>/comments/<%=comment._id%>?_method=DELETE" method="POST">
                     <button class="btn btn-sm btn-danger"><small>Delete</small></button>
                 </form>
+                <% } %>
             </div>
         </div>
         <% } %>
@@ -70,7 +86,6 @@
 </div>
     
         
-
 
 
 
