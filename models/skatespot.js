@@ -8,12 +8,16 @@ const skatespotSchema = new Schema({
   description: String,
   location: String,
   price: Number,
+  author: {
+        type: Schema.Types.ObjectId,
+        ref: 'User'
+      },
   comments: [
     {
       type: Schema.Types.ObjectId,
       ref: 'Comment'
     }
-  ]
+  ] 
 });
 
 skatespotSchema.post('findOneAndDelete', async function(doc) {

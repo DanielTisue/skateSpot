@@ -4,12 +4,12 @@ const Schema = mongoose.Schema;
 const commentSchema = Schema ({
     text: String,
     rating: Number,
-    // author: 
-    // {
+    author: 
+    {
     //     id: {
-    //         type: Schema.Types.ObjectId,
-    //         ref: 'User'
-    //     },
+            type: Schema.Types.ObjectId,
+            ref: 'User'
+        },
     //    username: String
     //  }
 });
