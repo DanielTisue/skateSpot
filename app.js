@@ -3,17 +3,20 @@ const express = require('express'), //updated
       path = require('path'), //new exprees built in method
       mongoose = require('mongoose'),
       ejsMate = require('ejs-mate'), //new
-      flash = require('connect-flash'),
-      ExpressError = require('./utils/ExpressError'),
+      session = require('express-session'),
+      flash = require('connect-flash'), //updated
+      ExpressError = require('./utils/ExpressError'), //new function
       passport = require('passport'), //updated
       LocalStrategy = require('passport-local'), //updated
-      methodOverride = require('method-override'),
-      Skatespot = require('./models/skatespot'),
+      methodOverride = require('method-override');
+
+//Models
+const Skatespot = require('./models/skatespot'),
       Comment = require('./models/comment'),
       User = require('./models/user');
 
 
-//require routes
+//Routes
 const commentRoutes = require('./routes/comments'),
       skatespotRoutes = require('./routes/skatespots'),
       authRoutes = require('./routes/auth');
@@ -27,23 +30,31 @@ connection.once('open', () => {
 
 const app = express();
 
-// app.use(express.json({ extended: true }));
+// app.use(express.json({ extended: true })) - not need because forms are using app.use(express.urlencoded({ extended: true })) to parse data.
 app.engine('ejs', ejsMate);
 app.set('view engine', 'ejs');
-app.use(express.static(__dirname + '/public')); //for loading items in public folder
 app.set('views', path.join(__dirname, 'views'));
 
 app.use(express.urlencoded({ extended: true }));
 app.use(methodOverride('_method'));
+app.use(express.static(__dirname + '/public')); //for loading items in public folder
+
+//Flash
+const sessionConfig = {
+  secret: process.env.SESSIONSECRET,
+  resave: false,
+  saveUninitialized: true,
+  cookie: {
+    httpOnly: true,
+    expires: Date.now() + 1000 * 60 * 60 * 24 * 7,
+    maxAge: 1000 * 60 * 60 * 24 * 7
+  }
+}
+app.use(session(sessionConfig));
 app.use(flash());
+
+
 //Passport Config
-app.use(
-  require('express-session')({
-    secret: 'Max is feeling better!',
-    resave: false,
-    saveUninitialized: false
-  })
-);
 app.use(passport.initialize());
 app.use(passport.session());
 passport.use(new LocalStrategy(User.authenticate()));
@@ -51,8 +62,9 @@ passport.use(new LocalStrategy(User.authenticate()));
 passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
 
+//Flash
 app.use((req, res, next) => {
-  res.locals.currentUser = req.user;
+  res.locals.currentUser = req.user; // gives me access to current user within the template on all pages!
   res.locals.error = req.flash('error');
   res.locals.success = req.flash('success');
   next();
