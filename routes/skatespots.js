@@ -1,70 +1,31 @@
 const express = require('express'),
       router = express.Router({ mergeParams: true }),
+      skatespots = require('../controllers/skatespots'),
       catchAsync = require('../utils/catchAsync'),
-      { isLoggedIn, validateSkatespot, isAuthor } = require('../middleware/index'), 
-      Skatespot = require('../models/skatespot');
+      { isLoggedIn, validateSkatespot, isAuthor } = require('../middleware/index');
+      // Skatespot = require('../models/skatespot');
      
 
 //INDEX 
-router.get('/', catchAsync(async (req, res) => {
-    const skatespots = await Skatespot.find({});
-    res.render('skatespots/index', { skatespots });
-}));
+router.get('/', catchAsync(skatespots.index));
     
 //NEW form
-router.get('/new', isLoggedIn, (req, res) => {
-  res.render('skatespots/new');
-});  
+router.get('/new', isLoggedIn, skatespots.renderNewForm);  
  
 //CREATE
-router.post('/', isLoggedIn, validateSkatespot, catchAsync(async (req, res, next) => {  
-    // Get data from form and add to skatespots 
-    const skatespot = new Skatespot(req.body.skatespot);
-    //adding author to skate spot
-    skatespot.author = req.user._id;
-    // Create a new skatespot and save to DB
-    await skatespot.save();
-    req.flash('success', 'Your skate spot was successfully created!');
-    res.redirect(`/skatespots/${skatespot.id}`);
-}));
+router.post('/', isLoggedIn, validateSkatespot, catchAsync(skatespots.createSkatespot));
 
 //SHOW page
-router.get('/:id', catchAsync(async(req, res) => {
-  const skatespot = await Skatespot.findById(req.params.id).populate({path:'comments', populate: {path: 'author'}}).populate('author');
-  if (!skatespot) {
-        req.flash('error', 'That skate spot no longer exists!');
-        return res.redirect('/skatespots');
-    }
-  res.render('skatespots/show', { skatespot });
-}));
+router.get('/:id', catchAsync(skatespots.showSkatespot));
 
 // EDIT form
-router.get('/:id/edit', isLoggedIn, isAuthor, catchAsync(async (req, res) => {
-  const { id } = req.params;
-  const skatespot = await Skatespot.findById(id);
-      if (!skatespot) {
-          req.flash('error', 'That skate spot no longer exists. There is nothing to edit!');
-          return res.redirect('/skatespots');
-      }
-  res.render('skatespots/edit', { skatespot });
-  }));
+router.get('/:id/edit', isLoggedIn, isAuthor, catchAsync(skatespots.renderEditForm));
 
 //UPDATE
-router.put('/:id', isLoggedIn, isAuthor, validateSkatespot, catchAsync(async (req, res) => {
-    const { id } = req.params;
-    const spot = await Skatespot.findByIdAndUpdate(id, { ...req.body.skatespot });
-    req.flash('success', 'Your skate spot was successfully updated!');
-    res.redirect(`/skatespots/${id}`);
-  }
-)); 
+router.put('/:id', isLoggedIn, isAuthor, validateSkatespot, catchAsync(skatespots.updateSkatespot)); 
 
 //DESTROY 
-router.delete('/:id', isLoggedIn, isAuthor, catchAsync(async (req, res) => {
-  const { id } = req.params;
-  await  Skatespot.findByIdAndDelete(id);    
-  req.flash('success', 'Your skate spot was successfully deleted!');
-  res.redirect('/skatespots');
-  }));
+router.delete('/:id', isLoggedIn, isAuthor, catchAsync(skatespots.deleteSkatespot));
 
 
 module.exports = router;
