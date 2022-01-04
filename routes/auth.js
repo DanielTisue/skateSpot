@@ -1,25 +1,25 @@
 const express =   require('express'),
       router  =   express.Router(),
       passport =  require('passport'),
-      User =      require('../models/user'),
-      auth = require('../controllers/auth'),
       catchAsync = require('../utils/catchAsync'),
-      nodemailer = require('nodemailer'),
-      crypto = require('crypto');
+      auth = require('../controllers/auth');
+      
+      // async = require('async'),
+      // nodemailer = require('nodemailer'),
+      // crypto = require('crypto');
 
 
 
-//RESGISTER: show register form
-router.get('/register', auth.registerForm);
 
-//REGISTER: Handle sign up logic:
-router.post('/register', catchAsync(auth.createUser));
+//RESGISTER: show register form - REGISTER: Handle sign up logic:
+router.route('/register')
+      .get(auth.registerForm)
+      .post(catchAsync(auth.createUser));
 
-//LOGIN: show login form
-router.get('/login', auth.loginForm);
-
-//LOGIN: Handling login logic:
-router.post('/login', passport.authenticate('local', { failureFlash: true, failureRedirect: '/login' }), auth.logIn);
+//LOGIN: show login form - LOGIN: Handling login logic:
+router.route('/login')
+      .get(auth.loginForm)
+      .post(passport.authenticate('local', { failureFlash: true, failureRedirect: '/login' }), auth.logIn);
 
 
 //Password reset page
