@@ -20,27 +20,32 @@
           Looks good!
         </div>
       </div>
+     
+       <div class="mb-3">
+                <div class="form-file custom-file">
+                  
+                    <input type="file" class="form-file-input form-control" id="image" name="image" multiple>
+                    <label class="form-file-label mb-2" for="image">
+                        <em><span class="form-file-text custom-file-label text-muted"><small>Add an image or mutliple images to your existing spot image collection ...</small></span></em>
+                    </label>
+                </div>
+      </div>
+
       <div class="mb-3">
-        <input class="form-control text-muted" type="text" name="skatespot[image]" id="image" placeholder="...choose an image url to upload" value="<%= skatespot.image %>" required>
-         <div class="valid-feedback">
-          Looks good!
+        <p class="text-muted"><small>Your current spot image(s):</small></p>
+        <div class="row">
+         <% skatespot.images.forEach ((img, i) => { %>
+                <div class="mb-3 col-md-4">
+                    <img src="<%= img.thumbnail %>" alt="...">
+                <div class="form-check-inline">
+                  <input type="checkbox" name="deleteImages[]" id="image-<%=i%>" value="<%=img.filename%>">
+                  <label class="text-muted" for="image-<%=i%>"><small>Delete</small></label>
+                </div>
+                </div>
+        <% }) %> 
         </div>
       </div>
-      <div class="mb-3">
-        <p class="text-muted"><small>Your current spot image:</small></p>
-        <img src="<%= skatespot.image %>" class="img-fluid" alt="...">
-      </div>
-      <!-- <div class=" input-group-sm mb-3">
-        <input
-          class="form-control"
-          type="file"
-          name="image"
-          accept="image/*"
-          id="chooseFile"
-          placeholder="...choose an image to upload"
-          required
-        />
-      </div> -->
+     
       
       <div class="mb-3">
         <textarea class="form-control text-muted" type="text" id="description" name="skatespot[description]" placeholder="Street spot or Park spot"><%= skatespot.description %></textarea>
