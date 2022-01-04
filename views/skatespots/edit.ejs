@@ -4,7 +4,7 @@
   <h1 class="text-center mb-3"> Edit Your Skate Spot:</h1>
   <hr class="mb-3">
   <div class="col-md-6 offset-md-3 col-sm-12 offset-sm-0">
-    <form action="/skatespots/<%= skatespot._id %>?_method=PUT" method="POST">
+    <form action="/skatespots/<%= skatespot._id %>?_method=PUT" method="POST" enctype="multipart/form-data">
       <div class="mb-3">
         <input class="form-control text-muted" type="text" name="skatespot[name]" placeholder="name" value="<%= skatespot.name %>" required>
         <div class="valid-feedback">

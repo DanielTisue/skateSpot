@@ -5,7 +5,7 @@
   <h1 class="text-center mb-3">Add a New SkateSpot</h1>
   <hr class="mb-3">
   <div class="col-md-6 offset-md-3 col-sm-12 offset-sm-0">
-    <form action="/skatespots" method="POST" class="validated-form" novalidate>
+    <form action="/skatespots" method="POST" class="validated-form" novalidate enctype="multipart/form-data">
       <div class="mb-3">
         <input class="form-control" type="text" name="skatespot[name]" placeholder="name" required>
         <div class="valid-feedback">
@@ -21,24 +21,15 @@
           Looks good!
         </div>
       </div>
-      <div class="mb-3">
+      <!-- <div class="mb-3">
         <input class="form-control" type="text" name="skatespot[image]" id="image" placeholder="...choose an image url to upload" required>
          <div class="valid-feedback">
           Looks good!
         </div>
-      </div>
-      <!-- <div class=" input-group-sm mb-3">
-        <input
-          class="form-control"
-          type="file"
-          name="image"
-          accept="image/*"
-          id="chooseFile"
-          placeholder="...choose an image to upload"
-          required
-        />
       </div> -->
-      
+      <div class="mb-3">
+        <input class="form-control" type="file" name="image" accept="image/*" id="chooseFile" placeholder="...choose an image to upload" multiple required />
+      </div> 
       <div class="mb-3">
         <textarea class="form-control" type="text" id="description" name="skatespot[description]" placeholder="Street spot or Park spot" required></textarea>
         <div class="valid-feedback">
