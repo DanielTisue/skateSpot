@@ -3,29 +3,29 @@ const express = require('express'),
       skatespots = require('../controllers/skatespots'),
       catchAsync = require('../utils/catchAsync'),
       { isLoggedIn, validateSkatespot, isAuthor } = require('../middleware/index');
+
+      const multer = require('multer'),
+            upload = multer({dest: 'uploads/'});
       // Skatespot = require('../models/skatespot');
      
 
-//INDEX 
-router.get('/', catchAsync(skatespots.index));
-    
-//NEW form
-router.get('/new', isLoggedIn, skatespots.renderNewForm);  
- 
-//CREATE
-router.post('/', isLoggedIn, validateSkatespot, catchAsync(skatespots.createSkatespot));
+//INDEX - CREATE
+router.route('/')
+      .get(catchAsync(skatespots.index))
+      .post(isLoggedIn, validateSkatespot, catchAsync(skatespots.createSkatespot));
+      
 
-//SHOW page
-router.get('/:id', catchAsync(skatespots.showSkatespot));
+
+//NEW form
+router.get('/new', isLoggedIn, skatespots.renderNewForm);
+
+//SHOW, UPDATE, DELETE
+router.route('/:id')
+      .get(catchAsync(skatespots.showSkatespot))
+      .put(isLoggedIn, isAuthor, validateSkatespot, catchAsync(skatespots.updateSkatespot))
+      .delete(isLoggedIn, isAuthor, catchAsync(skatespots.deleteSkatespot));
 
 // EDIT form
 router.get('/:id/edit', isLoggedIn, isAuthor, catchAsync(skatespots.renderEditForm));
-
-//UPDATE
-router.put('/:id', isLoggedIn, isAuthor, validateSkatespot, catchAsync(skatespots.updateSkatespot)); 
-
-//DESTROY 
-router.delete('/:id', isLoggedIn, isAuthor, catchAsync(skatespots.deleteSkatespot));
-
 
 module.exports = router;
