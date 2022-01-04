@@ -24,11 +24,11 @@
 <hr class="mb-5" />
 
 
-  <% skatespots.forEach(function(skatespot){ %>
+<% skatespots.forEach(function(skatespot){ %>
   <div class="card mb-3" >
     <div class="row">
         <div class="col-md-6">
-            <img id="index-img" class="img-fluid" alt="" src="<%=skatespot.image%>">
+            <img id="index-img" class="img-fluid" alt="hero" src="<%=skatespot.images[0].thumbnail%>">
         </div>
         <div class="col-md-6">
             <div class="card-body">
@@ -41,8 +41,8 @@
             </div>
         </div>
     </div>
-</div>
-  <% }); %>
+  </div>
+<% }); %>
 
 
 

@@ -3,10 +3,30 @@
  
 <div class="row">
     <div class="col-lg-8 offset-lg-2 col-sm-12 offset-sm-0">
+        
         <div class="card mb-5">
-            <img src="<%= skatespot.image %>" class="card-img-top" alt="...">
+           <div id="skatespotCarousel" class="carousel slide" data-bs-ride="carousel" data-bs-interval="false">
+            <div class="carousel-inner card-img-top">
+            <% skatespot.images.forEach ((img, i) => { %>
+                <div class="carousel-item <%= i === 0 ? 'active' : '' %>">
+                    <img src="<%= img.thumbnail %>" class="d-block w-100" alt="...">
+                </div>
+            <% }) %>  
+            </div>
+            <% if(skatespot.images.length >1 ) { %>
+                <a class="carousel-control-prev" role="button" data-bs-target="#skatespotCarousel" data-bs-slide="prev">
+                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Previous</span>
+                </a>
+                <a class="carousel-control-next" role="button" data-bs-target="#skatespotCarousel" data-bs-slide="next">
+                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Next</span>
+                </a>
+            <% } %>
+        </div>
+           
             <div class="card-body">
-                <h5 class="card-title mb-3"><%= skatespot.name %></h5>
+                <h5 class="card-title mb-3 placeholder"><%= skatespot.name %></h5>
                 <p class="card-text"><%= skatespot.description %></p>
             </div>
             <ul class="list-group list-group-flush">
@@ -31,14 +51,14 @@
         <h5>Leave a Comment and Rate the spot!</h5>
         <hr class="mb-3" />
        
-        <button class="mb-5 btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">Leave a Comment</button>
+        <button class="mb-5 btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#commentModal">Leave a Comment</button>
        
     
-        <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal fade" id="commentModal" tabindex="-1" aria-labelledby="commentModalLabel" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">Add a comment..</h5>
+                        <h5 class="modal-title" id="commentModalLabel">Add a comment..</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
@@ -60,8 +80,6 @@
                                 <input type="radio" id="first-rate5" name="comment[rating]" value="5" />
                                 <label for="first-rate5" title="Amazing">5 stars</label>
                                 </fieldset>
-                                <!-- <label for="rating" class="form-label">Rating</label>
-                                <input type="range" class="form-range" id="rating" min="1" max="5" name="comment[rating]"> -->
                             </div>
                             <div class="mb-3">
                                 <label for="comment" class="form-label">Comment</label>
