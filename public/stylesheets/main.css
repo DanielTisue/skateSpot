@@ -63,11 +63,17 @@ i {
 
 img {
   width: 100%;
+  max-height: 375px;
 }
 
 #index-img {
   border-radius: 4px 0 0 4px;
   height: 100%;
+  max-height: 275px;
+}
+
+.c-image {
+  border-radius: 4px 4px 0 0;
 }
 /* custom img adjustments end */
 
