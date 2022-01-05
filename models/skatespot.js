@@ -18,6 +18,17 @@ ImageSchema.virtual('thumbnail').get(function() {
 const skatespotSchema = new Schema({
   name: String,
   images: [ImageSchema],
+  geometry: {
+    type: {
+      type: String, 
+      enum: ['Point'], // 'location.type' must be 'Point'
+      required: true
+    },
+    coordinates: {
+      type: [Number],
+      required: true
+    }
+  },
   description: String,
   location: String,
   price: Number,

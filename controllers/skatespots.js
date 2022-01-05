@@ -1,5 +1,9 @@
 const Skatespot = require('../models/skatespot'),
+      mbxGeocoding = require('@mapbox/mapbox-sdk/services/geocoding'),
       { cloudinary } = require('../cloudinary');
+
+const mapBoxToken = process.env.MAPBOX_TOKEN,
+      geocoder = mbxGeocoding({ accessToken: mapBoxToken });
 
 module.exports.index = async (req, res) => {
     const skatespots = await Skatespot.find({});
@@ -11,8 +15,13 @@ module.exports.renderNewForm = (req, res) => {
 }
 
 module.exports.createSkatespot = async (req, res, next) => {  
+    const geoData = await geocoder.forwardGeocode({
+      query: req.body.skatespot.location,
+      limit: 1
+    }).send()
     // Get data from form and add to skatespots 
     const skatespot = new Skatespot(req.body.skatespot);
+    skatespot.geometry = geoData.body.features[0].geometry;
     skatespot.images = req.files.map(f => ({url: f.path, filename: f.filename }));
     //adding author to skate spot
     skatespot.author = req.user._id;
