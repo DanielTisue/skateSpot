@@ -1,4 +1,5 @@
 <% layout('/layouts/boilerplate') %>
+<div id="map" class="my-3" style="width: 100%; height: 350px; background-color: black;"></div>
 <div class="p-md-5 p-sm-1 mb-4 bg-light rounded-3">
   <div class="container-fluid py-5">
     <h1 class="display-5 fw-bold"><i class="fas fa-globe-americas"></i>Skate Spots</h1>
@@ -23,12 +24,15 @@
  <!-- Don't forget to add back search.query no match message located in snippets.txt file -->
 <hr class="mb-5" />
 
-
 <% skatespots.forEach(function(skatespot){ %>
   <div class="card mb-3" >
     <div class="row">
         <div class="col-md-6">
+          <%if(skatespot.images.length) {%>
             <img id="index-img" class="img-fluid" alt="hero" src="<%=skatespot.images[0].thumbnail%>">
+          <% } else { %>
+             <img id="index-img" class="img-fluid" alt="hero" src="https://res.cloudinary.com/danieltisue/image/upload/v1641339605/skateSpots/max-tarkhov-skateDeck.jpg">
+          <% } %>
         </div>
         <div class="col-md-6">
             <div class="card-body">
@@ -44,7 +48,9 @@
   </div>
 <% }); %>
 
+<script>
+    const mapToken = '<%- process.env.MAPBOX_TOKEN %>';
+   
+</script>
 
-
-
-
+<script src="/javascripts/clusterMap.js"></script>
