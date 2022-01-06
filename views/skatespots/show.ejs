@@ -3,7 +3,7 @@
 
 
  
-<div class="row">
+<div class="row mt-3">
   
     <div class="col-lg-8 offset-lg-2 col-sm-12 offset-sm-0">
         
@@ -40,10 +40,9 @@
             <ul class="list-group list-group-flush">
                 <li class="list-group-item text-small"><small><span class="text-muted">Where: </span><br><%= skatespot.location %></small>
                  <div class="mt-3 mb-3">
-                    <div id='map' style='width: 100%; height: 300px;'></div>
+                    <div id='map' class="show-map"></div>
                 </div>
                 </li>
-                <li class="list-group-item"><small><span class="text-muted">Entrance fee: </span><br>$<%= skatespot.price %></small></li>
             </ul>
             <% if(currentUser && skatespot.author.equals(currentUser._id)) { %>
             <div class="card-body">
@@ -56,8 +55,7 @@
             </div>
           <% } %>
             <div class="card-footer text-muted">
-                <small><em>Submitted by:</em> <strong><%= skatespot.author.username %></strong></small> -
-                <small><em>2 days ago</em></small>
+                <small>Entrance fee: $<%= skatespot.price %></small>
             </div>
         </div>
         <h5>Leave a Comment and Rate the spot!</h5>
@@ -133,7 +131,7 @@
     
 <script>
     const mapToken = '<%- process.env.MAPBOX_TOKEN %>';
-    const skatespot = '<%- JSON.stringify(skatespot) %>'
+    const skatespot = <%- JSON.stringify(skatespot) %>
 </script>
         
 <script src="/javascripts/showPageMap.js"></script>
