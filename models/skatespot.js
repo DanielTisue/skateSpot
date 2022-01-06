@@ -15,6 +15,8 @@ ImageSchema.virtual('thumbnail').get(function() {
   return this.url.replace('/upload', '/upload/w_500');
 });
 
+const opts = { toJSON: { virtuals: true } };
+
 const skatespotSchema = new Schema({
   name: String,
   images: [ImageSchema],
@@ -42,6 +44,11 @@ const skatespotSchema = new Schema({
       ref: 'Comment'
     }
   ] 
+}, opts);
+
+skatespotSchema.virtual('properties.popUpMarkup').get(function () {
+    return `<strong><a href="/skatespots/${this._id}">${this.name}</a><strong>
+            <p class="text-muted">${this.location}</p>`
 });
 
 skatespotSchema.post('findOneAndDelete', async function(doc) {
