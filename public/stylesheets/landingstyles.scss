@@ -314,7 +314,7 @@ main {
       content:"";
       position:fixed; /* stretch a fixed position to the whole screen */
       top:0;
-      height:100vh; /* fix for mobile browser address bar appearing disappearing */
+      height:100%; /* fix for mobile browser address bar appearing disappearing */
       left:0;
       right:0;
       z-index:-1; /* needed to keep in the background */
@@ -324,28 +324,61 @@ main {
       -o-background-size: cover;
       background-size: cover;
 }
-  main{
+  main {
+    display: flex;
+    width: 100%;
+    height: 100%;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
     div{
           a.btn{
           padding:5px;
-          margin-top:15px;
+          margin: 0 .4rem;
           font-size: 12px;
           letter-spacing: 3px;
-
+          height: 20px;
+          display: flex;
+          justify-content: center;
+          align-items: center;
           i{
             display: none;
           }
 
         }
       }
-      div.spot4{
-      display: none;
-      svg{
-          display: none;
-      }
-    }
+       div.spot1 {
+         display: none;
+       }
+
+       div.spot2 {
+         display: none;
+       }
+
+       div.spot3 {
+        display: none;
+       }
+
+       div.spot4 {
+         display: none;
+       }
      
   } 
+
+  #title {
+    //  width: 100%;
+    display: flex;
+    //  justify-content: center;
+    //  align-items: center;
+
+    text {
+      font-size: 1.5rem;
+      letter-spacing: .3rem;
+      
+    }
+
+  }
 }
 
 
