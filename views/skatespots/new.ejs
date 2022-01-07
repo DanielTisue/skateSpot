@@ -1,11 +1,10 @@
 <% layout('/layouts/boilerplate') %>
 
-
 <div class="row">
   <h1 class="text-center mb-3">Add a New SkateSpot</h1>
   <hr class="mb-3">
   <div class="col-md-6 offset-md-3 col-sm-12 offset-sm-0">
-    <form action="/skatespots" method="POST" class="validated-form" novalidate enctype="multipart/form-data">
+    <form id="myForm" action="/skatespots" method="POST" class="validated-form" novalidate enctype="multipart/form-data">
       <div class="mb-3">
         <input class="form-control" type="text" name="skatespot[name]" placeholder="name" required>
         <div class="valid-feedback">
@@ -44,10 +43,24 @@
         </div>
       </div>
       <div class="mb-3">
-        <button class="btn btn-primary btn-block"><i class="fas fa-sign-in-alt"></i>Add spot</button>
+        <button id="submit-btn" class="btn btn-primary btn-block"><i class="fas fa-sign-in-alt"></i>Add spot</button>
       </div>
     </form>
+
+    <div class="progress">
+      <div id="progressBar" class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" style="width: 0;" aria-valuenow="10" aria-valuemin="0" aria-valuemax="100"></div>
+      <span id="status"></span>
+      
+    </div>
+    <p id="finalMessage"></p>
+    <!-- <div class="progress-wrapper">
+      <progress id="progressBar" value="0" max="100" style="width: 100%; height: 50px;"></progress>
+      <span id="status"></span>
+      <p id="finalMessage"></p>
+    </div> -->
+
   </div>
 </div>
 
 
+<script src="/javascripts/uploader.js"></script>
