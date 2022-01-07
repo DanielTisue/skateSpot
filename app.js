@@ -8,19 +8,24 @@ const express = require('express'), //updated
       ExpressError = require('./utils/ExpressError'), //new function
       passport = require('passport'), //updated
       LocalStrategy = require('passport-local'), //updated
-      methodOverride = require('method-override');
+      methodOverride = require('method-override'),
+      helmet = require('helmet');
 
+      
 //Models
 const Skatespot = require('./models/skatespot'),
       Comment = require('./models/comment'),
       User = require('./models/user');
 
+//Sanitize
+const mongoSanitize = require('express-mongo-sanitize');
 
 //Routes
 const commentRoutes = require('./routes/comments'),
       skatespotRoutes = require('./routes/skatespots'),
       authRoutes = require('./routes/auth');
 
+const MongoDBStore = require("connect-mongo")(session);
 //db config
 mongoose.connect(process.env.DATABASEURL, { useNewUrlParser: true, useUnifiedTopology: true });
 const connection = mongoose.connection;
@@ -38,21 +43,93 @@ app.set('views', path.join(__dirname, 'views'));
 app.use(express.urlencoded({ extended: true }));
 app.use(methodOverride('_method'));
 app.use(express.static(__dirname + '/public')); //for loading items in public folder
+app.use(mongoSanitize({ replaceWith: '_' }));
+
+const secret = process.env.SESSIONSECRET;
+
+const store = new MongoDBStore({
+    url: process.env.DATABASEURL,
+    secret,
+    touchAfter: 24 * 60 * 60
+});
+
+store.on("error", function (e) {
+    console.log("SESSION STORE ERROR", e)
+})
 
 //Flash
 const sessionConfig = {
+  store,
+  name: 'session',
   secret: process.env.SESSIONSECRET,
   resave: false,
   saveUninitialized: true,
   cookie: {
     httpOnly: true,
+    // secure: true, //for production use
     expires: Date.now() + 1000 * 60 * 60 * 24 * 7,
     maxAge: 1000 * 60 * 60 * 24 * 7
   }
 }
 app.use(session(sessionConfig));
 app.use(flash());
+const scriptSrcUrls = [
+    "https://stackpath.bootstrapcdn.com/",
+    "https://api.tiles.mapbox.com/",
+    "https://api.mapbox.com/",
+    "https://kit.fontawesome.com/",
+    "https://cdnjs.cloudflare.com/",
+    "https://cdn.jsdelivr.net",
+];
+const styleSrcUrls = [
+    "https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css",
+    "https://kit-free.fontawesome.com/",
+    "https://use.fontawesome.com/releases/v5.10.0/css/all.css",
+    "https://stackpath.bootstrapcdn.com/",
+    "https://api.mapbox.com/",
+    "https://api.tiles.mapbox.com/",
+    "https://fonts.googleapis.com/",
+    "https://use.fontawesome.com/"
+];
 
+const connectSrcUrls = [
+    "https://api.mapbox.com/",
+    "https://a.tiles.mapbox.com/",
+    "https://b.tiles.mapbox.com/",
+    "https://events.mapbox.com/"
+];
+const fontSrcUrls = [
+  "https://kit.fontawesome.com/",
+  "https://use.fontawesome.com/releases/v5.10.0/webfonts/fa-brands-400.woff2",
+  "https://use.fontawesome.com/releases/v5.10.0/webfonts/fa-brands-400.woff",
+  "https://use.fontawesome.com/releases/v5.10.0/webfonts/fa-brands-400.ttf",
+  "https://use.fontawesome.com/releases/v5.10.0/webfonts/fa-regular-400.woff",
+  "https://use.fontawesome.com/releases/v5.10.0/webfonts/fa-regular-400.woff2",
+  "https://use.fontawesome.com/releases/v5.10.0/webfonts/fa-regular-400.ttf",
+  "https://use.fontawesome.com/releases/v5.10.0/webfonts/fa-solid-900.woff",
+  "https://use.fontawesome.com/releases/v5.10.0/webfonts/fa-solid-900.woff2",
+  "https://use.fontawesome.com/releases/v5.10.0/webfonts/fa-solid-900.ttf"
+];
+app.use(
+    helmet.contentSecurityPolicy({
+        directives: {
+            defaultSrc: [],
+            connectSrc: ["'self'", ...connectSrcUrls],
+            scriptSrc: ["'unsafe-inline'", "'unsafe-eval'", "'self'", ...scriptSrcUrls],
+            styleSrc: ["'self'", "'unsafe-inline'", ...styleSrcUrls],
+            workerSrc: ["'self'", "blob:"],
+            objectSrc: [],
+            imgSrc: [
+                "'self'",
+                "blob:",
+                "data:",
+                "https://res.cloudinary.com/danieltisue/", //SHOULD MATCH YOUR CLOUDINARY ACCOUNT! 
+                "https://images.unsplash.com/",
+            ],
+            fontSrc: ["'self'", ...fontSrcUrls],
+        },
+    })
+);
 
 //Passport Config
 app.use(passport.initialize());
