@@ -1,6 +1,4 @@
-const User =      require('../models/user'),
-      nodemailer = require('nodemailer'),
-      crypto = require('crypto');
+const User =      require('../models/user');
 
 module.exports.registerForm = (req, res) => {
    res.render('auth/register'); 
@@ -35,10 +33,6 @@ module.exports.logIn = (req, res) => {
       delete req.session.returnTo;
       res.redirect(redirectUrl)
 }
-
-
-
-
 
 
 module.exports.logOut = (req, res) => {
