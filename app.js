@@ -42,7 +42,7 @@ app.set('views', path.join(__dirname, 'views'));
 
 app.use(express.urlencoded({ extended: true }));
 app.use(methodOverride('_method'));
-app.use('/stylesheets/', express.static(path.join(__dirname, 'public/stylesheets'))); //for loading items in public folder
+app.use(express.static(path.join(__dirname, 'public'))); //for loading items in public folder
 app.use(mongoSanitize({ replaceWith: '_' }));
 
 const secret = process.env.SESSIONSECRET;
