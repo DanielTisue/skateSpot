@@ -42,7 +42,7 @@ app.set('views', path.join(__dirname, 'views'));
 
 app.use(express.urlencoded({ extended: true }));
 app.use(methodOverride('_method'));
-app.use(express.static(__dirname + '/public')); //for loading items in public folder
+app.use('/stylesheets/', express.static(path.join(__dirname, 'public/stylesheets'))); //for loading items in public folder
 app.use(mongoSanitize({ replaceWith: '_' }));
 
 const secret = process.env.SESSIONSECRET;
@@ -74,29 +74,28 @@ const sessionConfig = {
 app.use(session(sessionConfig));
 app.use(flash());
 const scriptSrcUrls = [
-    "https://stackpath.bootstrapcdn.com/",
-    "https://api.tiles.mapbox.com/",
-    "https://api.mapbox.com/",
-    "https://kit.fontawesome.com/",
-    "https://cdnjs.cloudflare.com/",
+    "https://stackpath.bootstrapcdn.com",
+    "https://api.tiles.mapbox.com",
+    "https://api.mapbox.com",
+    "https://kit.fontawesome.com",
+    "https://cdnjs.cloudflare.com",
     "https://cdn.jsdelivr.net",
 ];
 const styleSrcUrls = [
     "https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css",
-    "https://kit-free.fontawesome.com/",
+    "https://kit-free.fontawesome.com",
     "https://use.fontawesome.com/releases/v5.10.0/css/all.css",
-    "https://stackpath.bootstrapcdn.com/",
-    "https://api.mapbox.com/",
-    "https://api.tiles.mapbox.com/",
-    "https://fonts.googleapis.com/",
-    "https://use.fontawesome.com/"
+    "https://stackpath.bootstrapcdn.com",
+    "https://api.mapbox.com",
+    "https://api.tiles.mapbox.com",
+    "https://fonts.googleapis.com",
+    "https://use.fontawesome.com",
 ];
 
 const connectSrcUrls = [
-    "https://api.mapbox.com/",
-    "https://a.tiles.mapbox.com/",
-    "https://b.tiles.mapbox.com/",
-    "https://events.mapbox.com/"
+    "https://api.mapbox.com",
+    "https://*.tiles.mapbox.com",
+    "https://events.mapbox.com"
 ];
 const fontSrcUrls = [
   "https://kit.fontawesome.com/",
@@ -108,7 +107,11 @@ const fontSrcUrls = [
   "https://use.fontawesome.com/releases/v5.10.0/webfonts/fa-regular-400.ttf",
   "https://use.fontawesome.com/releases/v5.10.0/webfonts/fa-solid-900.woff",
   "https://use.fontawesome.com/releases/v5.10.0/webfonts/fa-solid-900.woff2",
-  "https://use.fontawesome.com/releases/v5.10.0/webfonts/fa-solid-900.ttf"
+  "https://use.fontawesome.com/releases/v5.10.0/webfonts/fa-solid-900.ttf",
+  "https://use.fontawesome.com/releases/v5.10.0/webfonts/fa-brands-400.svg",
+  "https://use.fontawesome.com/releases/v5.10.0/webfonts/fa-regular-400.svg",
+  "https://use.fontawesome.com/releases/v5.10.0/webfonts/fa-solid-400.svg",
+  "https://use.fontawesome.com/releases/v5.10.0/webfonts/fa-solid-900.svg"
 ];
 app.use(
     helmet.contentSecurityPolicy({
@@ -118,13 +121,14 @@ app.use(
             scriptSrc: ["'unsafe-inline'", "'unsafe-eval'", "'self'", ...scriptSrcUrls],
             styleSrc: ["'self'", "'unsafe-inline'", ...styleSrcUrls],
             workerSrc: ["'self'", "blob:"],
+            childSrc: ["blob:"],
             objectSrc: [],
             imgSrc: [
                 "'self'",
                 "blob:",
                 "data:",
-                "https://res.cloudinary.com/danieltisue/", //SHOULD MATCH YOUR CLOUDINARY ACCOUNT! 
-                "https://images.unsplash.com/",
+                "https://res.cloudinary.com/danieltisue/", 
+                "https://images.unsplash.com",
             ],
             fontSrc: ["'self'", ...fontSrcUrls],
         },
