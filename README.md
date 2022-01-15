@@ -26,7 +26,7 @@ https://cloudinary.com/documentation
  https://www.mapbox.com/ 
 
 ## Production
-You can visit this site at https://www.skatespotsunlimited.com
+You can visit this site at https://www.wtfspot.com
 
 ## Credits
 All current photos from https://www.unsplash.com
