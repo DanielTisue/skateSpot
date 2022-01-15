@@ -5,9 +5,51 @@ const Skatespot = require('../models/skatespot'),
 const mapBoxToken = process.env.MAPBOX_TOKEN,
       geocoder = mbxGeocoding({ accessToken: mapBoxToken });
 
+function escapeRegex(text) {
+    return text.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, "\\$&");
+};
+
 module.exports.index = async (req, res) => {
-    const skatespots = await Skatespot.find({});
-    res.render('skatespots/index', { skatespots });
+let noMatch = null;
+
+  if(req.query.search) {
+    const regex = new RegExp(escapeRegex(req.query.search), 'gi');
+    Skatespot.find({$or:[{name: regex}, {location: regex}]}).exec((err, allSkatespots) => {
+      Skatespot.count({
+        $or: [{ name: regex }, { location: regex }]
+      }).exec((err, count) => {
+        if (err) {
+          console.log(err);
+          res.redirect("back");
+        } else {
+          if (allSkatespots.length < 1) {
+            noMatch =
+              "No skate spots match that, please enter another search.";
+          }
+          res.render("skatespots/index", {
+            skatespots: allSkatespots,
+            noMatch: noMatch,
+            search: req.query.search
+          });
+        }
+      });
+    });
+  } else {
+    Skatespot.find({}).exec((err, allSkatespots) => {
+        Skatespot.count().exec((err, count) => {
+          if (err) {
+            console.log(err);
+            res.redirect("back");
+          } else {
+            res.render("skatespots/index", {
+              skatespots: allSkatespots,
+              noMatch: noMatch,
+              search: false
+            });
+          }
+        });
+      });
+  }
 }
 
 module.exports.renderNewForm = (req, res) => {
